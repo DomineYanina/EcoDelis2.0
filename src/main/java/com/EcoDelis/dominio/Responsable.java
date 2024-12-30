@@ -7,43 +7,39 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Cliente {
+public class Responsable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long Id;
+    private long id;
+
     private String nombre;
     private String apellido;
     private TipoDocumento tipo_doc;
     private long nro_doc;
     private Date f_nac;
-    private Date f_registro;
-    private TipoCliente tipo_cliente;
 
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Direccion> direcciones = new ArrayList<>();
-
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "Responsable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Telefono> telefonos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Pedido> pedidos = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "direccion_responsable")
+    private Direccion direccion;
 
-    public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Date f_registro, TipoCliente tipo_cliente) {
+    public Responsable(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Direccion direccion) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipo_doc = tipo_doc;
         this.nro_doc = nro_doc;
         this.f_nac = f_nac;
-        this.f_registro = f_registro;
-        this.tipo_cliente = tipo_cliente;
+        this.direccion = direccion;
     }
 
     public long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getNombre() {
@@ -86,44 +82,20 @@ public class Cliente {
         this.f_nac = f_nac;
     }
 
-    public Date getF_registro() {
-        return f_registro;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setF_registro(Date f_registro) {
-        this.f_registro = f_registro;
-    }
-
-    public TipoCliente getTipo_cliente() {
-        return tipo_cliente;
-    }
-
-    public void setTipo_cliente(TipoCliente tipo_cliente) {
-        this.tipo_cliente = tipo_cliente;
-    }
-
-    public void agregarDireccion(Direccion direccion){
-        direcciones.add(direccion);
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
     public void agregarTelefono(Telefono telefono){
         telefonos.add(telefono);
     }
 
-    public void eliminarDireccion(Direccion direccion){
-        direcciones.remove(direccion);
-    }
-
     public void eliminarTelefono(Telefono telefono){
         telefonos.remove(telefono);
-    }
-
-    public List<Direccion> getDirecciones() {
-        return direcciones;
-    }
-
-    public void setDirecciones(List<Direccion> direcciones) {
-        this.direcciones = direcciones;
     }
 
     public List<Telefono> getTelefonos() {
