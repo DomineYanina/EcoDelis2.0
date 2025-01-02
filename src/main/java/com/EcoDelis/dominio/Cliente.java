@@ -20,10 +20,10 @@ public class Cliente {
     private TipoCliente tipo_cliente;
 
     @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Direccion> direcciones = new ArrayList<>();
+    private List<DireccionCliente> direcciones = new ArrayList<>();
 
     @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefono> telefonos = new ArrayList<>();
+    private List<TelefonoCliente> telefonoClientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
@@ -102,35 +102,35 @@ public class Cliente {
         this.tipo_cliente = tipo_cliente;
     }
 
-    public void agregarDireccion(Direccion direccion){
-        direcciones.add(direccion);
+    public void agregarDireccion(DireccionCliente direccionCliente){
+        direcciones.add(direccionCliente);
     }
 
-    public void agregarTelefono(Telefono telefono){
-        telefonos.add(telefono);
+    public void agregarTelefono(TelefonoCliente telefonoCliente){
+        telefonoClientes.add(telefonoCliente);
     }
 
-    public void eliminarDireccion(Direccion direccion){
-        direcciones.remove(direccion);
+    public void eliminarDireccion(DireccionCliente direccionCliente){
+        direcciones.remove(direccionCliente);
     }
 
-    public void eliminarTelefono(Telefono telefono){
-        telefonos.remove(telefono);
+    public void eliminarTelefono(TelefonoCliente telefonoCliente){
+        telefonoClientes.remove(telefonoCliente);
     }
 
-    public List<Direccion> getDirecciones() {
+    public List<DireccionCliente> getDirecciones() {
         return direcciones;
     }
 
-    public void setDirecciones(List<Direccion> direcciones) {
+    public void setDirecciones(List<DireccionCliente> direcciones) {
         this.direcciones = direcciones;
     }
 
-    public List<Telefono> getTelefonos() {
-        return telefonos;
+    public List<TelefonoCliente> getTelefonos() {
+        return telefonoClientes;
     }
 
-    public void setTelefonos(List<Telefono> telefonos) {
-        this.telefonos = telefonos;
+    public void setTelefonos(List<TelefonoCliente> telefonoClientes) {
+        this.telefonoClientes = telefonoClientes;
     }
 }

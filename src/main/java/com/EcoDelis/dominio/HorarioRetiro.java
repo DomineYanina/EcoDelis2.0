@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.sql.Time;
 
 public class HorarioRetiro {
@@ -15,10 +17,15 @@ public class HorarioRetiro {
     private Time hora_inicio;
     private Time hora_fin;
 
-    public HorarioRetiro(DiaDeLaSemana dia, Time hora_inicio, Time hora_fin) {
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
+
+    public HorarioRetiro(DiaDeLaSemana dia, Time hora_inicio, Time hora_fin, Sucursal sucursal) {
         this.dia = dia;
         this.hora_inicio = hora_inicio;
         this.hora_fin = hora_fin;
+        this.sucursal = sucursal;
     }
 
     public long getId() {
@@ -51,5 +58,13 @@ public class HorarioRetiro {
 
     public void setHora_fin(Time hora_fin) {
         this.hora_fin = hora_fin;
+    }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
     }
 }

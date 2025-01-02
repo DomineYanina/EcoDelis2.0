@@ -16,12 +16,16 @@ public class Sucursal {
     private Date f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
 
+    @ManyToOne
+    @JoinColumn(name = "local_id")
+    private Local local;
+
     @OneToOne
     @JoinColumn(name = "direccion_sucursal")
-    private Direccion direccion;
+    private DireccionSucursal direccion;
 
     @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefono> telefonos = new ArrayList<>();
+    private List<TelefonoSucursal> telefonos = new ArrayList<>();
 
     @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HorarioRetiro> horarioRetiros = new ArrayList<>();
@@ -39,16 +43,12 @@ public class Sucursal {
     @JoinColumn(name = "responsable_sucursal")
     private Responsable responsable;
 
-    public Sucursal(String nombre, Date f_registro, TipoSuscripcionSucursal tipoSuscripcion, Direccion direccion, List<Telefono> telefonos, List<HorarioRetiro> horarioRetiros, List<Promocion> promociones, List<Item> items, List<Pedido> pedidos, Responsable responsable) {
+    public Sucursal(String nombre, Date f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, Responsable responsable) {
         this.nombre = nombre;
         this.f_registro = f_registro;
         this.tipoSuscripcion = tipoSuscripcion;
+        this.local = local;
         this.direccion = direccion;
-        this.telefonos = telefonos;
-        this.horarioRetiros = horarioRetiros;
-        this.promociones = promociones;
-        this.items = items;
-        this.pedidos = pedidos;
         this.responsable = responsable;
     }
 
@@ -84,19 +84,19 @@ public class Sucursal {
         this.tipoSuscripcion = tipoSuscripcion;
     }
 
-    public Direccion getDireccion() {
+    public DireccionSucursal getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(DireccionSucursal direccion) {
         this.direccion = direccion;
     }
 
-    public List<Telefono> getTelefonos() {
+    public List<TelefonoSucursal> getTelefonos() {
         return telefonos;
     }
 
-    public void setTelefonos(List<Telefono> telefonos) {
+    public void setTelefonos(List<TelefonoSucursal> telefonos) {
         this.telefonos = telefonos;
     }
 

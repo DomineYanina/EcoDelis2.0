@@ -1,12 +1,13 @@
 package com.EcoDelis.dominio;
 
-import net.bytebuddy.asm.Advice;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-public class Direccion {
+public class DireccionResponsable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,11 +16,16 @@ public class Direccion {
     private Localidad localidad;
     private Provincia provincia;
 
-    public Direccion(String calle, long numero, Localidad localidad, Provincia provincia) {
+    @ManyToOne
+    @JoinColumn(name = "responsable_id")
+    private Responsable responsable;
+
+    public DireccionResponsable(String calle, long numero, Localidad localidad, Provincia provincia, Responsable responsable) {
         this.calle = calle;
         this.numero = numero;
         this.localidad = localidad;
         this.provincia = provincia;
+        this.responsable = responsable;
     }
 
     public long getId() {
@@ -60,5 +66,13 @@ public class Direccion {
 
     public void setProvincia(Provincia provincia) {
         this.provincia = provincia;
+    }
+
+    public Responsable getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Responsable responsable) {
+        this.responsable = responsable;
     }
 }

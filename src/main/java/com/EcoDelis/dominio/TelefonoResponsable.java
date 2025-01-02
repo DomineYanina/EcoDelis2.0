@@ -4,8 +4,10 @@ import org.springframework.data.annotation.Id;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-public class Telefono {
+public class TelefonoResponsable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -13,9 +15,14 @@ public class Telefono {
     private long numero;
     private TipoTelefono tipo;
 
-    public Telefono(long numero, TipoTelefono tipo) {
+    @ManyToOne
+    @JoinColumn(name = "responsable_id")
+    private Responsable responsable;
+
+    public TelefonoResponsable(long numero, TipoTelefono tipo, Responsable responsable) {
         this.numero = numero;
         this.tipo = tipo;
+        this.responsable = responsable;
     }
 
     public long getId() {
@@ -40,5 +47,13 @@ public class Telefono {
 
     public void setTipo(TipoTelefono tipo) {
         this.tipo = tipo;
+    }
+
+    public Responsable getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(Responsable responsable) {
+        this.responsable = responsable;
     }
 }

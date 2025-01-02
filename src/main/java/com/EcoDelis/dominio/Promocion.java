@@ -2,10 +2,7 @@ package com.EcoDelis.dominio;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.CascadeType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,16 @@ public class Promocion {
     private double precio_final;
     private int unidadesRestantes;
 
-    @OneToMany(mappedBy = "Promocion", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne
+    @JoinColumn(name = "sucursal_id")
+    private Sucursal sucursal;
+
+    @ManyToMany
+    @JoinTable(
+            name = "items_promociones",
+            joinColumns = @JoinColumn(name = "promocion_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id")
+    )
     private List<Item> items = new ArrayList<>();
 
     public Promocion(String nombre, int descuento, double precio_original, double precio_final, int unidadesRestantes, List<Item> items) {

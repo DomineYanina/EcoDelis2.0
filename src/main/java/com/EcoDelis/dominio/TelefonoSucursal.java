@@ -7,23 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-public class Item {
+public class TelefonoSucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String nombre;
-    private double precio;
-    private int stock;
+    private long numero;
+    private TipoTelefono tipo;
 
     @ManyToOne
     @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
 
-    public Item(String nombre, double precio, int stock, Sucursal sucursal) {
-        this.nombre = nombre;
-        this.precio = precio;
-        this.stock = stock;
+    public TelefonoSucursal(long numero, TipoTelefono tipo, Sucursal sucursal) {
+        this.numero = numero;
+        this.tipo = tipo;
         this.sucursal = sucursal;
     }
 
@@ -35,28 +33,20 @@ public class Item {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public long getNumero() {
+        return numero;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNumero(long numero) {
+        this.numero = numero;
     }
 
-    public double getPrecio() {
-        return precio;
+    public TipoTelefono getTipo() {
+        return tipo;
     }
 
-    public void setPrecio(double precio) {
-        this.precio = precio;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setTipo(TipoTelefono tipo) {
+        this.tipo = tipo;
     }
 
     public Sucursal getSucursal() {

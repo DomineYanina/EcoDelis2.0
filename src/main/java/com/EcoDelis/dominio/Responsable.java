@@ -19,19 +19,20 @@ public class Responsable {
     private Date f_nac;
 
     @OneToMany(mappedBy = "Responsable", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Telefono> telefonos = new ArrayList<>();
+    private List<TelefonoResponsable> telefonos = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "direccion_responsable")
-    private Direccion direccion;
+    private DireccionResponsable direccion;
 
-    public Responsable(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Direccion direccion) {
+    public Responsable(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, DireccionResponsable direccion, TelefonoResponsable telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipo_doc = tipo_doc;
         this.nro_doc = nro_doc;
         this.f_nac = f_nac;
         this.direccion = direccion;
+        this.telefonos.add(telefono);
     }
 
     public long getId() {
@@ -82,27 +83,27 @@ public class Responsable {
         this.f_nac = f_nac;
     }
 
-    public Direccion getDireccion() {
+    public DireccionResponsable getDireccion() {
         return direccion;
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(DireccionResponsable direccion) {
         this.direccion = direccion;
     }
 
-    public void agregarTelefono(Telefono telefono){
+    public void agregarTelefono(TelefonoResponsable telefono){
         telefonos.add(telefono);
     }
 
-    public void eliminarTelefono(Telefono telefono){
+    public void eliminarTelefono(TelefonoCliente telefono){
         telefonos.remove(telefono);
     }
 
-    public List<Telefono> getTelefonos() {
+    public List<TelefonoResponsable> getTelefonos() {
         return telefonos;
     }
 
-    public void setTelefonos(List<Telefono> telefonos) {
+    public void setTelefonos(List<TelefonoResponsable> telefonos) {
         this.telefonos = telefonos;
     }
 }
