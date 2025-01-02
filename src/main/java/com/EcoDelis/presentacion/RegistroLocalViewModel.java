@@ -2,17 +2,20 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.Sucursal;
 
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class LocalViewModel {
+public class RegistroLocalViewModel {
+
     private long id;
     private String nombre;
-    private String CUIT;
-    private Date f_registro;
     private String email;
     private String password;
+    private String CUIT;
+    private Date f_registro;
     private List<Sucursal> sucursales = new ArrayList<>();
 
     public long getId() {
@@ -21,6 +24,14 @@ public class LocalViewModel {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getEmail() {
@@ -37,14 +48,6 @@ public class LocalViewModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getCUIT() {

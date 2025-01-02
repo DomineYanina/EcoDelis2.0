@@ -16,17 +16,36 @@ public class Local {
     private long id;
 
     private String nombre;
+    private String email;
+    private String password;
     private String CUIT;
     private Date f_registro;
 
     @OneToMany(mappedBy = "Local", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sucursal> sucursales = new ArrayList<>();
 
-    public Local(String nombre, String CUIT, Date f_registro, List<Sucursal> sucursales) {
+    public Local(String nombre, String email, String password, String CUIT, Date f_registro) {
         this.nombre = nombre;
+        this.email = email;
+        this.password = password;
         this.CUIT = CUIT;
         this.f_registro = f_registro;
-        this.sucursales = sucursales;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public long getId() {

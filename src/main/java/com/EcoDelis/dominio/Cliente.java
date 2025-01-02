@@ -18,6 +18,8 @@ public class Cliente {
     private Date f_nac;
     private Date f_registro;
     private TipoCliente tipo_cliente;
+    private String email;
+    private String password;
 
     @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DireccionCliente> direcciones = new ArrayList<>();
@@ -28,7 +30,10 @@ public class Cliente {
     @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Date f_registro, TipoCliente tipo_cliente) {
+    public Cliente() {
+    }
+
+    public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Date f_registro, TipoCliente tipo_cliente, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipo_doc = tipo_doc;
@@ -36,6 +41,8 @@ public class Cliente {
         this.f_nac = f_nac;
         this.f_registro = f_registro;
         this.tipo_cliente = tipo_cliente;
+        this.email=email;
+        this.password=password;
     }
 
     public long getId() {
@@ -132,5 +139,21 @@ public class Cliente {
 
     public void setTelefonos(List<TelefonoCliente> telefonoClientes) {
         this.telefonoClientes = telefonoClientes;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
