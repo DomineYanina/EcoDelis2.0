@@ -1,47 +1,20 @@
-package com.EcoDelis.dominio;
+package com.EcoDelis.presentacion;
 
-import org.springframework.data.annotation.Id;
+import com.EcoDelis.dominio.*;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Pedido {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PedidoViewModel {
     private long id;
-
     private Date fecha_realizado;
     private Date fecha_retirado;
     private double monto_total;
     private EstadoPedido estado;
-
-    @ManyToOne
-    @JoinColumn(name = "sucursal_id")
     private Sucursal sucursal;
-
-    @ManyToOne
-    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
-    @ManyToMany
-    @JoinTable(
-            name = "pedidos_promociones",
-            joinColumns = @JoinColumn(name = "pedido_id"),
-            inverseJoinColumns = @JoinColumn(name = "promocion_id")
-    )
     private List<Promocion> promociones = new ArrayList<>();
-
-    public Pedido(Date fecha_realizado, Date fecha_retirado, double monto_total, EstadoPedido estado, Sucursal sucursal, Cliente cliente, List<Promocion> promociones) {
-        this.fecha_realizado = fecha_realizado;
-        this.fecha_retirado = fecha_retirado;
-        this.monto_total = monto_total;
-        this.estado = estado;
-        this.sucursal = sucursal;
-        this.cliente = cliente;
-        this.promociones = promociones;
-    }
 
     public long getId() {
         return id;
