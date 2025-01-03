@@ -1,12 +1,11 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +40,10 @@ public class Pedido {
         this.sucursal = sucursal;
         this.cliente = cliente;
         this.promociones = promociones;
+    }
+
+    public Pedido() {
+
     }
 
     public long getId() {

@@ -1,0 +1,1 @@
+INSERT INTO Local(id, nombre, email, password, CUIT, f_registro) VALUES(null, 'Viva la birra', 'domineyanina@hotmail.com', 'Prueba1', 123456789, '2025-01-01');

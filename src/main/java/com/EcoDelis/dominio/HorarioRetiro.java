@@ -1,13 +1,9 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.sql.Time;
 
+@Entity
 public class HorarioRetiro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +22,10 @@ public class HorarioRetiro {
         this.hora_inicio = hora_inicio;
         this.hora_fin = hora_fin;
         this.sucursal = sucursal;
+    }
+
+    public HorarioRetiro() {
+
     }
 
     public long getId() {

@@ -1,11 +1,10 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Promocion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +35,10 @@ public class Promocion {
         this.precio_final = precio_final;
         this.unidadesRestantes = unidadesRestantes;
         this.items = items;
+    }
+
+    public Promocion() {
+
     }
 
     public long getId() {

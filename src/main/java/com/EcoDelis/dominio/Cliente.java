@@ -1,12 +1,11 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +20,13 @@ public class Cliente {
     private String email;
     private String password;
 
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DireccionCliente> direcciones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoCliente> telefonoClientes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
     public Cliente() {

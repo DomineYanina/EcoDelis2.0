@@ -1,12 +1,11 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Sucursal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +23,19 @@ public class Sucursal {
     @JoinColumn(name = "direccion_sucursal")
     private DireccionSucursal direccion;
 
-    @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoSucursal> telefonos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HorarioRetiro> horarioRetiros = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Promocion> promociones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Item> items = new ArrayList<>();
 
-    @OneToMany(mappedBy = "Sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
     @OneToOne
@@ -50,6 +49,10 @@ public class Sucursal {
         this.local = local;
         this.direccion = direccion;
         this.responsable = responsable;
+    }
+
+    public Sucursal() {
+
     }
 
     public long getId() {

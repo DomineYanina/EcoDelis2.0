@@ -1,13 +1,10 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-
+@Entity
 public class DireccionCliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,6 +23,10 @@ public class DireccionCliente {
         this.localidad = localidad;
         this.provincia = provincia;
         this.cliente = cliente;
+    }
+
+    public DireccionCliente() {
+
     }
 
     public long getId() {

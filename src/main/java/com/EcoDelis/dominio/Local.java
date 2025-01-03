@@ -1,19 +1,16 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
-import javax.persistence.CascadeType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Local {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     private String nombre;
     private String email;
@@ -21,7 +18,7 @@ public class Local {
     private String CUIT;
     private Date f_registro;
 
-    @OneToMany(mappedBy = "Local", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "local", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sucursal> sucursales = new ArrayList<>();
 
     public Local(String nombre, String email, String password, String CUIT, Date f_registro) {
@@ -30,6 +27,10 @@ public class Local {
         this.password = password;
         this.CUIT = CUIT;
         this.f_registro = f_registro;
+    }
+
+    public Local() {
+
     }
 
     public String getEmail() {

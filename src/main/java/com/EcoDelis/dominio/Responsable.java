@@ -1,12 +1,11 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.data.annotation.Id;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Responsable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +17,7 @@ public class Responsable {
     private long nro_doc;
     private Date f_nac;
 
-    @OneToMany(mappedBy = "Responsable", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoResponsable> telefonos = new ArrayList<>();
 
     @OneToOne
@@ -33,6 +32,10 @@ public class Responsable {
         this.f_nac = f_nac;
         this.direccion = direccion;
         this.telefonos.add(telefono);
+    }
+
+    public Responsable() {
+
     }
 
     public long getId() {

@@ -1,4 +1,4 @@
-package com.EcoDelis.insfraestructura;
+package com.EcoDelis.infraestructura;
 
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteRepository;
