@@ -1,0 +1,21 @@
+<nav th:fragment="headerFragment" class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #281938;">
+    <a class="navbar-brand" href="/home">
+        <img th:src="@{/img/logo-barfinder-circulo.png}" alt="Logo" style="height: 30px;"> BarFinder
+    </a>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav flex-row">
+            <li class="nav-item">
+                <a class="nav-link" href="/bares-cercanos">Bares Cercanos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/favoritos">Favoritos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/buscar-articulo-form">Blog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/buscar">Buscador de items</a>
+            </li>
+        </ul>
+    </div>
+</nav>
