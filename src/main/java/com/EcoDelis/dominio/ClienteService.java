@@ -14,4 +14,7 @@ public interface ClienteService {
 
     Cliente registrarCliente(RegistroViewModel registroViewModel);
 
+    boolean validarCredenciales(String email, String clave);
+
+    Cliente buscarPorEmail(String email);
 }

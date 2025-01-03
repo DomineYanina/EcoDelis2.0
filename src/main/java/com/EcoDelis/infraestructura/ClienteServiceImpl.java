@@ -41,4 +41,14 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.guardar(cliente);
         return cliente;
     }
+
+    @Override
+    public boolean validarCredenciales(String email, String clave) {
+        return false;
+    }
+
+    @Override
+    public Cliente buscarPorEmail(String email) {
+        return null;
+    }
 }
