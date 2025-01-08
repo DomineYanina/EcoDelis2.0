@@ -20,6 +20,39 @@ public class RegistroController {
     @Autowired
     ClienteService clienteService;
 
+    @Autowired
+    LocalService localService;
+
+    @GetMapping("/irARegistrarCliente")
+    public ModelAndView irARegistrarCliente(HttpSession httpSession) {
+        ModelAndView mv;
+        if(httpSession.getAttribute("clienteLogueado") == null) {
+            Cliente cliente = new Cliente();
+            mv = new ModelAndView("nuevo-cliente");
+            mv.addObject("cliente", cliente);
+        } else{
+            Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+            mv = new ModelAndView("home-cliente");
+            mv.addObject("cliente", cliente);
+        }
+        return mv;
+    }
+
+    @GetMapping("/irARegistrarLocal")
+    public ModelAndView irARegistrarLocal(HttpSession httpSession) {
+        ModelAndView mv;
+        if(httpSession.getAttribute("localLogueado") == null) {
+            Local local = new Local();
+            mv = new ModelAndView("nuevo-local");
+            mv.addObject("local", local);
+        } else{
+            Local local = (Local) httpSession.getAttribute("localLogueado");
+            mv = new ModelAndView("home-local");
+            mv.addObject("local", local);
+        }
+        return mv;
+    }
+
     @PostMapping("/registrarCliente")
     public ModelAndView registrarCliente(@ModelAttribute("cliente") RegistroViewModel registroViewModel, BindingResult bindingResult, HttpSession session){
         ModelAndView modelAndView = new ModelAndView("nuevo-cliente");
@@ -36,5 +69,22 @@ public class RegistroController {
         session.setAttribute("clienteLogueado", cliente);
 
         return new ModelAndView("buscar");
+    }
+
+    @PostMapping("/registrarLocal")
+    public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session){
+            ModelAndView modelAndView = new ModelAndView("nuevo-local");
+
+            if(localService.existeMail(registroLocalViewModel.getEmail())){
+                bindingResult.rejectValue("email", "email", "El email ya existe");
+                modelAndView.addObject("error", "El email ingresado ya está registrado");
+                modelAndView.addObject("local", registroLocalViewModel);
+                return modelAndView;
+            }
+            Local local = localService.registrarLocal(registroLocalViewModel);
+
+            session.setAttribute("localLogueado", local);
+
+        return new ModelAndView("agregarSucursal");
     }
 }

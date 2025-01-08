@@ -1,5 +1,6 @@
 package com.EcoDelis.infraestructura;
 
+import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.Local;
 import com.EcoDelis.dominio.LocalRepository;
 import org.hibernate.Session;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
+import javax.transaction.Transactional;
 
 @Repository
 public class LocalRepositoryImpl implements LocalRepository {
@@ -40,5 +42,11 @@ public class LocalRepositoryImpl implements LocalRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    @Transactional
+    public void guardar(Local local) {
+        sessionFactory.getCurrentSession().save(local);
     }
 }
