@@ -1,7 +1,7 @@
 package com.EcoDelis.dominio;
 
-import org.springframework.stereotype.Service;
+import com.EcoDelis.presentacion.RegistroSucursalViewModel;
 
-@Service
 public interface SucursalService {
+    Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel);
 }

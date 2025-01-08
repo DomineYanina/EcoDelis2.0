@@ -1,12 +1,14 @@
 package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.LocalService;
+import com.EcoDelis.dominio.Sucursal;
 import com.EcoDelis.dominio.SucursalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -19,14 +21,28 @@ public class LocalController {
     @Autowired
     private SucursalService sucursalService;
 
-    @GetMapping("/agregarSucursal")
-    private ModelAndView agregarSucursal(@ModelAttribute("sucursal") RegistroSucursalViewModel registroSucursalViewModel, BindingResult bindingResult, HttpSession session) {
+    @GetMapping("/irAAgregarSucursal")
+    private ModelAndView irAAgregarSucursal(@ModelAttribute("sucursal") RegistroSucursalViewModel registroSucursalViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv;
         if (session.getAttribute("localLogueado") == null) {
-            // Redirigir al login si el usuario no está logueado
-            return new ModelAndView("redirect:/login-local");
+            mv = new ModelAndView("redirect:/login-local");
         } else {
-            ModelAndView mv = new ModelAndView("agregarSucursal");
+            mv = new ModelAndView("agregarSucursal");
+            mv.addObject("localLogueado", session.getAttribute("localLogueado"));
+            mv.addObject("sucursal", registroSucursalViewModel);
         }
+        return mv;
+    }
 
+    @PostMapping("/registrarSucursal")
+    private ModelAndView registrarSucursal(@ModelAttribute("sucursal") RegistroSucursalViewModel registroSucursalViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv;
+        if (session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("redirect:/login-local");
+        } else {
+            Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel);
+            mv = new ModelAndView("agregarSucursal");
+        }
+        return mv;
     }
 }
