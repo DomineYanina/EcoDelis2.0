@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Service("LocalService")
 @Transactional
-public class LocalServiceImpl {
+public class LocalServiceImpl implements LocalService {
 
     @Autowired
     private LocalRepository localRepository;
@@ -32,12 +32,6 @@ public class LocalServiceImpl {
         return localRepository.buscarPorEmail(email);
     }
 
-    @Transactional
-    public boolean existeEmail(String email) {
-        Local local = localRepository.buscarPorEmail(email);
-        return local != null;
-    }
-
     public Local registrarLocal(RegistroLocalViewModel registroLocalViewModel) {
         Local local = new Local();
         LocalDate fechaLocal = LocalDate.now();
@@ -53,6 +47,12 @@ public class LocalServiceImpl {
         return local;
     }
 
+    @Override
+    public boolean existeEmail(String email) {
+        Local local = localRepository.buscarPorEmail(email);
+        return local != null;
+    }
+
     @Transactional
     public boolean existeSucursal(SucursalViewModel sucursalViewModel){
         Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
@@ -63,6 +63,11 @@ public class LocalServiceImpl {
     public void eliminarSucursal(SucursalViewModel sucursalViewModel){
         Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
         localRepository.eliminarSucursal(sucursal);
+    }
+
+    @Override
+    public Sucursal buscarSucuralPorNombre(String nombre) {
+        return null;
     }
 
 }

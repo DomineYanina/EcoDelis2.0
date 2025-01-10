@@ -75,7 +75,7 @@ public class RegistroController {
     public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session){
             ModelAndView modelAndView = new ModelAndView("nuevo-local");
 
-            if(localService.existeMail(registroLocalViewModel.getEmail())){
+            if(localService.existeEmail(registroLocalViewModel.getEmail())){
                 bindingResult.rejectValue("email", "email", "El email ya existe");
                 modelAndView.addObject("error", "El email ingresado ya está registrado");
                 modelAndView.addObject("local", registroLocalViewModel);

@@ -13,8 +13,6 @@ public interface LocalService {
 
     Local buscarPorEmail(String email);
 
-    boolean existeMail(String email);
-
     Local registrarLocal(RegistroLocalViewModel registroLocalViewModel);
 
     boolean existeEmail(String email);
