@@ -1,96 +1,97 @@
-/*package com.EcoDelis.presentacion;
+package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.*;
+import com.EcoDelis.dominio.Cliente;
+import com.EcoDelis.dominio.ClienteService;
+import com.EcoDelis.dominio.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
 
-    HttpSession session;
-
-    private ClienteService clienteService;
-    private LocalService localService;
+    @Autowired
+    ClienteService clienteService;
 
     @Autowired
-    public LoginController(ClienteService clienteService, LocalService localService){
-        this.clienteService = clienteService;
-        this.localService = localService;
-    }
+    LocalService localService;
 
-    public LoginController(LoginService servicioLoginMock) {
-    }
-
-    @GetMapping("/loginCliente")
-    public ModelAndView mostrarLoginCliente(){
-        ModelAndView mv = new ModelAndView("loginCliente");
-        mv.addObject("cliente", new ClienteLoginViewModel());
+    @GetMapping("/irALoginCliente")
+    public ModelAndView irALoginCliente(ClienteLoginViewModel clienteLoginViewModel, HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") != null) {
+            mv = new ModelAndView("homeCliente");
+        } else {
+            mv = new ModelAndView("loginCliente");
+            mv.addObject("cliente", clienteLoginViewModel);
+        }
         return mv;
     }
 
-    @GetMapping("/loginLocal")
-    public ModelAndView mostrarLoginLocal(){
-        ModelAndView mv = new ModelAndView("loginLocal");
-        mv.addObject("cliente", new ClienteLoginViewModel());
+    @GetMapping("/irALoginLocal")
+    public ModelAndView irALoginLocal(LocalLoginViewModel localLoginViewModel, HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") != null) {
+            mv = new ModelAndView("homeLocal");
+        } else {
+            mv = new ModelAndView("loginLocal");
+            mv.addObject("local", localLoginViewModel);
+        }
         return mv;
     }
 
-    @PostMapping("/iniciarSesionCliente")
-    public ModelAndView iniciarSesionCliente(@ModelAttribute ClienteLoginViewModel clienteLoginViewModel, HttpSession session) {
-        boolean loginExitoso = clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getClave());
-
-        if (loginExitoso) {
-            // Obtener el cliente y guardarlo en la sesión
-            Cliente cliente = clienteService.buscarPorEmail(clienteLoginViewModel.getEmail());
-            session.setAttribute("clienteLogueado", cliente);
-
-            return new ModelAndView("home"); // Redirige al home o a la vista que quieras
+    @GetMapping("/logueoCliente")
+    public ModelAndView logueoCliente(ClienteLoginViewModel clienteLoginViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") != null) {
+            mv = new ModelAndView("homeCliente");
         } else {
-            ModelAndView modelAndView = new ModelAndView("login");
-            modelAndView.addObject("error", "Email o contraseña incorrectos");
-            modelAndView.addObject("cliente", clienteLoginViewModel);  // Asegúrate de seguir pasando el objeto cliente
-            return modelAndView;
+            if(clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getClave())){
+                mv = new ModelAndView("homeCliente");
+                session.setAttribute("clienteLogueado", clienteLoginViewModel);
+            } else {
+                mv = new ModelAndView("loginCliente");
+                if(clienteService.existeEmail(clienteLoginViewModel.getEmail())){
+                    bindingResult.rejectValue("password", "password", "La clave ingresada es incorrecta");
+                    mv.addObject("error", "La clave ingresada es incorrecta");
+                    mv.addObject("cliente", clienteLoginViewModel);
+                } else {
+                    bindingResult.rejectValue("email", "email", "El email ingresado es incorrecto");
+                    mv.addObject("error", "El email ingresado es incorrecto");
+                    mv.addObject("cliente", clienteLoginViewModel);
+                }
+            }
         }
+        return mv;
     }
 
-    @PostMapping("/iniciarSesionLocal")
-    public ModelAndView iniciarSesionLocal(@ModelAttribute LocalLoginViewModel localLoginViewModel, HttpSession session) {
-        boolean loginExitoso = localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getClave());
-
-        if (loginExitoso) {
-            // Obtener el usuario y guardarlo en la sesión
-            Local local = localService.buscarPorEmail(localLoginViewModel.getEmail());
-            session.setAttribute("localLogueado", local);
-
-            return new ModelAndView("home-local"); // Redirige al home o a la vista que quieras
+    @GetMapping("/logueoLocal")
+    public ModelAndView logueoLocal(LocalLoginViewModel localLoginViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") != null) {
+            mv = new ModelAndView("homeLocal");
         } else {
-            ModelAndView modelAndView = new ModelAndView("login");
-            modelAndView.addObject("error", "Email o contraseña incorrectos");
-            modelAndView.addObject("local", localLoginViewModel);  // Asegúrate de seguir pasando el objeto usuario
-            return modelAndView;
+            if(localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getClave())){
+                mv = new ModelAndView("homeLocal");
+                session.setAttribute("localLogueado", localLoginViewModel);
+            } else {
+                mv = new ModelAndView("loginLocal");
+                if(localService.existeEmail(localLoginViewModel.getEmail())){
+                    bindingResult.rejectValue("password", "password", "La clave ingresada es incorrecta");
+                    mv.addObject("error", "La clave ingresada es incorrecta");
+                    mv.addObject("local", localLoginViewModel);
+                } else {
+                    bindingResult.rejectValue("email", "email", "El email ingresado es incorrecto");
+                    mv.addObject("error", "El email ingresado es incorrecto");
+                    mv.addObject("local", localLoginViewModel);
+                }
+            }
         }
-    }
-
-    @GetMapping("/nuevoCliente")
-    public String mosrtarFormularioRegistroCliente(Model model) {
-        model.addAttribute("cliente", new RegistroViewModel());
-        return "nuevoCliente";
-    }
-
-
-    @GetMapping("/nuevoLocal")
-    public String mosrtarFormularioRegistroLocal(Model model) {
-        model.addAttribute("local", new RegistroLocalViewModel());
-        return "nuevoLocal";
+        return mv;
     }
 
 }
-*/

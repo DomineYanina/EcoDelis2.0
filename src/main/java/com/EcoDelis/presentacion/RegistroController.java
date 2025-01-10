@@ -87,4 +87,24 @@ public class RegistroController {
 
         return new ModelAndView("agregarSucursal");
     }
+
+    public Boolean chequearLocalLogueado(HttpSession session){
+        Boolean resultado;
+        if(session.getAttribute("localLogueado") != null){
+            resultado=true;
+        } else{
+            resultado=false;
+        }
+        return resultado;
+    }
+
+    public Boolean chequearUsuarioLogueado(HttpSession session){
+        Boolean resultado;
+        if(session.getAttribute("usuarioLogueado") != null){
+            resultado=true;
+        } else{
+            resultado=false;
+        }
+        return resultado;
+    }
 }

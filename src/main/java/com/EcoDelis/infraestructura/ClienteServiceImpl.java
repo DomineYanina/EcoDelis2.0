@@ -51,4 +51,11 @@ public class ClienteServiceImpl implements ClienteService {
     public Cliente buscarPorEmail(String email) {
         return null;
     }
+
+    @Override
+    public void modificar(Cliente clienteLogueado) {
+        clienteRepository.modificar(clienteLogueado);
+    }
+
+
 }

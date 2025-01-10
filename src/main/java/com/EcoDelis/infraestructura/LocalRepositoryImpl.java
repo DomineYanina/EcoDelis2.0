@@ -3,6 +3,7 @@ package com.EcoDelis.infraestructura;
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.Local;
 import com.EcoDelis.dominio.LocalRepository;
+import com.EcoDelis.dominio.Sucursal;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -49,4 +50,24 @@ public class LocalRepositoryImpl implements LocalRepository {
     public void guardar(Local local) {
         sessionFactory.getCurrentSession().save(local);
     }
+
+    @Override
+    public Sucursal buscarSucursalPorNombre(String nombre) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Sucursal WHERE nombre = :nombre";
+        try{
+            return session.createQuery(query, Sucursal.class)
+                    .setParameter("nombre", nombre)
+                    .uniqueResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public void eliminarSucursal(Sucursal sucursal) {
+        sessionFactory.getCurrentSession().delete(sucursal);
+    }
+
+
 }

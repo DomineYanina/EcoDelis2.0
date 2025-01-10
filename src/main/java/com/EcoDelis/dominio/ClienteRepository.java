@@ -2,6 +2,8 @@ package com.EcoDelis.dominio;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClienteRepository {
 
@@ -14,4 +16,6 @@ public interface ClienteRepository {
     Cliente obtenerCliente(Long id);
 
     void modificar(Cliente cliente);
+
+    List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado);
 }

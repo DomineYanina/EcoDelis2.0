@@ -40,8 +40,45 @@ public class LocalController {
         if (session.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("redirect:/login-local");
         } else {
-            Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel);
-            mv = new ModelAndView("agregarSucursal");
+            if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel)){
+                mv = new ModelAndView("agregarSucursal");
+                bindingResult.rejectValue("nombre", "nombre", "La sucursal ya existe");
+                mv.addObject("error", "La sucursal ingresada ya existe");
+                mv.addObject("sucursal", registroSucursalViewModel);
+            } else {
+                Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel);
+                mv = new ModelAndView("home-local");
+            }
+        }
+        return mv;
+    }
+
+    @GetMapping("/irAEliminarSucursal")
+    private ModelAndView irAEliminarSucursal(@ModelAttribute("sucursal") SucursalViewModel sucursalViewModel, HttpSession session) {
+        ModelAndView mv;
+        if (session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("redirect:/loginLocal");
+        } else {
+            mv = new ModelAndView("eliminarSucursal");
+            mv.addObject("sucursal", sucursalViewModel);
+        }
+        return mv;
+    }
+
+    @PostMapping ("/eliminarSucursal")
+    private ModelAndView eliminarSucursal(@ModelAttribute("sucursal") SucursalViewModel sucursalViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv;
+        if (session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("redirect:/loginLocal");
+        } else {
+            if(localService.existeSucursal(sucursalViewModel)){
+                mv = new ModelAndView("homeLocal");
+                localService.eliminarSucursal(sucursalViewModel);
+            } else {
+                bindingResult.rejectValue("nombre", "La sucursal ingresada no existe");
+                mv = new ModelAndView("eliminarSucursal");
+                mv.addObject("sucursal", sucursalViewModel);
+            }
         }
         return mv;
     }

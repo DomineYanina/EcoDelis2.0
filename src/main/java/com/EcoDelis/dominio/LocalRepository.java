@@ -6,4 +6,8 @@ public interface LocalRepository {
     Local buscarPorEmail(String email);
 
     void guardar(Local local);
+
+    Sucursal buscarSucursalPorNombre(String nombre);
+
+    void eliminarSucursal(Sucursal sucursal);
 }

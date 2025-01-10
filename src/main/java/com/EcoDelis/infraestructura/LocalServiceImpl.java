@@ -3,6 +3,7 @@ package com.EcoDelis.infraestructura;
 import com.EcoDelis.dominio.*;
 import com.EcoDelis.presentacion.RegistroLocalViewModel;
 import com.EcoDelis.presentacion.RegistroViewModel;
+import com.EcoDelis.presentacion.SucursalViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,4 +52,17 @@ public class LocalServiceImpl {
         localRepository.guardar(local);
         return local;
     }
+
+    @Transactional
+    public boolean existeSucursal(SucursalViewModel sucursalViewModel){
+        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
+        return sucursal != null;
+    }
+
+    @Transactional
+    public void eliminarSucursal(SucursalViewModel sucursalViewModel){
+        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
+        localRepository.eliminarSucursal(sucursal);
+    }
+
 }
