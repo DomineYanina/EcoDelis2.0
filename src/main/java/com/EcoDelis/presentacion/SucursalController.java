@@ -19,6 +19,10 @@ public class SucursalController {
     private LocalService localService;
     @Autowired
     private DireccionSucursalService direccionSucursalService;
+    @Autowired
+    private TelefonoSucursalService telefonoSucursalService;
+    @Autowired
+    private HorarioRetiroService horarioRetiroService;
 
     @PostMapping("/modificarTipoDePromocion")
     public ModelAndView modificarTipoDePromocion(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session, TipoSuscripcionSucursal tipoDeSuscripcionSucursal) {
@@ -99,6 +103,72 @@ public class SucursalController {
             direccionSucursal.setNumero(direccionSucursalViewModel.getNumero());
 
             direccionSucursalService.agregar(direccionSucursal);
+
+            mv = new ModelAndView("homeLocal");
+        }
+        return mv;
+    }
+
+    @GetMapping("/irAAgregarTelefonoSucursal")
+    public ModelAndView irAAgregarTelefonoSucursal(HttpSession session, String nombreSucursal){
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") == null ){
+            mv = new ModelAndView("redirect:/loginLocal");
+            return mv;
+        } else {
+            Sucursal sucursal = localService.buscarSucuralPorNombre(nombreSucursal);
+            TelefonoSucursalViewModel telefonoSucursalViewModel = new TelefonoSucursalViewModel();
+            mv = new ModelAndView("agregarTelefonoSucursal");
+            mv.addObject("telefonoSucursal", telefonoSucursalViewModel);
+            return mv;
+        }
+    }
+
+    @PostMapping("/agregarTelefonoSucursal")
+    public ModelAndView agregarTelefonoSucursal(HttpSession session, @ModelAttribute TelefonoSucursalViewModel telefonoSucursalViewModel){
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("redirect:/loginLocal");
+        } else {
+            TelefonoSucursal telefonoSucursal = new TelefonoSucursal();
+            telefonoSucursal.setSucursal(telefonoSucursalViewModel.getSucursal());
+            telefonoSucursal.setNumero(telefonoSucursalViewModel.getNumero());
+            telefonoSucursal.setTipo(telefonoSucursalViewModel.getTipo());
+
+            telefonoSucursalService.agregar(telefonoSucursal);
+
+            mv = new ModelAndView("homeLocal");
+        }
+        return mv;
+    }
+
+    @GetMapping("/irAAgregarHorarioSucursal")
+    public ModelAndView irAAgregarHorarioSucursal(HttpSession session, String nombreSucursal){
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") == null ){
+            mv = new ModelAndView("redirect:/loginLocal");
+        } else {
+            Sucursal sucursal = localService.buscarSucuralPorNombre(nombreSucursal);
+            HorarioRetiroViewModel horarioRetiroViewModel = new HorarioRetiroViewModel();
+            mv = new ModelAndView("agregarHorarioSucursal");
+            mv.addObject("horarioRetiro", horarioRetiroViewModel);
+        }
+        return mv;
+    }
+
+    @PostMapping("/agregarHorarioSucursal")
+    public ModelAndView agregarHorarioSucursal(@ModelAttribute HorarioRetiroViewModel horarioRetiroViewModel, HttpSession session){
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("redirect:/loginLocal");
+        } else {
+            HorarioRetiro horarioRetiro = new HorarioRetiro();
+            horarioRetiro.setSucursal(horarioRetiroViewModel.getSucursal());
+            horarioRetiro.setDia(horarioRetiroViewModel.getDia());
+            horarioRetiro.setHora_inicio(horarioRetiroViewModel.getHora_inicio());
+            horarioRetiro.setHora_fin(horarioRetiroViewModel.getHora_fin());
+
+            horarioRetiroService.agregar(horarioRetiro);
 
             mv = new ModelAndView("homeLocal");
         }
