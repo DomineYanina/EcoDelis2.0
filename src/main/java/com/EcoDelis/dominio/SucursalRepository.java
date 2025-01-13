@@ -1,5 +1,8 @@
 package com.EcoDelis.dominio;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface SucursalRepository {
     void guardar(Sucursal sucursal);
 

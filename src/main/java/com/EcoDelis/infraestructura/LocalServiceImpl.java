@@ -19,9 +19,6 @@ public class LocalServiceImpl implements LocalService {
     @Autowired
     private LocalRepository localRepository;
 
-    @Autowired
-    private LocalRepositoryImpl localRepositoryImpl;
-
     @Transactional
     public boolean validarCredenciales(String email, String password) {
         Local local = localRepository.buscarLocal(email,password);
