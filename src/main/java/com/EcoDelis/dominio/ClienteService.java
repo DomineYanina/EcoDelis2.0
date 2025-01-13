@@ -17,4 +17,6 @@ public interface ClienteService {
     boolean validarCredenciales(String email, String clave);
 
     Cliente buscarPorEmail(String email);
+
+    void modificar(Cliente clienteLogueado);
 }

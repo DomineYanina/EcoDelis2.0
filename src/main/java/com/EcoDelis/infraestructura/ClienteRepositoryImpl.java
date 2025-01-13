@@ -2,6 +2,7 @@ package com.EcoDelis.infraestructura;
 
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteRepository;
+import com.EcoDelis.dominio.Pedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository("ClienteRepository")
 public class ClienteRepositoryImpl implements ClienteRepository {
@@ -56,5 +58,15 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public void modificar(Cliente cliente){
         sessionFactory.getCurrentSession().update(cliente);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado) {
+        Session session = sessionFactory.getCurrentSession();
+        Long idCliente = clienteLogueado.getId();
+        String query = "FROM Pedido WHERE cliente = :clienteLogueado";
+        return session.createQuery(query, Pedido.class)
+                .setParameter("clienteLogueado", clienteLogueado)
+                .getResultList();
     }
 }
