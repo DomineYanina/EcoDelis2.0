@@ -33,12 +33,13 @@ public class LoginController {
     }
 
     @GetMapping("/irALoginLocal")
-    public ModelAndView irALoginLocal(LocalLoginViewModel localLoginViewModel, HttpSession session) {
+    public ModelAndView irALoginLocal(HttpSession session) {
         ModelAndView mv;
         if(session.getAttribute("localLogueado") != null) {
             mv = new ModelAndView("homeLocal");
         } else {
             mv = new ModelAndView("loginLocal");
+            LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
             mv.addObject("local", localLoginViewModel);
         }
         return mv;
@@ -75,7 +76,7 @@ public class LoginController {
         if(session.getAttribute("localLogueado") != null) {
             mv = new ModelAndView("homeLocal");
         } else {
-            if(localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getClave())){
+            if(localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getPassword())){
                 mv = new ModelAndView("homeLocal");
                 session.setAttribute("localLogueado", localLoginViewModel);
             } else {
@@ -94,4 +95,54 @@ public class LoginController {
         return mv;
     }
 
+    @GetMapping("/cerrarSesionLocal")
+    public ModelAndView cerrarSesionLocal(HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") != null) {
+            session.removeAttribute("localLogueado");
+        }
+        mv = new ModelAndView("loginLocal");
+        LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
+        mv.addObject("local", localLoginViewModel);
+        return mv;
+    }
+
+    @GetMapping("/cerrarSesionCliente")
+    public ModelAndView cerrarSesionCliente(HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") != null) {
+            session.removeAttribute("clienteLogueado");
+        }
+        mv = new ModelAndView("loginCliente");
+        ClienteLoginViewModel clienteLoginViewModel = new ClienteLoginViewModel();
+        mv.addObject("cliente", clienteLoginViewModel);
+        return mv;
+    }
+
+    @GetMapping("/irAHomeLocal")
+    public ModelAndView irAHomeLocal(HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") != null) {
+            mv = new ModelAndView("homeLocal");
+        } else {
+            mv = new ModelAndView("loginLocal");
+            LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
+            mv.addObject("local", localLoginViewModel);
+        }
+        return mv;
+    }
+
+
+    @GetMapping("/irAHomeCliente")
+    public ModelAndView irAHomeCliente(HttpSession session) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") != null) {
+            mv = new ModelAndView("homeCliente");
+        } else {
+            mv = new ModelAndView("loginCliente");
+            ClienteLoginViewModel clienteLoginViewModel = new ClienteLoginViewModel();
+            mv.addObject("cliente", clienteLoginViewModel);
+        }
+        return mv;
+    }
 }
