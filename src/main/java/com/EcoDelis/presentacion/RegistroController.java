@@ -28,11 +28,11 @@ public class RegistroController {
         ModelAndView mv;
         if(httpSession.getAttribute("clienteLogueado") == null) {
             Cliente cliente = new Cliente();
-            mv = new ModelAndView("nuevo-cliente");
+            mv = new ModelAndView("nuevoCliente");
             mv.addObject("cliente", cliente);
         } else{
             Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
-            mv = new ModelAndView("home-cliente");
+            mv = new ModelAndView("homeCliente");
             mv.addObject("cliente", cliente);
         }
         return mv;
@@ -43,11 +43,11 @@ public class RegistroController {
         ModelAndView mv;
         if(httpSession.getAttribute("localLogueado") == null) {
             Local local = new Local();
-            mv = new ModelAndView("nuevo-local");
+            mv = new ModelAndView("nuevoLocal");
             mv.addObject("local", local);
         } else{
             Local local = (Local) httpSession.getAttribute("localLogueado");
-            mv = new ModelAndView("home-local");
+            mv = new ModelAndView("homeLocal");
             mv.addObject("local", local);
         }
         return mv;
@@ -55,7 +55,7 @@ public class RegistroController {
 
     @PostMapping("/registrarCliente")
     public ModelAndView registrarCliente(@ModelAttribute("cliente") RegistroViewModel registroViewModel, BindingResult bindingResult, HttpSession session){
-        ModelAndView modelAndView = new ModelAndView("nuevo-cliente");
+        ModelAndView modelAndView = new ModelAndView("nuevoCliente");
 
         if(clienteService.existeEmail(registroViewModel.getEmail())){
             bindingResult.rejectValue("email", "email", "El email ya existe");
@@ -73,7 +73,7 @@ public class RegistroController {
 
     @PostMapping("/registrarLocal")
     public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session){
-            ModelAndView modelAndView = new ModelAndView("nuevo-local");
+            ModelAndView modelAndView = new ModelAndView("nuevoLocal");
 
             if(localService.existeEmail(registroLocalViewModel.getEmail())){
                 bindingResult.rejectValue("email", "email", "El email ya existe");

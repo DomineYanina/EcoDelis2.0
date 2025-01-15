@@ -1,6 +1,7 @@
 package com.EcoDelis.dominio;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ public class Sucursal {
     private long id;
 
     private String nombre;
-    private Date f_registro;
+    private LocalDate f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
 
     @ManyToOne
@@ -42,7 +43,7 @@ public class Sucursal {
     @JoinColumn(name = "responsable_sucursal")
     private Responsable responsable;
 
-    public Sucursal(String nombre, Date f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, Responsable responsable) {
+    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, Responsable responsable) {
         this.nombre = nombre;
         this.f_registro = f_registro;
         this.tipoSuscripcion = tipoSuscripcion;
@@ -71,11 +72,11 @@ public class Sucursal {
         this.nombre = nombre;
     }
 
-    public Date getF_registro() {
+    public LocalDate getF_registro() {
         return f_registro;
     }
 
-    public void setF_registro(Date f_registro) {
+    public void setF_registro(LocalDate f_registro) {
         this.f_registro = f_registro;
     }
 

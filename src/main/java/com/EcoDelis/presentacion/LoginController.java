@@ -132,7 +132,6 @@ public class LoginController {
         return mv;
     }
 
-
     @GetMapping("/irAHomeCliente")
     public ModelAndView irAHomeCliente(HttpSession session) {
         ModelAndView mv;

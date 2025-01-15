@@ -1,6 +1,7 @@
 package com.EcoDelis.dominio;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Responsable {
     private String apellido;
     private TipoDocumento tipo_doc;
     private long nro_doc;
-    private Date f_nac;
+    private LocalDate f_nac;
 
     @OneToMany(mappedBy = "responsable", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TelefonoResponsable> telefonos = new ArrayList<>();
@@ -24,7 +25,7 @@ public class Responsable {
     @JoinColumn(name = "direccion_responsable")
     private DireccionResponsable direccion;
 
-    public Responsable(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, DireccionResponsable direccion, TelefonoResponsable telefono) {
+    public Responsable(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, LocalDate f_nac, DireccionResponsable direccion, TelefonoResponsable telefono) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipo_doc = tipo_doc;
@@ -78,11 +79,11 @@ public class Responsable {
         this.nro_doc = nro_doc;
     }
 
-    public Date getF_nac() {
+    public LocalDate getF_nac() {
         return f_nac;
     }
 
-    public void setF_nac(Date f_nac) {
+    public void setF_nac(LocalDate f_nac) {
         this.f_nac = f_nac;
     }
 
@@ -98,7 +99,7 @@ public class Responsable {
         telefonos.add(telefono);
     }
 
-    public void eliminarTelefono(TelefonoCliente telefono){
+    public void eliminarTelefono(TelefonoResponsable telefono){
         telefonos.remove(telefono);
     }
 

@@ -2,6 +2,7 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ public class ResponsableViewModel {
     private String apellido;
     private TipoDocumento tipo_doc;
     private long nro_doc;
-    private Date f_nac;
+    private LocalDate f_nac;
     private List<TelefonoResponsable> telefonos = new ArrayList<>();
     private DireccionResponsable direccion;
 
@@ -56,11 +57,11 @@ public class ResponsableViewModel {
         this.nro_doc = nro_doc;
     }
 
-    public Date getF_nac() {
+    public LocalDate getF_nac() {
         return f_nac;
     }
 
-    public void setF_nac(Date f_nac) {
+    public void setF_nac(LocalDate f_nac) {
         this.f_nac = f_nac;
     }
 

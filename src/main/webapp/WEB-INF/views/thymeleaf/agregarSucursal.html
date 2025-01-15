@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Sucursal</title>
+</head>
+<body>
+<h2>Registrar Nueva Sucursal</h2>
+
+<form th:object="${sucursal}" th:action="@{/registrarSucursal}" method="post">
+    <!-- Información básica de la sucursal -->
+    <h3>Información de la Sucursal</h3>
+    <input th:field="*{nombre}" placeholder="Nombre" id="nombre" required />
+    <select th:field="*{tipoSuscripcion}" id="tipoSuscripcionSucursal" required>
+        <option value="" disabled selected>Seleccione el tipo de suscripción</option>
+        <option th:each="tipo : ${tipoSuscripciones}" th:value="${tipo}" th:text="${tipo}"></option>
+    </select>
+
+    <!-- Dirección de la sucursal -->
+    <h3>Dirección de la Sucursal</h3>
+    <input th:field="*{direccion.calle}" placeholder="Calle" id="calleDireccionSucursal" required />
+    <input th:field="*{direccion.numero}" placeholder="Número" id="numeroDireccionSucursal" required />
+    <select th:field="*{direccion.localidad}" id="localidadDireccionSucursal" required>
+        <option value="" disabled selected>Seleccione la localidad</option>
+        <option th:each="loc : ${localidades}" th:value="${loc}" th:text="${loc}"></option>
+    </select>
+    <select th:field="*{direccion.provincia}" id="provinciaDireccionSucursal" required>
+        <option value="" disabled selected>Seleccione la provincia</option>
+        <option th:each="prov : ${provincias}" th:value="${prov}" th:text="${prov}"></option>
+    </select>
+
+    <!-- Responsable de la sucursal -->
+    <h3>Responsable de la Sucursal</h3>
+    <input th:field="*{responsable.nombre}" placeholder="Nombre" id="nombreResponsable" required />
+    <input th:field="*{responsable.apellido}" placeholder="Apellido" id="apellidoResponsable" required />
+    <select th:field="*{responsable.tipo_doc}" id="tipoDocResponsable" required>
+        <option value="" disabled selected>Seleccione el tipo de documento</option>
+        <option th:each="tipoDoc : ${tiposDocumento}" th:value="${tipoDoc}" th:text="${tipoDoc}"></option>
+    </select>
+    <input th:field="*{responsable.nro_doc}" placeholder="Número de Documento" id="nroDocResponsable" required />
+    <input type="date" th:field="*{responsable.f_nac}" placeholder="Fecha de Nacimiento" id="fNacResponsable" required />
+
+    <!-- Botón para enviar el formulario -->
+    <button type="submit">Registrar Sucursal</button>
+</form>
+
+</body>
+</html>

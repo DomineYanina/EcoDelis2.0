@@ -2,6 +2,7 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public class SucursalViewModel {
     private long id;
     private String nombre;
-    private Date f_registro;
+    private LocalDate f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
     private Local local;
     private DireccionSucursal direccion;
@@ -36,11 +37,11 @@ public class SucursalViewModel {
         this.nombre = nombre;
     }
 
-    public Date getF_registro() {
+    public LocalDate getF_registro() {
         return f_registro;
     }
 
-    public void setF_registro(Date f_registro) {
+    public void setF_registro(LocalDate f_registro) {
         this.f_registro = f_registro;
     }
 
