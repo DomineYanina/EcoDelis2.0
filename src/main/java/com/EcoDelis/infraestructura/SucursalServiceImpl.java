@@ -3,11 +3,9 @@ package com.EcoDelis.infraestructura;
 import com.EcoDelis.dominio.*;
 import com.EcoDelis.presentacion.DireccionSucursalViewModel;
 import com.EcoDelis.presentacion.RegistroSucursalViewModel;
-import com.EcoDelis.presentacion.ResponsableViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,7 +25,6 @@ public class SucursalServiceImpl implements SucursalService {
 
     @Override
     public Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel,
-                              ResponsableViewModel responsableViewModel,
                               DireccionSucursalViewModel direccionSucursalViewModel) {
         LocalDate fechaLocal = LocalDate.now();
         Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -35,7 +32,6 @@ public class SucursalServiceImpl implements SucursalService {
 
         sucursal.setNombre(registroSucursalViewModel.getNombre());
         sucursal.setDireccion(registroSucursalViewModel.getDireccion());
-        sucursal.setResponsable(registroSucursalViewModel.getResponsable());
         sucursal.setTelefonos(registroSucursalViewModel.getTelefonos());
 
 
@@ -44,15 +40,6 @@ public class SucursalServiceImpl implements SucursalService {
         sucursal.setNombre(registroSucursalViewModel.getNombre());
         sucursal.setF_registro(fechaLocal);
         sucursal.setTipoSuscripcion(registroSucursalViewModel.getTipoSuscripcion());
-
-        // Agregar responsable y dirección a la sucursal
-        Responsable responsable = new Responsable();
-        responsable.setNombre(responsableViewModel.getNombre());
-        responsable.setApellido(responsableViewModel.getApellido());
-        responsable.setTipo_doc(responsableViewModel.getTipo_doc());
-        responsable.setNro_doc(responsableViewModel.getNro_doc());
-        responsable.setF_nac(fechaLocal);
-        sucursal.setResponsable(responsable);
 
         DireccionSucursal direccion = new DireccionSucursal();
         direccion.setCalle(direccionSucursalViewModel.getCalle());

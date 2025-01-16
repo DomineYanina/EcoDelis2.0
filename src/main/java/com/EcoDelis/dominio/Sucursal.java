@@ -39,17 +39,12 @@ public class Sucursal {
     @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "responsable_sucursal")
-    private Responsable responsable;
-
-    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, Responsable responsable) {
+    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion) {
         this.nombre = nombre;
         this.f_registro = f_registro;
         this.tipoSuscripcion = tipoSuscripcion;
         this.local = local;
         this.direccion = direccion;
-        this.responsable = responsable;
     }
 
     public Sucursal() {
@@ -134,14 +129,6 @@ public class Sucursal {
 
     public void setItems(List<Item> items) {
         this.items = items;
-    }
-
-    public Responsable getResponsable() {
-        return responsable;
-    }
-
-    public void setResponsable(Responsable responsable) {
-        this.responsable = responsable;
     }
 
     public void agregarPedido(Pedido pedido){

@@ -30,10 +30,8 @@ public class LocalController {
             mv = new ModelAndView("agregarSucursal");
             mv.addObject("localLogueado", session.getAttribute("localLogueado"));
             RegistroSucursalViewModel registroSucursalViewModel = new RegistroSucursalViewModel();
-            ResponsableViewModel responsableViewModel = new ResponsableViewModel();
             DireccionSucursalViewModel direccionSucursalViewModel = new DireccionSucursalViewModel();
             mv.addObject("sucursal", registroSucursalViewModel);
-            mv.addObject("responsable", responsableViewModel);
             mv.addObject("direccionSucursal", direccionSucursalViewModel);
             mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
             mv.addObject("localidades", Localidad.values());
@@ -45,7 +43,6 @@ public class LocalController {
 
     @PostMapping("/registrarSucursal")
     private ModelAndView registrarSucursal(@ModelAttribute("sucursal") RegistroSucursalViewModel registroSucursalViewModel,
-                                           @ModelAttribute("responsable") ResponsableViewModel responsableViewModel,
                                            @ModelAttribute("direccionSucursal") DireccionSucursalViewModel direccionSucursalViewModel,
                                            BindingResult bindingResult, HttpSession session) {
         ModelAndView mv;
@@ -60,7 +57,6 @@ public class LocalController {
                 mv = new ModelAndView("agregarSucursal");
                 mv.addObject("error", "Hay errores en el formulario.");
                 mv.addObject("sucursal", registroSucursalViewModel);
-                mv.addObject("responsable", responsableViewModel);
                 mv.addObject("direccionSucursal", direccionSucursalViewModel);
                 mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
                 mv.addObject("localidades", Localidad.values());
@@ -73,7 +69,6 @@ public class LocalController {
                     bindingResult.rejectValue("nombre", "nombre", "La sucursal ya existe");
                     mv.addObject("error", "La sucursal ingresada ya existe");
                     mv.addObject("sucursal", registroSucursalViewModel);
-                    mv.addObject("responsable", responsableViewModel);
                     mv.addObject("direccionSucursal", direccionSucursalViewModel);
                     mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
                     mv.addObject("localidades", Localidad.values());
@@ -81,7 +76,7 @@ public class LocalController {
                     mv.addObject("tiposDocumento", TipoDocumento.values());
                 } else {
                     // Registrar la nueva sucursal
-                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, responsableViewModel, direccionSucursalViewModel);
+                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccionSucursalViewModel);
                     mv = new ModelAndView("homeLocal");
                     mv.addObject("localLogueado", session.getAttribute("localLogueado"));
                 }
