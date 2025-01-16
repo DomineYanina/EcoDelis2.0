@@ -4,6 +4,7 @@ import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +16,8 @@ public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private HttpSession httpSession;
 
     @GetMapping("/irAModificarCliente")
     public ModelAndView irAModificarCliente(HttpSession session) {
@@ -82,6 +85,48 @@ public class ClienteController {
             mv.addObject("cliente", clienteLogueado);
             return mv;
         }
+    }
+
+    @GetMapping("/irARegistrarNuevoCliente")
+    public ModelAndView irARegistrarNuevoCliente(HttpSession session) {
+        if(session.getAttribute("clienteLogueado") != null) {
+            return new ModelAndView("homeCliente");
+        } else {
+            RegistroViewModel registroViewModel = new RegistroViewModel();
+            ModelAndView mv = new ModelAndView("primerPasoRegistroCliente");
+            mv.addObject("cliente", registroViewModel);
+            return mv;
+        }
+    }
+
+    @GetMapping("/chequearMailYaExistente")
+    public ModelAndView chequearMailYaExistente(HttpSession session, BindingResult bindingResult, RegistroViewModel registroViewModel) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") == null) {
+            if(clienteService.existeEmail(registroViewModel.getEmail())){
+                mv = new ModelAndView("primerPasoRegistroCliente");
+                mv.addObject("error", "Email ya existe");
+            } else {
+                mv = new ModelAndView("cargarDatosNuevoCliente");
+                mv.addObject("cliente", registroViewModel);
+            }
+        } else{
+            mv = new ModelAndView("homeCliente");
+        }
+        return mv;
+    }
+
+    @PostMapping("/registrarNuevoCliente")
+    public ModelAndView registrarNuevoCliente(HttpSession session, RegistroViewModel registroViewModel) {
+        ModelAndView mv;
+        if(session.getAttribute("clienteLogueado") != null) {
+            mv = new ModelAndView("homeCliente");
+        } else {
+            mv = new ModelAndView("homeCliente");
+            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(registroViewModel));
+            mv.addObject("cliente", registroViewModel);
+        }
+        return mv;
     }
 
 }
