@@ -2,7 +2,6 @@ package com.EcoDelis.infraestructura;
 
 import com.EcoDelis.dominio.*;
 import com.EcoDelis.presentacion.RegistroLocalViewModel;
-import com.EcoDelis.presentacion.RegistroViewModel;
 import com.EcoDelis.presentacion.SucursalViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +64,16 @@ public class LocalServiceImpl implements LocalService {
     @Override
     public Sucursal buscarSucuralPorNombre(String nombre) {
         return null;
+    }
+
+    @Override
+    public void modificar(Local localExistente) {
+        localRepository.modificar(localExistente);
+    }
+
+    @Override
+    public void registrarLocalPrimerPaso(Local local) {
+        localRepository.guardar(local);
     }
 
 }

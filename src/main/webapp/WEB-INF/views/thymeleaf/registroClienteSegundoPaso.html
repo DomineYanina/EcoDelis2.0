@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:object="${cliente}" th:action="@{/registrarCliente}" method="post">
+        <!-- Campo para el nombre -->
+        <label for="nombre">Nombre:</label>
+        <input th:field="*{nombre}" type="text" id="nombre" placeholder="Ingrese el nombre" required />
+        <br />
+
+        <label for="apellido">Apellido:</label>
+        <input th:field="*{apellido}" type="text" id="apellido" placeholder="Ingrese el apellido" required />
+        <br />
+
+        <select th:field="*{tipo_doc}" id="Tipo_doc" required>
+            <option value="" disabled selected>Seleccione la localidad</option>
+            <option th:each="loc : ${tiposDocumento}" th:value="${tiposDocumento}" th:text="${tiposDocumento}"></option>
+        </select>
+        <br />
+
+        <label for="Nro_doc">Número de documento:</label>
+        <input th:field="*{nro_doc}" type="number" id="Nro_doc" placeholder="Ingrese el número de documento" required />
+        <br />
+
+        <label for="Tipo_cliente">Tipo de Cliente:</label>
+        <select th:field="*{tipo_cliente}" id="Tipo_cliente" required>
+            <option value="" disabled selected>Seleccione el tipo de cliente</option>
+            <option th:each="tipo : ${TiposDeCliente}" th:value="${tipo}" th:text="${tipo}"></option>
+        </select>
+        <br />
+
+        <label for="F_nac">Fecha de Nacimiento:</label>
+        <input th:field="*{f_nac}" type="date" id="F_nac" required />
+        <br />
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit">Registrar Local</button>
+    </form>
+
+
+</body>
+</html>

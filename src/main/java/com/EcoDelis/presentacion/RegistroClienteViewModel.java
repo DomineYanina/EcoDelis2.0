@@ -4,7 +4,7 @@ import com.EcoDelis.dominio.*;
 
 import java.util.Date;
 
-public class RegistroViewModel {
+public class RegistroClienteViewModel {
     private String nombre;
     private String apellido;
     private TipoDocumento Tipo_doc;

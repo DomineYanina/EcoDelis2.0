@@ -13,4 +13,6 @@ public interface LocalRepository {
     Sucursal buscarSucursalPorNombre(String nombre);
 
     void eliminarSucursal(Sucursal sucursal);
+
+    void modificar(Local localExistente);
 }

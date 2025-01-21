@@ -22,4 +22,8 @@ public interface LocalService {
     void eliminarSucursal(SucursalViewModel sucursalViewModel);
 
     Sucursal buscarSucuralPorNombre(String nombre);
+
+    void modificar(Local localExistente);
+
+    void registrarLocalPrimerPaso(Local local);
 }

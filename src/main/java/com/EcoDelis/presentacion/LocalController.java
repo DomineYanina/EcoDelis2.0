@@ -131,4 +131,39 @@ public class LocalController {
         }
         return mv;
     }
+
+    @GetMapping("/irAModificarDatosLocal")
+    private ModelAndView irAModificarDatosLocal(HttpSession session){
+        if(session.getAttribute("localLogueado") == null) {
+            return new ModelAndView("loginLocal");
+        } else {
+            Local localLogueado = (Local) session.getAttribute("localLogueado");
+            String email = localLogueado.getEmail();
+
+            ModelAndView mv = new ModelAndView("modificarDatosLocal");
+            Local local = localService.buscarPorEmail(email);
+
+            RegistroLocalViewModel resp = new RegistroLocalViewModel();
+            resp.setCUIT(local.getCUIT());
+            resp.setNombre(local.getNombre());
+            resp.setEmail(local.getEmail());
+
+            mv.addObject("local", resp);
+
+            return mv;
+        }
+    }
+
+    @PostMapping("/modificarDatosLocal")
+    private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session) {
+        ModelAndView mv = new ModelAndView("modificarDatosLocal");
+        Local localExistente = localService.buscarPorEmail(registroLocalViewModel.getEmail());
+        localExistente.setNombre(registroLocalViewModel.getNombre());
+        localExistente.setEmail(registroLocalViewModel.getEmail());
+        localExistente.setCUIT(registroLocalViewModel.getCUIT());
+
+        localService.modificar(localExistente);
+
+        return new ModelAndView("homeLocal");
+    }
 }

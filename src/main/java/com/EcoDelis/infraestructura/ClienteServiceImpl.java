@@ -3,7 +3,7 @@ package com.EcoDelis.infraestructura;
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteRepository;
 import com.EcoDelis.dominio.ClienteService;
-import com.EcoDelis.presentacion.RegistroViewModel;
+import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +26,17 @@ public class ClienteServiceImpl implements ClienteService {
         return cliente != null;
     }
 
-    public Cliente registrarCliente(RegistroViewModel registroViewModel) {
+    public Cliente registrarCliente(RegistroClienteViewModel registroClienteViewModel) {
         Cliente cliente = new Cliente();
-        cliente.setEmail(registroViewModel.getEmail());
-        cliente.setPassword(registroViewModel.getPassword());
-        cliente.setApellido(registroViewModel.getApellido());
-        cliente.setTipo_cliente(registroViewModel.getTipo_cliente());
-        cliente.setF_nac(registroViewModel.getF_nac());
-        cliente.setF_registro(registroViewModel.getF_registro());
-        cliente.setNombre(registroViewModel.getNombre());
-        cliente.setNro_doc(registroViewModel.getNro_doc());
-        cliente.setTipo_doc(registroViewModel.getTipo_doc());
+        cliente.setEmail(registroClienteViewModel.getEmail());
+        cliente.setPassword(registroClienteViewModel.getPassword());
+        cliente.setApellido(registroClienteViewModel.getApellido());
+        cliente.setTipo_cliente(registroClienteViewModel.getTipo_cliente());
+        cliente.setF_nac(registroClienteViewModel.getF_nac());
+        cliente.setF_registro(registroClienteViewModel.getF_registro());
+        cliente.setNombre(registroClienteViewModel.getNombre());
+        cliente.setNro_doc(registroClienteViewModel.getNro_doc());
+        cliente.setTipo_doc(registroClienteViewModel.getTipo_doc());
 
         clienteRepository.guardar(cliente);
         return cliente;

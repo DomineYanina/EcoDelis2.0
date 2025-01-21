@@ -68,8 +68,9 @@ public class ClienteController {
             return new ModelAndView("loginCliente");
         } else {
             Cliente clienteLogueado = (Cliente) session.getAttribute("clienteLogueado");
-            ModelAndView mv = new ModelAndView("agregarNuevaDireccionCliente");
+            ModelAndView mv = new ModelAndView("agregarDireccionCliente");
             mv.addObject("cliente", clienteLogueado);
+            mv.addObject("direccionCliente", new DireccionClienteViewModel());
 
             return mv;
         }
@@ -81,8 +82,9 @@ public class ClienteController {
             return new ModelAndView("loginCliente");
         } else {
             Cliente clienteLogueado = (Cliente) session.getAttribute("clienteLogueado");
-            ModelAndView mv = new ModelAndView("agregarNuevaTelefonoCliente");
+            ModelAndView mv = new ModelAndView("agregarTelefonoCliente");
             mv.addObject("cliente", clienteLogueado);
+            mv.addObject("telefonoCliente", new TelefonoClienteViewModel());
             return mv;
         }
     }
@@ -92,23 +94,23 @@ public class ClienteController {
         if(session.getAttribute("clienteLogueado") != null) {
             return new ModelAndView("homeCliente");
         } else {
-            RegistroViewModel registroViewModel = new RegistroViewModel();
-            ModelAndView mv = new ModelAndView("primerPasoRegistroCliente");
-            mv.addObject("cliente", registroViewModel);
+            RegistroClienteViewModel registroClienteViewModel = new RegistroClienteViewModel();
+            ModelAndView mv = new ModelAndView("registroClientePrimerPaso");
+            mv.addObject("cliente", registroClienteViewModel);
             return mv;
         }
     }
 
     @GetMapping("/chequearMailYaExistente")
-    public ModelAndView chequearMailYaExistente(HttpSession session, BindingResult bindingResult, RegistroViewModel registroViewModel) {
+    public ModelAndView chequearMailYaExistente(HttpSession session, BindingResult bindingResult, RegistroClienteViewModel registroClienteViewModel) {
         ModelAndView mv;
         if(session.getAttribute("clienteLogueado") == null) {
-            if(clienteService.existeEmail(registroViewModel.getEmail())){
+            if(clienteService.existeEmail(registroClienteViewModel.getEmail())){
                 mv = new ModelAndView("primerPasoRegistroCliente");
                 mv.addObject("error", "Email ya existe");
             } else {
                 mv = new ModelAndView("cargarDatosNuevoCliente");
-                mv.addObject("cliente", registroViewModel);
+                mv.addObject("cliente", registroClienteViewModel);
             }
         } else{
             mv = new ModelAndView("homeCliente");
@@ -117,14 +119,14 @@ public class ClienteController {
     }
 
     @PostMapping("/registrarNuevoCliente")
-    public ModelAndView registrarNuevoCliente(HttpSession session, RegistroViewModel registroViewModel) {
+    public ModelAndView registrarNuevoCliente(HttpSession session, RegistroClienteViewModel registroClienteViewModel) {
         ModelAndView mv;
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
         } else {
             mv = new ModelAndView("homeCliente");
-            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(registroViewModel));
-            mv.addObject("cliente", registroViewModel);
+            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(registroClienteViewModel));
+            mv.addObject("cliente", registroClienteViewModel);
         }
         return mv;
     }

@@ -1,18 +1,14 @@
 package com.EcoDelis.dominio;
 
-import com.EcoDelis.presentacion.RegistroViewModel;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 @Service
 public interface ClienteService {
 
     boolean existeEmail(String email);
 
-    Cliente registrarCliente(RegistroViewModel registroViewModel);
+    Cliente registrarCliente(RegistroClienteViewModel registroClienteViewModel);
 
     boolean validarCredenciales(String email, String clave);
 

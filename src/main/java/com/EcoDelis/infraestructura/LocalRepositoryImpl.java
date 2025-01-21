@@ -71,5 +71,10 @@ public class LocalRepositoryImpl implements LocalRepository {
         sessionFactory.getCurrentSession().delete(sucursal);
     }
 
+    @Override
+    public void modificar(Local localExistente) {
+        sessionFactory.getCurrentSession().update(localExistente);
+    }
+
 
 }

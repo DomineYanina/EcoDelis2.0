@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:object="${local}" th:action="@{/registrarLocal}" method="post">
+        <!-- Campo para el nombre -->
+        <label for="nombre">Nombre:</label>
+        <input th:field="*{nombre}" type="text" id="nombre" placeholder="Ingrese el nombre" required />
+        <br />
+
+        <!-- Campo para el CUIT -->
+        <label for="CUIT">CUIT:</label>
+        <input th:field="*{CUIT}" type="text" id="CUIT" placeholder="Ingrese el CUIT" required />
+        <br />
+
+        <!-- Botón para enviar el formulario -->
+        <button type="submit">Registrar Local</button>
+    </form>
+
+</body>
+</html>
