@@ -10,7 +10,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface SucursalService {
     Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel,
-                       DireccionSucursal direccionSucursal, long idLocal);
+                       DireccionSucursal direccionSucursal, Local local);
 
     boolean nombreDeSucursalYaExiste(RegistroSucursalViewModel registroSucursalViewModel);
 

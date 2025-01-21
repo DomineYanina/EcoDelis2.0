@@ -44,7 +44,6 @@ public class LocalController {
             mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
             mv.addObject("localidades", Localidad.values());
             mv.addObject("provincias", Provincia.values());
-            mv.addObject("tiposDocumento", TipoDocumento.values());
         }
         return mv;
     }
@@ -87,10 +86,12 @@ public class LocalController {
                 } else {
                     // Registrar la nueva sucursal
                     System.out.println("No existe el nombre de la sucursal");
-                    DireccionSucursal direccion = direccionSucursalService.agregar(direccionSucursalViewModel);
+                    direccionSucursalService.agregar(registroSucursalViewModel.getDireccion());
+                    DireccionSucursal direccion = registroSucursalViewModel.getDireccion();
                     Local local = (Local) session.getAttribute("localLogueado");
-                    long idLocal = local.getId();
-                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, idLocal);
+                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, local);
+                    direccion.setSucursal(sucursal);
+                    direccionSucursalService.modificar(direccion);
                     mv = new ModelAndView("homeLocal");
                     mv.addObject("localLogueado", session.getAttribute("localLogueado"));
                 }

@@ -7,5 +7,7 @@ import javax.transaction.Transactional;
 
 public interface DireccionSucursalService {
 
-    DireccionSucursal agregar(DireccionSucursalViewModel direccionSucursalViewModel);
+    DireccionSucursal agregar(DireccionSucursal direccion);
+
+    void modificar(DireccionSucursal direccionSucursal);
 }

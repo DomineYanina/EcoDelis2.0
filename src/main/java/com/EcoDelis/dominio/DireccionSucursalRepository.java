@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 public interface DireccionSucursalRepository {
 
     void agregar(DireccionSucursal direccionSucursal);
+
+    void modificar(DireccionSucursal direccionSucursal);
 }
