@@ -2,6 +2,7 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ public class LocalController {
     @Autowired
     private SucursalService sucursalService;
 
+    @Autowired
+    private DireccionSucursalService direccionSucursalService;
+
     @GetMapping("/irAAgregarSucursal")
     private ModelAndView irAAgregarSucursal(HttpSession session) {
         ModelAndView mv;
@@ -27,6 +31,10 @@ public class LocalController {
             LocalLoginViewModel vm = new LocalLoginViewModel();
             mv.addObject("local", vm);
         } else {
+            Local local = (Local) session.getAttribute("localLogueado");
+            String nombre = local.getNombre();
+            System.out.println(nombre);
+
             mv = new ModelAndView("agregarSucursal");
             mv.addObject("localLogueado", session.getAttribute("localLogueado"));
             RegistroSucursalViewModel registroSucursalViewModel = new RegistroSucursalViewModel();
@@ -49,6 +57,7 @@ public class LocalController {
 
         // Verificar si el usuario está logueado
         if (session.getAttribute("localLogueado") == null) {
+            System.out.println("No hay local logueado");
             mv = new ModelAndView("loginLocal");
             LocalLoginViewModel vm = new LocalLoginViewModel();
             mv.addObject("local", vm);
@@ -74,9 +83,14 @@ public class LocalController {
                     mv.addObject("localidades", Localidad.values());
                     mv.addObject("provincias", Provincia.values());
                     mv.addObject("tiposDocumento", TipoDocumento.values());
+                    System.out.println("Ya existe el nombre de la sucursal");
                 } else {
                     // Registrar la nueva sucursal
-                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccionSucursalViewModel);
+                    System.out.println("No existe el nombre de la sucursal");
+                    DireccionSucursal direccion = direccionSucursalService.agregar(direccionSucursalViewModel);
+                    Local local = (Local) session.getAttribute("localLogueado");
+                    long idLocal = local.getId();
+                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, idLocal);
                     mv = new ModelAndView("homeLocal");
                     mv.addObject("localLogueado", session.getAttribute("localLogueado"));
                 }

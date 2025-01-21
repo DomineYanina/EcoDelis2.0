@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository("DireccionSucursalRepository")
 public class DireccionSucursalRepositoryImpl implements DireccionSucursalRepository {
 
+    @Autowired
     SessionFactory sessionFactory;
 
     @Autowired

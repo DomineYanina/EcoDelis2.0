@@ -25,7 +25,7 @@ public class SucursalServiceImpl implements SucursalService {
 
     @Override
     public Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel,
-                              DireccionSucursalViewModel direccionSucursalViewModel) {
+                              DireccionSucursal direccionSucursal, long idLocal) {
         LocalDate fechaLocal = LocalDate.now();
         Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Sucursal sucursal = new Sucursal();
@@ -34,19 +34,14 @@ public class SucursalServiceImpl implements SucursalService {
         sucursal.setDireccion(registroSucursalViewModel.getDireccion());
         sucursal.setTelefonos(registroSucursalViewModel.getTelefonos());
 
-
         // Lógica para registrar la sucursal, responsable y dirección
 
         sucursal.setNombre(registroSucursalViewModel.getNombre());
         sucursal.setF_registro(fechaLocal);
         sucursal.setTipoSuscripcion(registroSucursalViewModel.getTipoSuscripcion());
+        //Agregar el código para setear el local a la sucursal
 
-        DireccionSucursal direccion = new DireccionSucursal();
-        direccion.setCalle(direccionSucursalViewModel.getCalle());
-        direccion.setNumero(direccionSucursalViewModel.getNumero());
-        direccion.setLocalidad(direccionSucursalViewModel.getLocalidad());
-        direccion.setProvincia(direccionSucursalViewModel.getProvincia());
-        sucursal.setDireccion(direccion);
+        sucursal.setDireccion(direccionSucursal);
 
         // Guardar la sucursal en la base de datos (por ejemplo, usando un repositorio)
         sucursalRepository.guardar(sucursal);

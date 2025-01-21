@@ -29,17 +29,6 @@
         <option th:each="prov : ${provincias}" th:value="${prov}" th:text="${prov}"></option>
     </select>
 
-    <!-- Responsable de la sucursal -->
-    <h3>Responsable de la Sucursal</h3>
-    <input th:field="*{responsable.nombre}" placeholder="Nombre" id="nombreResponsable" required />
-    <input th:field="*{responsable.apellido}" placeholder="Apellido" id="apellidoResponsable" required />
-    <select th:field="*{responsable.tipo_doc}" id="tipoDocResponsable" required>
-        <option value="" disabled selected>Seleccione el tipo de documento</option>
-        <option th:each="tipoDoc : ${tiposDocumento}" th:value="${tipoDoc}" th:text="${tipoDoc}"></option>
-    </select>
-    <input th:field="*{responsable.nro_doc}" placeholder="Número de Documento" id="nroDocResponsable" required />
-    <input type="date" th:field="*{responsable.f_nac}" placeholder="Fecha de Nacimiento" id="fNacResponsable" required />
-
     <!-- Botón para enviar el formulario -->
     <button type="submit">Registrar Sucursal</button>
 </form>

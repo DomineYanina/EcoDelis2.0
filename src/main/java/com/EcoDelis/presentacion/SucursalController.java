@@ -102,7 +102,7 @@ public class SucursalController {
             direccionSucursal.setProvincia(direccionSucursalViewModel.getProvincia());
             direccionSucursal.setNumero(direccionSucursalViewModel.getNumero());
 
-            direccionSucursalService.agregar(direccionSucursal);
+            direccionSucursalService.agregar(direccionSucursalViewModel);
 
             mv = new ModelAndView("homeLocal");
         }

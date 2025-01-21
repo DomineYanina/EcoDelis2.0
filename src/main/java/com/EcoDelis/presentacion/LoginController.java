@@ -2,6 +2,7 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteService;
+import com.EcoDelis.dominio.Local;
 import com.EcoDelis.dominio.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,7 +79,8 @@ public class LoginController {
         } else {
             if(localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getPassword())){
                 mv = new ModelAndView("homeLocal");
-                session.setAttribute("localLogueado", localLoginViewModel);
+                Local local = localService.buscarPorEmail(localLoginViewModel.getEmail());
+                session.setAttribute("localLogueado", local);
             } else {
                 mv = new ModelAndView("loginLocal");
                 if(localService.existeEmail(localLoginViewModel.getEmail())){

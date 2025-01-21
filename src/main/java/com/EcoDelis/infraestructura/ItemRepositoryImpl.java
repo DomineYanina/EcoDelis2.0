@@ -4,6 +4,7 @@ import com.EcoDelis.dominio.Item;
 import com.EcoDelis.dominio.ItemRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,13 @@ import java.util.List;
 @Repository("ItemRepository")
 public class ItemRepositoryImpl implements ItemRepository {
 
+    @Autowired
     SessionFactory sessionFactory;
+
+    @Autowired
+    public ItemRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Item buscarItemPorId(int id) {

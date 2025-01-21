@@ -1,11 +1,11 @@
 package com.EcoDelis.dominio;
 
+import com.EcoDelis.presentacion.DireccionSucursalViewModel;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service
-@Transactional
 public interface DireccionSucursalService {
-    void agregar(DireccionSucursal direccionSucursal);
+
+    DireccionSucursal agregar(DireccionSucursalViewModel direccionSucursalViewModel);
 }

@@ -19,7 +19,6 @@ public class SucursalViewModel {
     private List<Promocion> promociones = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
-    private Responsable responsable;
 
     public long getId() {
         return id;
@@ -107,13 +106,5 @@ public class SucursalViewModel {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
-    }
-
-    public Responsable getResponsable() {
-        return responsable;
-    }
-
-    public void setResponsable(Responsable responsable) {
-        this.responsable = responsable;
     }
 }

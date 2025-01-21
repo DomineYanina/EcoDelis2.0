@@ -15,6 +15,8 @@ import javax.transaction.Transactional;
 
 @Repository
 public class LocalRepositoryImpl implements LocalRepository {
+
+    @Autowired
     private SessionFactory sessionFactory;
 
     @Autowired
