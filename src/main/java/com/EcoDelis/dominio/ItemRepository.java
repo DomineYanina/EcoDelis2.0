@@ -12,4 +12,8 @@ public interface ItemRepository {
     void actualizarItem(Item item);
 
     List<Item> obtenerListaDeItemsPorsucursal(long id);
+
+    void agregarItem(Item item);
+
+    void eliminarItem(Item item);
 }

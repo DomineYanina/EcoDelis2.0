@@ -23,4 +23,14 @@ public class PromocionServiceImpl implements PromocionService {
     public void agregarPromocion(Promocion promocion){
         promocionRepository.agregarPromocion(promocion);
     }
+
+    @Override
+    public void modificarPromocion(Promocion promocion) {
+        promocionRepository.modificar(promocion);
+    }
+
+    @Override
+    public void eliminarPromocion(Promocion promocion) {
+        promocionRepository.eliminar(promocion);
+    }
 }

@@ -21,4 +21,14 @@ public class PromocionRepositoryImpl implements PromocionRepository {
     public void agregarPromocion(Promocion promocion) {
         sessionFactory.getCurrentSession().save(promocion);
     }
+
+    @Override
+    public void modificar(Promocion promocion) {
+        sessionFactory.getCurrentSession().update(promocion);
+    }
+
+    @Override
+    public void eliminar(Promocion promocion) {
+        sessionFactory.getCurrentSession().delete(promocion);
+    }
 }

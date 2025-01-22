@@ -52,4 +52,14 @@ public class ItemRepositoryImpl implements ItemRepository {
         }
         return items;
     }
+
+    @Override
+    public void agregarItem(Item item) {
+        sessionFactory.getCurrentSession().save(item);
+    }
+
+    @Override
+    public void eliminarItem(Item item) {
+        sessionFactory.getCurrentSession().delete(item);
+    }
 }

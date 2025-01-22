@@ -9,4 +9,8 @@ import javax.transaction.Transactional;
 public interface PromocionService {
 
     void agregarPromocion(Promocion promocion);
+
+    void modificarPromocion(Promocion promocion);
+
+    void eliminarPromocion(Promocion promocion);
 }
