@@ -16,10 +16,19 @@ public class PedidoServiceImpl implements PedidoService {
     @Autowired
     private PedidoRepository pedidoRepository;
 
+    @Autowired
+    private SucursalRepository sucursalRepository;
+
     @Override
     public List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado){
         List<Pedido> pedidos = new ArrayList<Pedido>();
         return pedidos = clienteRepository.obtenerPedidosPorCliente(clienteLogueado);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorSucursal(Sucursal sucursal) {
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        return pedidos = sucursalRepository.obtenerPedidos(sucursal);
     }
 
     @Override

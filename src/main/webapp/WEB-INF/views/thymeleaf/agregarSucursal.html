@@ -15,6 +15,10 @@
         <option value="" disabled selected>Seleccione el tipo de suscripción</option>
         <option th:each="tipo : ${tipoSuscripciones}" th:value="${tipo}" th:text="${tipo}"></option>
     </select>
+    <select th:field="*{tipoLocal}" id="tipoLocal" required>
+        <option value="" disabled selected>Seleccione el tipo de suscripción</option>
+        <option th:each="tipo : ${tipoLocal}" th:value="${tipoL}" th:text="${tipoL}"></option>
+    </select>
 
     <!-- Dirección de la sucursal -->
     <h3>Dirección de la Sucursal</h3>

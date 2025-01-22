@@ -44,6 +44,7 @@ public class LocalController {
             mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
             mv.addObject("localidades", Localidad.values());
             mv.addObject("provincias", Provincia.values());
+            mv.addObject("tipoLocal", TipoLocal.values());
         }
         return mv;
     }
@@ -70,6 +71,7 @@ public class LocalController {
                 mv.addObject("localidades", Localidad.values());
                 mv.addObject("provincias", Provincia.values());
                 mv.addObject("tiposDocumento", TipoDocumento.values());
+                mv.addObject("tipoLocal", TipoLocal.values());
             } else {
                 // Validar si el nombre de la sucursal ya existe
                 if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel)) {
@@ -82,6 +84,7 @@ public class LocalController {
                     mv.addObject("localidades", Localidad.values());
                     mv.addObject("provincias", Provincia.values());
                     mv.addObject("tiposDocumento", TipoDocumento.values());
+                    mv.addObject("tipoLocal", TipoLocal.values());
                     System.out.println("Ya existe el nombre de la sucursal");
                 } else {
                     // Registrar la nueva sucursal

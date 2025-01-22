@@ -2,6 +2,8 @@ package com.EcoDelis.dominio;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SucursalRepository {
 
@@ -12,4 +14,6 @@ public interface SucursalRepository {
     void modificar(Sucursal sucursal);
 
     void eliminar(Sucursal sucursal);
+
+    List<Pedido> obtenerPedidos(Sucursal sucursal);
 }

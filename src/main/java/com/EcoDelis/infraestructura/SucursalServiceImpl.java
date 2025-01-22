@@ -39,6 +39,7 @@ public class SucursalServiceImpl implements SucursalService {
         sucursal.setTipoSuscripcion(registroSucursalViewModel.getTipoSuscripcion());
         sucursal.setLocal(local);
         sucursal.setDireccion(direccionSucursal);
+        sucursal.setTipoLocal(registroSucursalViewModel.getTipoLocal());
 
         sucursalRepository.guardar(sucursal);
 
