@@ -9,4 +9,5 @@ public interface PedidoRepository {
     void actualizar(Pedido pedido);
 
     void cancelar(Pedido pedido);
+
 }

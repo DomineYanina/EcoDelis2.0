@@ -26,4 +26,5 @@ public class PedidoRepositoryImpl implements PedidoRepository {
     public void cancelar(Pedido pedido) {
         sessionFactory.getCurrentSession().delete(pedido);
     }
+
 }
