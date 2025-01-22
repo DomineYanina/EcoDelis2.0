@@ -15,6 +15,7 @@ public class Sucursal {
     private String nombre;
     private LocalDate f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
+    private TipoLocal tipoLocal;
 
     @ManyToOne
     @JoinColumn(name = "local_id")
@@ -39,12 +40,13 @@ public class Sucursal {
     @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion) {
+    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, TipoLocal tipoLocal) {
         this.nombre = nombre;
         this.f_registro = f_registro;
         this.tipoSuscripcion = tipoSuscripcion;
         this.local = local;
         this.direccion = direccion;
+        this.tipoLocal = tipoLocal;
     }
 
     public Sucursal() {
@@ -149,5 +151,13 @@ public class Sucursal {
 
     public void setLocal(Local local) {
         this.local = local;
+    }
+
+    public TipoLocal getTipoLocal() {
+        return tipoLocal;
+    }
+
+    public void setTipoLocal(TipoLocal tipoLocal) {
+        this.tipoLocal = tipoLocal;
     }
 }

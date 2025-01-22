@@ -39,7 +39,14 @@ public class SucursalRepositoryImpl implements SucursalRepository {
     }
 
     @Override
+    @Transactional
     public void modificar(Sucursal sucursal) {
         sessionFactory.getCurrentSession().update(sucursal);
+    }
+
+    @Override
+    @Transactional
+    public void eliminar(Sucursal sucursal) {
+        sessionFactory.getCurrentSession().delete(sucursal);
     }
 }

@@ -16,4 +16,6 @@ public interface SucursalService {
 
     void modificar(Sucursal sucursal);
 
+    void eliminar(Sucursal sucursal);
+
 }

@@ -24,6 +24,7 @@ public class SucursalServiceImpl implements SucursalService {
     }
 
     @Override
+    @Transactional
     public Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel,
                               DireccionSucursal direccionSucursal, Local local) {
         LocalDate fechaLocal = LocalDate.now();
@@ -53,8 +54,16 @@ public class SucursalServiceImpl implements SucursalService {
         return sucursalRepository.buscarPorNombre(nombre);
     }
 
+    @Override
+    @Transactional
     public void modificar(Sucursal sucursal){
         sucursalRepository.modificar(sucursal);
+    }
+
+    @Override
+    @Transactional
+    public void eliminar(Sucursal sucursal) {
+        sucursalRepository.eliminar(sucursal);
     }
 
 }

@@ -12,6 +12,7 @@ public class RegistroSucursalViewModel {
     private String nombre;
     private Date f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
+    private TipoLocal tipoLocal;
     private Local local;
     private DireccionSucursal direccion;
     private List<TelefonoSucursal> telefonos = new ArrayList<>();
@@ -108,4 +109,11 @@ public class RegistroSucursalViewModel {
         this.pedidos = pedidos;
     }
 
+    public TipoLocal getTipoLocal() {
+        return tipoLocal;
+    }
+
+    public void setTipoLocal(TipoLocal tipoLocal) {
+        this.tipoLocal = tipoLocal;
+    }
 }
