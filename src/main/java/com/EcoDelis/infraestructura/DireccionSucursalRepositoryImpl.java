@@ -29,4 +29,10 @@ public class DireccionSucursalRepositoryImpl implements DireccionSucursalReposit
     public void modificar(DireccionSucursal direccionSucursal) {
         sessionFactory.getCurrentSession().update(direccionSucursal);
     }
+
+    @Override
+    @Transactional
+    public void eliminar(DireccionSucursal direccionSucursal) {
+        sessionFactory.getCurrentSession().delete(direccionSucursal);
+    }
 }

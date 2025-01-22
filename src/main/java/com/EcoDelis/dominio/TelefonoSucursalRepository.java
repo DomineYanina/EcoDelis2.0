@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TelefonoSucursalRepository {
 
-    @Autowired
-
-
     void agregar(TelefonoSucursal telefonoSucursal);
+
+    void modificar(TelefonoSucursal telefonoSucursal);
+
+    void eliminar(TelefonoSucursal telefonoSucursal);
 }

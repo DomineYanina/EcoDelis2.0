@@ -21,4 +21,14 @@ public class TelefonoSucursalRepositoryImpl implements TelefonoSucursalRepositor
     public void agregar(TelefonoSucursal telefonoSucursal) {
         sessionFactory.getCurrentSession().save(telefonoSucursal);
     }
+
+    @Override
+    public void modificar(TelefonoSucursal telefonoSucursal) {
+        sessionFactory.getCurrentSession().update(telefonoSucursal);
+    }
+
+    @Override
+    public void eliminar(TelefonoSucursal telefonoSucursal) {
+        sessionFactory.getCurrentSession().delete(telefonoSucursal);
+    }
 }

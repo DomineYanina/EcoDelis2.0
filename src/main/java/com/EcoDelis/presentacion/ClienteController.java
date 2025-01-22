@@ -2,10 +2,13 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteService;
+import com.EcoDelis.dominio.TelefonoCliente;
+import com.EcoDelis.dominio.TipoDocumento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -38,6 +41,8 @@ public class ClienteController {
 
             mv = new ModelAndView("modificarCliente");
             mv.addObject("cliente", clienteViewModel);
+            mv.addObject("tiposDocumento", TipoDocumento.values());
+            mv.addObject("TiposDeCliente", TipoDocumento.values());
         }
         return mv;
     }
@@ -85,6 +90,7 @@ public class ClienteController {
             ModelAndView mv = new ModelAndView("agregarTelefonoCliente");
             mv.addObject("cliente", clienteLogueado);
             mv.addObject("telefonoCliente", new TelefonoClienteViewModel());
+            mv.addObject("tipoTelefono", TipoDocumento.values());
             return mv;
         }
     }
@@ -99,6 +105,18 @@ public class ClienteController {
             mv.addObject("cliente", registroClienteViewModel);
             return mv;
         }
+    }
+
+    @PostMapping("/agregarTelefonoCliente")
+    public ModelAndView agregarTelefonoCliente(@ModelAttribute("telefonoCliente") TelefonoClienteViewModel telefonoClienteViewModel, HttpSession session) {
+        TelefonoCliente telefonoCliente = new TelefonoCliente();
+        Cliente cliente = (Cliente) session.getAttribute("clienteLogueado");
+        telefonoCliente.setNumero(telefonoClienteViewModel.getNumero());
+        telefonoCliente.setTipo(telefonoClienteViewModel.getTipo());
+        telefonoCliente.setCliente(cliente);
+
+        clienteService.registrarTelefono(telefonoCliente);
+        return new ModelAndView("homeCliente");
     }
 
     @GetMapping("/chequearMailYaExistente")

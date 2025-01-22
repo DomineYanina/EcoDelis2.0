@@ -1,8 +1,6 @@
 package com.EcoDelis.infraestructura;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.ClienteRepository;
-import com.EcoDelis.dominio.ClienteService;
+import com.EcoDelis.dominio.*;
 import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,12 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     @Autowired
+    private TelefonoClienteRepository telefonoClienteRepository;
+
+    @Autowired
+    private DireccionClienteRepository direccionClienteRepository;
+
+    @Autowired
     private HttpServletRequest request;
 
     @Transactional
@@ -26,6 +30,8 @@ public class ClienteServiceImpl implements ClienteService {
         return cliente != null;
     }
 
+    @Override
+    @Transactional
     public Cliente registrarCliente(RegistroClienteViewModel registroClienteViewModel) {
         Cliente cliente = new Cliente();
         cliente.setEmail(registroClienteViewModel.getEmail());
@@ -57,5 +63,34 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.modificar(clienteLogueado);
     }
 
+    @Override
+    public void registrarTelefono(TelefonoCliente telefonoCliente) {
+        telefonoClienteRepository.agregar(telefonoCliente);
+    }
+
+    @Override
+    public void modificarTelefono(TelefonoCliente telefonoCliente){
+        telefonoClienteRepository.modificar(telefonoCliente);
+    }
+
+    @Override
+    public void eliminarTelefono(TelefonoCliente telefonoCliente) {
+        telefonoClienteRepository.eliminar(telefonoCliente);
+    }
+
+    @Override
+    public void registrarDireccion(DireccionCliente direccionCliente) {
+        direccionClienteRepository.agregar(direccionCliente);
+    }
+
+    @Override
+    public void modificarDireccion(DireccionCliente direccionCliente){
+        direccionClienteRepository.modificar(direccionCliente);
+    }
+
+    @Override
+    public void eliminarDireccion(DireccionCliente direccionCliente) {
+        direccionClienteRepository.eliminar(direccionCliente);
+    }
 
 }

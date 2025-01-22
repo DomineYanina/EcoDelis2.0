@@ -8,4 +8,6 @@ public interface DireccionSucursalRepository {
     void agregar(DireccionSucursal direccionSucursal);
 
     void modificar(DireccionSucursal direccionSucursal);
+
+    void eliminar(DireccionSucursal direccionSucursal);
 }

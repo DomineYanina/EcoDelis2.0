@@ -53,6 +53,7 @@ public class SucursalController {
             sucursalViewModel.setTipoSuscripcion(sucursal.getTipoSuscripcion());
             mv = new ModelAndView("modificarSucursal");
             mv.addObject("sucursal", sucursalViewModel);
+            mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
         }
         return mv;
     }

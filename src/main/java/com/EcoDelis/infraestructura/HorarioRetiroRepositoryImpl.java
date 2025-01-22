@@ -21,4 +21,14 @@ public class HorarioRetiroRepositoryImpl implements HorarioRetiroRepository {
     public void agregar(HorarioRetiro horarioRetiro) {
         sessionFactory.getCurrentSession().save(horarioRetiro);
     }
+
+    @Override
+    public void modificar(HorarioRetiro horarioRetiro) {
+        sessionFactory.getCurrentSession().update(horarioRetiro);
+    }
+
+    @Override
+    public void eliminar(HorarioRetiro horarioRetiro) {
+        sessionFactory.getCurrentSession().delete(horarioRetiro);
+    }
 }

@@ -15,4 +15,17 @@ public interface ClienteService {
     Cliente buscarPorEmail(String email);
 
     void modificar(Cliente clienteLogueado);
+
+    void registrarTelefono(TelefonoCliente telefonoCliente);
+
+    void modificarTelefono(TelefonoCliente telefonoCliente);
+
+    void eliminarTelefono(TelefonoCliente telefonoCliente);
+
+    void registrarDireccion(DireccionCliente direccionCliente);
+
+    void modificarDireccion(DireccionCliente direccionCliente);
+
+    void eliminarDireccion(DireccionCliente direccionCliente);
+
 }
