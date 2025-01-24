@@ -1,12 +1,16 @@
 package com.EcoDelis.infraestructura;
 
 import com.EcoDelis.dominio.*;
+import com.EcoDelis.presentacion.ClienteViewModel;
 import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Service("UsuarioService")
 @Transactional
@@ -24,6 +28,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private HttpServletRequest request;
 
+    @Override
     @Transactional
     public boolean existeEmail(String email) {
         Cliente cliente = clienteRepository.buscarPorEmail(email);
@@ -32,17 +37,22 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional
-    public Cliente registrarCliente(RegistroClienteViewModel registroClienteViewModel) {
+    public Cliente registrarCliente(ClienteViewModel clienteViewModel) {
+        Local local = new Local();
+        LocalDate fechaLocal = LocalDate.now();
+        Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         Cliente cliente = new Cliente();
-        cliente.setEmail(registroClienteViewModel.getEmail());
-        cliente.setPassword(registroClienteViewModel.getPassword());
-        cliente.setApellido(registroClienteViewModel.getApellido());
-        cliente.setTipo_cliente(registroClienteViewModel.getTipo_cliente());
-        cliente.setF_nac(registroClienteViewModel.getF_nac());
-        cliente.setF_registro(registroClienteViewModel.getF_registro());
-        cliente.setNombre(registroClienteViewModel.getNombre());
-        cliente.setNro_doc(registroClienteViewModel.getNro_doc());
-        cliente.setTipo_doc(registroClienteViewModel.getTipo_doc());
+        cliente.setFregistro(fechaActual);
+        cliente.setEmail(clienteViewModel.getEmail());
+        cliente.setPassword(clienteViewModel.getPassword());
+        cliente.setApellido(clienteViewModel.getApellido());
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        cliente.setFnac(clienteViewModel.getFnac());
+        cliente.setFregistro(clienteViewModel.getFregistro());
+        cliente.setNombre(clienteViewModel.getNombre());
+        cliente.setNrodoc(clienteViewModel.getNrodoc());
+        cliente.setTipodoc(clienteViewModel.getTipodoc());
 
         clienteRepository.guardar(cliente);
         return cliente;

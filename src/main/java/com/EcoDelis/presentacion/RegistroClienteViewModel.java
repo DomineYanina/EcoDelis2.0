@@ -7,11 +7,11 @@ import java.util.Date;
 public class RegistroClienteViewModel {
     private String nombre;
     private String apellido;
-    private TipoDocumento Tipo_doc;
-    private long Nro_doc;
-    private Date F_nac;
-    private Date F_registro;
-    private TipoCliente Tipo_cliente;
+    private TipoDocumento Tipodoc;
+    private long Nrodoc;
+    private Date Fnac;
+    private Date Fregistro;
+    private TipoCliente Tipocliente;
     private String email;
     private String password;
 
@@ -31,6 +31,46 @@ public class RegistroClienteViewModel {
         this.apellido = apellido;
     }
 
+    public TipoDocumento getTipodoc() {
+        return Tipodoc;
+    }
+
+    public void setTipodoc(TipoDocumento tipodoc) {
+        Tipodoc = tipodoc;
+    }
+
+    public long getNrodoc() {
+        return Nrodoc;
+    }
+
+    public void setNrodoc(long nrodoc) {
+        Nrodoc = nrodoc;
+    }
+
+    public Date getFnac() {
+        return Fnac;
+    }
+
+    public void setFnac(Date fnac) {
+        Fnac = fnac;
+    }
+
+    public Date getFregistro() {
+        return Fregistro;
+    }
+
+    public void setFregistro(Date fregistro) {
+        Fregistro = fregistro;
+    }
+
+    public TipoCliente getTipocliente() {
+        return Tipocliente;
+    }
+
+    public void setTipocliente(TipoCliente tipocliente) {
+        Tipocliente = tipocliente;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -45,45 +85,5 @@ public class RegistroClienteViewModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public TipoDocumento getTipo_doc() {
-        return Tipo_doc;
-    }
-
-    public void setTipo_doc(TipoDocumento tipo_doc) {
-        Tipo_doc = tipo_doc;
-    }
-
-    public long getNro_doc() {
-        return Nro_doc;
-    }
-
-    public void setNro_doc(long nro_doc) {
-        Nro_doc = nro_doc;
-    }
-
-    public Date getF_nac() {
-        return F_nac;
-    }
-
-    public void setF_nac(Date f_nac) {
-        F_nac = f_nac;
-    }
-
-    public Date getF_registro() {
-        return F_registro;
-    }
-
-    public void setF_registro(Date f_registro) {
-        F_registro = f_registro;
-    }
-
-    public TipoCliente getTipo_cliente() {
-        return Tipo_cliente;
-    }
-
-    public void setTipo_cliente(TipoCliente getTipo_cliente) {
-        this.Tipo_cliente = getTipo_cliente;
     }
 }

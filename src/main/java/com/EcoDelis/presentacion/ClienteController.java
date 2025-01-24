@@ -34,10 +34,10 @@ public class ClienteController {
 
             clienteViewModel.setNombre(clienteLogueado.getNombre());
             clienteViewModel.setApellido(clienteLogueado.getApellido());
-            clienteViewModel.setTipo_cliente(clienteLogueado.getTipo_cliente());
-            clienteViewModel.setF_nac(clienteLogueado.getF_nac());
-            clienteViewModel.setTipo_doc(clienteLogueado.getTipo_doc());
-            clienteViewModel.setNro_doc(clienteLogueado.getNro_doc());
+            clienteViewModel.setTipocliente(clienteLogueado.getTipocliente());
+            clienteViewModel.setFnac(clienteLogueado.getFnac());
+            clienteViewModel.setTipodoc(clienteLogueado.getTipodoc());
+            clienteViewModel.setNrodoc(clienteLogueado.getNrodoc());
 
             mv = new ModelAndView("modificarCliente");
             mv.addObject("cliente", clienteViewModel);
@@ -55,10 +55,10 @@ public class ClienteController {
             Cliente clienteLogueado = clienteService.buscarPorEmail(clienteViewModel.getEmail());
             clienteLogueado.setNombre(clienteViewModel.getNombre());
             clienteLogueado.setApellido(clienteViewModel.getApellido());
-            clienteLogueado.setTipo_cliente(clienteViewModel.getTipo_cliente());
-            clienteLogueado.setF_nac(clienteViewModel.getF_nac());
-            clienteLogueado.setTipo_doc(clienteViewModel.getTipo_doc());
-            clienteLogueado.setNro_doc(clienteViewModel.getNro_doc());
+            clienteLogueado.setTipocliente(clienteViewModel.getTipocliente());
+            clienteLogueado.setFnac(clienteViewModel.getFnac());
+            clienteLogueado.setTipodoc(clienteViewModel.getTipodoc());
+            clienteLogueado.setNrodoc(clienteViewModel.getNrodoc());
             clienteLogueado.setEmail(clienteViewModel.getEmail());
 
             clienteService.modificar(clienteLogueado);
@@ -137,14 +137,14 @@ public class ClienteController {
     }
 
     @PostMapping("/registrarNuevoCliente")
-    public ModelAndView registrarNuevoCliente(HttpSession session, RegistroClienteViewModel registroClienteViewModel) {
+    public ModelAndView registrarNuevoCliente(HttpSession session, ClienteViewModel clienteViewModel) {
         ModelAndView mv;
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
         } else {
             mv = new ModelAndView("homeCliente");
-            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(registroClienteViewModel));
-            mv.addObject("cliente", registroClienteViewModel);
+            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(clienteViewModel));
+            mv.addObject("cliente", clienteViewModel);
         }
         return mv;
     }

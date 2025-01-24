@@ -10,11 +10,11 @@ public class ClienteViewModel {
     private long Id;
     private String nombre;
     private String apellido;
-    private TipoDocumento tipo_doc;
-    private long nro_doc;
-    private Date f_nac;
-    private Date f_registro;
-    private TipoCliente tipo_cliente;
+    private TipoDocumento tipodoc;
+    private long nrodoc;
+    private Date fnac;
+    private Date fregistro;
+    private TipoCliente tipocliente;
     private List<DireccionCliente> direcciones = new ArrayList<>();
     private List<TelefonoCliente> telefonoClientes = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
@@ -45,44 +45,44 @@ public class ClienteViewModel {
         this.apellido = apellido;
     }
 
-    public TipoDocumento getTipo_doc() {
-        return tipo_doc;
+    public TipoDocumento getTipodoc() {
+        return tipodoc;
     }
 
-    public void setTipo_doc(TipoDocumento tipo_doc) {
-        this.tipo_doc = tipo_doc;
+    public void setTipodoc(TipoDocumento tipodoc) {
+        this.tipodoc = tipodoc;
     }
 
-    public long getNro_doc() {
-        return nro_doc;
+    public long getNrodoc() {
+        return nrodoc;
     }
 
-    public void setNro_doc(long nro_doc) {
-        this.nro_doc = nro_doc;
+    public void setNrodoc(long nrodoc) {
+        this.nrodoc = nrodoc;
     }
 
-    public Date getF_nac() {
-        return f_nac;
+    public Date getFnac() {
+        return fnac;
     }
 
-    public void setF_nac(Date f_nac) {
-        this.f_nac = f_nac;
+    public void setFnac(Date fnac) {
+        this.fnac = fnac;
     }
 
-    public Date getF_registro() {
-        return f_registro;
+    public Date getFregistro() {
+        return fregistro;
     }
 
-    public void setF_registro(Date f_registro) {
-        this.f_registro = f_registro;
+    public void setFregistro(Date fregistro) {
+        this.fregistro = fregistro;
     }
 
-    public TipoCliente getTipo_cliente() {
-        return tipo_cliente;
+    public TipoCliente getTipocliente() {
+        return tipocliente;
     }
 
-    public void setTipo_cliente(TipoCliente tipo_cliente) {
-        this.tipo_cliente = tipo_cliente;
+    public void setTipocliente(TipoCliente tipocliente) {
+        this.tipocliente = tipocliente;
     }
 
     public List<DireccionCliente> getDirecciones() {

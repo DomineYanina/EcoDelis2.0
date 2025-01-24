@@ -18,21 +18,6 @@ public class RegistroController {
     @Autowired
     LocalService localService;
 
-    @GetMapping("/irARegistrarCliente")
-    public ModelAndView irARegistrarCliente(HttpSession httpSession) {
-        ModelAndView mv;
-        if(httpSession.getAttribute("clienteLogueado") == null) {
-            Cliente cliente = new Cliente();
-            mv = new ModelAndView("nuevoCliente");
-            mv.addObject("cliente", cliente);
-        } else{
-            Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
-            mv = new ModelAndView("homeCliente");
-            mv.addObject("cliente", cliente);
-        }
-        return mv;
-    }
-
     @GetMapping("/irARegistrarLocal")
     public ModelAndView irARegistrarLocal(HttpSession httpSession) {
         ModelAndView mv;
@@ -74,7 +59,7 @@ public class RegistroController {
 
     @GetMapping("/verificarDisponibilidadMailCliente")
     public ModelAndView verificarDisponibilidadMailCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession httpSession) {
-        if(!localService.existeEmail(clienteViewModel.getEmail())) {
+        if(!clienteService.existeEmail(clienteViewModel.getEmail())) {
             ModelAndView modelAndView = new ModelAndView("registroClienteSegundoPaso");
             Cliente cliente = new Cliente();
             cliente.setEmail(clienteViewModel.getEmail());
@@ -96,14 +81,14 @@ public class RegistroController {
     }
 
     @PostMapping("/registrarCliente")
-    public ModelAndView registrarCliente(@ModelAttribute("cliente") RegistroClienteViewModel registroClienteViewModel, BindingResult bindingResult, HttpSession session){
+    public ModelAndView registrarCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession session){
         ModelAndView mv = new ModelAndView("agregarDireccionCliente");
         DireccionClienteViewModel direccionClienteViewModel = new DireccionClienteViewModel();
 
-        registroClienteViewModel.setPassword((String) session.getAttribute("password"));
-        registroClienteViewModel.setEmail((String) session.getAttribute("email"));
+        clienteViewModel.setPassword((String) session.getAttribute("password"));
+        clienteViewModel.setEmail((String) session.getAttribute("email"));
 
-        Cliente cliente = clienteService.registrarCliente(registroClienteViewModel);
+        Cliente cliente = clienteService.registrarCliente(clienteViewModel);
 
         session.setAttribute("clienteLogueado", cliente);
         mv.addObject("cliente", cliente);

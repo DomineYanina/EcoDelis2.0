@@ -1,5 +1,6 @@
 package com.EcoDelis.dominio;
 
+import com.EcoDelis.presentacion.ClienteViewModel;
 import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ public interface ClienteService {
 
     boolean existeEmail(String email);
 
-    Cliente registrarCliente(RegistroClienteViewModel registroClienteViewModel);
+    Cliente registrarCliente(ClienteViewModel clienteViewModel);
 
     boolean validarCredenciales(String email, String clave);
 
