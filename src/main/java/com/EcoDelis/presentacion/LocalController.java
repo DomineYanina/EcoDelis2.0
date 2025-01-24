@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LocalController {
+
     @Autowired
     private LocalService localService;
 
@@ -129,7 +130,7 @@ public class LocalController {
     }
 
     @PutMapping("/modificarDatosLocal")
-    private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session) {
+    private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult) {
         ModelAndView mv = new ModelAndView("modificarDatosLocal");
         Local localExistente = localService.buscarPorEmail(registroLocalViewModel.getEmail());
         localExistente.setNombre(registroLocalViewModel.getNombre());
@@ -153,5 +154,39 @@ public class LocalController {
             mv.addObject("sucursales", sucursales);
         }
         return mv;
+    }
+
+    @GetMapping("/irACambiarPasswordLocal")
+    public ModelAndView irACambiarPasswordLocal(HttpSession httpSession){
+        ModelAndView mv;
+        if(httpSession.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("loginLocal");
+        } else {
+            mv = new ModelAndView("cambiarPasswordLocal");
+            Local local = (Local) httpSession.getAttribute("localLogueado");
+            LocalLoginViewModel localViewModel = new LocalLoginViewModel();
+            localViewModel.setEmail(local.getEmail());
+            localViewModel.setPassword(local.getPassword());
+            mv.addObject("local", localViewModel);
+        }
+        return mv;
+    }
+
+    @GetMapping("/validarPasswordActualLocal")
+    public ModelAndView validarPasswordActualLocal(BindingResult bindingResult, @ModelAttribute LocalLoginViewModel localViewModel){
+        ModelAndView mv = new ModelAndView("cambiarPasswordLocal");
+        if(!localService.validarCredenciales(localViewModel.getEmail(), localViewModel.getPassword())){
+            bindingResult.reject("error", "La clave es incorrecta");
+            mv.addObject("error", "La clave es incorrecta");
+        }
+        return mv;
+    }
+
+    @PutMapping("/cambiarPasswordLocal")
+    public ModelAndView cambiarPasswordLocal(HttpSession httpSession, @ModelAttribute LocalLoginViewModel localViewModel){
+        Local local = (Local) httpSession.getAttribute("localLogueado");
+        local.setPassword(localViewModel.getPassword());
+        localService.modificar(local);
+        return new ModelAndView("homeLocal");
     }
 }

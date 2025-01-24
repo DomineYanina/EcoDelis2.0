@@ -181,8 +181,8 @@ public class ClienteController {
         return new ModelAndView("homeCliente");
     }
 
-    @GetMapping("/irACambiarPassword")
-    public ModelAndView irACambiarPassword(HttpSession httpSession){
+    @GetMapping("/irACambiarPasswordCliente")
+    public ModelAndView irACambiarPasswordCliente(HttpSession httpSession){
         ModelAndView mv;
         if(httpSession.getAttribute("clienteLogueado") == null) {
             mv = new ModelAndView("loginCliente");
@@ -208,7 +208,7 @@ public class ClienteController {
     }
 
     @PutMapping("/resetearPasswordCliente")
-    public ModelAndView resetearPasswordCliente(@ModelAttribute ClienteLoginViewModel clienteViewModel){
+    public ModelAndView resetearPasswordCliente(HttpSession httpSession, @ModelAttribute ClienteLoginViewModel clienteViewModel){
         Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
         cliente.setPassword(clienteViewModel.getClave());
         clienteService.modificar(cliente);
