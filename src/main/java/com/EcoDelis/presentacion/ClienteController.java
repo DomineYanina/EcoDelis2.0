@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -47,7 +48,7 @@ public class ClienteController {
         return mv;
     }
 
-    @PostMapping("/modificarCliente")
+    @PutMapping("/modificarCliente")
     public ModelAndView modificarCliente(HttpSession session, ClienteViewModel clienteViewModel){
         if(session.getAttribute("clienteLogueado") == null) {
             return new ModelAndView("loginCliente");
@@ -137,7 +138,7 @@ public class ClienteController {
     }
 
     @PostMapping("/registrarNuevoCliente")
-    public ModelAndView registrarNuevoCliente(HttpSession session, ClienteViewModel clienteViewModel) {
+    public ModelAndView registrarNuevoCliente(HttpSession session, @ModelAttribute ClienteViewModel clienteViewModel) {
         ModelAndView mv;
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
@@ -149,4 +150,68 @@ public class ClienteController {
         return mv;
     }
 
+    @GetMapping("/irAModificarTipoSuscripcionCliente")
+    public ModelAndView irAModificarTipoSuscripcionCliente(HttpSession httpSession){
+        ModelAndView mv;
+        if(httpSession.getAttribute("clienteLogueado") == null) {
+            mv = new ModelAndView("loginCliente");
+        } else {
+            mv = new ModelAndView("modificarTipoSuscripcionCliente");
+            ClienteViewModel clienteViewModel = new ClienteViewModel();
+            Cliente clienteLogueado = (Cliente) httpSession.getAttribute("clienteLogueado");
+            clienteViewModel.setTipocliente(clienteLogueado.getTipocliente());
+            clienteViewModel.setApellido(clienteLogueado.getApellido());
+            clienteViewModel.setNombre(clienteLogueado.getNombre());
+            clienteViewModel.setEmail(clienteLogueado.getEmail());
+            clienteViewModel.setFnac(clienteLogueado.getFnac());
+            clienteViewModel.setNrodoc(clienteLogueado.getNrodoc());
+            clienteViewModel.setFregistro(clienteLogueado.getFregistro());
+            clienteViewModel.setTipodoc(clienteLogueado.getTipodoc());
+            clienteViewModel.setPassword(clienteLogueado.getPassword());
+            mv.addObject("cliente", clienteViewModel);
+        }
+        return mv;
+    }
+
+    @PutMapping("/modificarTipoSuscripcionCliente")
+    public ModelAndView modificarTipoSuscripcionCliente(@ModelAttribute ClienteViewModel clienteViewModel){
+        Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        clienteService.modificar(cliente);
+        return new ModelAndView("homeCliente");
+    }
+
+    @GetMapping("/irACambiarPassword")
+    public ModelAndView irACambiarPassword(HttpSession httpSession){
+        ModelAndView mv;
+        if(httpSession.getAttribute("clienteLogueado") == null) {
+            mv = new ModelAndView("loginCliente");
+        } else {
+            mv = new ModelAndView("cambiarPasswordCliente");
+            Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+            ClienteLoginViewModel clienteViewModel = new ClienteLoginViewModel();
+            clienteViewModel.setEmail(cliente.getEmail());
+            clienteViewModel.setClave(cliente.getPassword());
+            mv.addObject("cliente", clienteViewModel);
+        }
+        return mv;
+    }
+
+    @GetMapping("/validarPasswordActual")
+    public ModelAndView validarPasswordActual(HttpSession httpSession, BindingResult bindingResult, @ModelAttribute ClienteLoginViewModel clienteViewModel){
+        ModelAndView mv = new ModelAndView("cambiarPasswordCliente");
+        if(!clienteService.validarCredenciales(clienteViewModel.getEmail(), clienteViewModel.getClave())){
+            bindingResult.reject("error", "La clave es incorrecta");
+            mv.addObject("error", "La clave es incorrecta");
+        }
+        return mv;
+    }
+
+    @PutMapping("/resetearPasswordCliente")
+    public ModelAndView resetearPasswordCliente(@ModelAttribute ClienteLoginViewModel clienteViewModel){
+        Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+        cliente.setPassword(clienteViewModel.getClave());
+        clienteService.modificar(cliente);
+        return new ModelAndView("homeCliente");
+    }
 }

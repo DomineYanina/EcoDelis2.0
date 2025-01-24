@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
@@ -105,38 +106,6 @@ public class LocalController {
         return mv;
     }
 
-
-    @GetMapping("/irAEliminarSucursal")
-    private ModelAndView irAEliminarSucursal(@ModelAttribute("sucursal") SucursalViewModel sucursalViewModel, HttpSession session) {
-        ModelAndView mv;
-        if (session.getAttribute("localLogueado") == null) {
-            mv = new ModelAndView("loginLocal");
-        } else {
-            mv = new ModelAndView("eliminarSucursal");
-            mv.addObject("sucursal", sucursalViewModel);
-        }
-        return mv;
-    }
-
-    @PostMapping ("/eliminarSucursal")
-    private ModelAndView eliminarSucursal(@ModelAttribute("sucursal") SucursalViewModel sucursalViewModel, BindingResult bindingResult, HttpSession session) {
-        ModelAndView mv;
-        if (session.getAttribute("localLogueado") == null) {
-            mv = new ModelAndView("loginLocal");
-        } else {
-            Local local = (Local) session.getAttribute("localLogueado");
-            if(localService.existeSucursal(sucursalViewModel, local)){
-                mv = new ModelAndView("homeLocal");
-                localService.eliminarSucursal(sucursalViewModel);
-            } else {
-                bindingResult.rejectValue("nombre", "La sucursal ingresada no existe");
-                mv = new ModelAndView("eliminarSucursal");
-                mv.addObject("sucursal", sucursalViewModel);
-            }
-        }
-        return mv;
-    }
-
     @GetMapping("/irAModificarDatosLocal")
     private ModelAndView irAModificarDatosLocal(HttpSession session){
         if(session.getAttribute("localLogueado") == null) {
@@ -159,7 +128,7 @@ public class LocalController {
         }
     }
 
-    @PostMapping("/modificarDatosLocal")
+    @PutMapping("/modificarDatosLocal")
     private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session) {
         ModelAndView mv = new ModelAndView("modificarDatosLocal");
         Local localExistente = localService.buscarPorEmail(registroLocalViewModel.getEmail());

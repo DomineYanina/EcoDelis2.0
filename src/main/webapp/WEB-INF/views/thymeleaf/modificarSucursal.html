@@ -6,6 +6,7 @@
 </head>
 <body>
 <form th:action="@{/modificarSucursal}" th:object="${sucursal}">
+    <input type="hidden" name="_method" value="put" />
     <div>
         <label for="nombre">Nombre de la sucursal:</label>
         <input type="text" id="nombre" th:field="*{nombre}" required>

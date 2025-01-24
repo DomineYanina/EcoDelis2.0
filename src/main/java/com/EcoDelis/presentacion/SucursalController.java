@@ -3,9 +3,7 @@ package com.EcoDelis.presentacion;
 import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -25,7 +23,7 @@ public class SucursalController {
     @Autowired
     private HorarioRetiroService horarioRetiroService;
 
-    @PostMapping("/modificarTipoDePromocion")
+    @PutMapping("/modificarTipoDePromocion")
     public ModelAndView modificarTipoDePromocion(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session, TipoSuscripcionSucursal tipoDeSuscripcionSucursal) {
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null) {
@@ -61,7 +59,7 @@ public class SucursalController {
         return mv;
     }
 
-    @PostMapping("/modificarSucursal")
+    @PutMapping("/modificarSucursal")
     public ModelAndView modificarSucursal(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session) {
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null) {
@@ -168,7 +166,7 @@ public class SucursalController {
     public ModelAndView agregarHorarioSucursal(@ModelAttribute HorarioRetiroViewModel horarioRetiroViewModel, HttpSession session){
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null) {
-            mv = new ModelAndView("redirect:/loginLocal");
+            mv = new ModelAndView("loginLocal");
         } else {
             HorarioRetiro horarioRetiro = new HorarioRetiro();
             horarioRetiro.setSucursal(horarioRetiroViewModel.getSucursal());
@@ -180,6 +178,27 @@ public class SucursalController {
 
             mv = new ModelAndView("homeLocal");
         }
+        return mv;
+    }
+
+    @GetMapping("/irAEliminarSucursal")
+    public ModelAndView irAEliminarSucursal(HttpSession session){
+        if(session.getAttribute("localLogueado") == null) {
+            return new ModelAndView("loginLocal");
+        } else {
+            ModelAndView mv = new ModelAndView("eliminarSucursal");
+            Local local  = (Local) session.getAttribute("localLogueado");
+            List<Sucursal> sucursales = localService.obtenerSucursalesPorLocal(local);
+            mv.addObject("sucursales", sucursales);
+            return mv;
+        }
+    }
+
+    @DeleteMapping("/eliminarSucursal")
+    public ModelAndView eliminarSucursal(HttpSession session, @ModelAttribute SucursalViewModel sucursalViewModel){
+        ModelAndView mv = new ModelAndView("homeLocal");
+        Sucursal sucursal = localService.buscarSucursalPorNombre(sucursalViewModel.getNombre(), sucursalViewModel.getLocal());
+        sucursalService.eliminar(sucursal);
         return mv;
     }
 
