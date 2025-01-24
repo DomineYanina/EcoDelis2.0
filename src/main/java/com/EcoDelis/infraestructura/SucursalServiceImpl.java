@@ -46,7 +46,7 @@ public class SucursalServiceImpl implements SucursalService {
         return sucursal;
     }
 
-    public boolean nombreDeSucursalYaExiste(RegistroSucursalViewModel registroSucursalViewModel){
+    public boolean nombreDeSucursalYaExiste(RegistroSucursalViewModel registroSucursalViewModel, Local local){
         Sucursal sucursal = sucursalRepository.buscarPorNombre(registroSucursalViewModel.getNombre());
         return sucursal != null;
     }

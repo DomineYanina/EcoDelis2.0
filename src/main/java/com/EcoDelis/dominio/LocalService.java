@@ -5,6 +5,7 @@ import com.EcoDelis.presentacion.SucursalViewModel;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,13 +19,15 @@ public interface LocalService {
 
     boolean existeEmail(String email);
 
-    boolean existeSucursal(SucursalViewModel sucursalViewModel);
+    boolean existeSucursal(SucursalViewModel sucursalViewModel, Local local);
 
     void eliminarSucursal(SucursalViewModel sucursalViewModel);
 
-    Sucursal buscarSucuralPorNombre(String nombre);
+    Sucursal buscarSucursalPorNombre(String nombre, Local local);
 
     void modificar(Local localExistente);
 
     void registrarLocalPrimerPaso(Local local);
+
+    List<Sucursal> obtenerSucursalesPorLocal(Local local);
 }

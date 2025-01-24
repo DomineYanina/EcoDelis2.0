@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -74,7 +75,8 @@ public class LocalController {
                 mv.addObject("tipoLocal", TipoLocal.values());
             } else {
                 // Validar si el nombre de la sucursal ya existe
-                if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel)) {
+                Local local = (Local) session.getAttribute("localLogueado");
+                if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel, local)) {
                     mv = new ModelAndView("agregarSucursal");
                     bindingResult.rejectValue("nombre", "nombre", "La sucursal ya existe");
                     mv.addObject("error", "La sucursal ingresada ya existe");
@@ -91,7 +93,6 @@ public class LocalController {
                     System.out.println("No existe el nombre de la sucursal");
                     direccionSucursalService.agregar(registroSucursalViewModel.getDireccion());
                     DireccionSucursal direccion = registroSucursalViewModel.getDireccion();
-                    Local local = (Local) session.getAttribute("localLogueado");
                     Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, local);
                     direccion.setSucursal(sucursal);
                     direccionSucursalService.modificar(direccion);
@@ -123,7 +124,8 @@ public class LocalController {
         if (session.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("loginLocal");
         } else {
-            if(localService.existeSucursal(sucursalViewModel)){
+            Local local = (Local) session.getAttribute("localLogueado");
+            if(localService.existeSucursal(sucursalViewModel, local)){
                 mv = new ModelAndView("homeLocal");
                 localService.eliminarSucursal(sucursalViewModel);
             } else {
@@ -168,5 +170,19 @@ public class LocalController {
         localService.modificar(localExistente);
 
         return new ModelAndView("homeLocal");
+    }
+
+    @GetMapping("obtenerSucursalesPorLocal")
+    public ModelAndView obtenerSucursalesPorLocal(HttpSession session){
+        ModelAndView mv;
+        if(session.getAttribute("localLogueado") == null) {
+            mv = new ModelAndView("loginLocal");
+        } else {
+            Local local = (Local) session.getAttribute("localLogueado");
+            List<Sucursal> sucursales = localService.obtenerSucursalesPorLocal(local);
+            mv = new ModelAndView("verMisSucursales");
+            mv.addObject("sucursales", sucursales);
+        }
+        return mv;
     }
 }

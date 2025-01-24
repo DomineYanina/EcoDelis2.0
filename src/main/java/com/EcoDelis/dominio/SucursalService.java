@@ -12,7 +12,7 @@ public interface SucursalService {
     Sucursal registrar(RegistroSucursalViewModel registroSucursalViewModel,
                        DireccionSucursal direccionSucursal, Local local);
 
-    boolean nombreDeSucursalYaExiste(RegistroSucursalViewModel registroSucursalViewModel);
+    boolean nombreDeSucursalYaExiste(RegistroSucursalViewModel registroSucursalViewModel, Local local);
 
     void modificar(Sucursal sucursal);
 

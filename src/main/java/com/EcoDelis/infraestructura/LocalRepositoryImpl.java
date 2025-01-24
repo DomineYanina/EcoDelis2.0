@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class LocalRepositoryImpl implements LocalRepository {
@@ -54,12 +55,13 @@ public class LocalRepositoryImpl implements LocalRepository {
     }
 
     @Override
-    public Sucursal buscarSucursalPorNombre(String nombre) {
+    public Sucursal buscarSucursalPorNombre(String nombre, Local local) {
         Session session = sessionFactory.getCurrentSession();
-        String query = "FROM Sucursal WHERE nombre = :nombre";
+        String query = "FROM Sucursal WHERE nombre = :nombre AND local = :local";
         try{
             return session.createQuery(query, Sucursal.class)
                     .setParameter("nombre", nombre)
+                    .setParameter("local", local)
                     .uniqueResult();
         } catch (NoResultException e) {
             return null;
@@ -74,6 +76,19 @@ public class LocalRepositoryImpl implements LocalRepository {
     @Override
     public void modificar(Local localExistente) {
         sessionFactory.getCurrentSession().update(localExistente);
+    }
+
+    @Override
+    public List<Sucursal> obtenerSucursalesPorLocal(Local local) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Sucursal WHERE local = :local";
+        try{
+            return session.createQuery(query, Sucursal.class)
+                    .setParameter("local", local)
+                    .getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
 

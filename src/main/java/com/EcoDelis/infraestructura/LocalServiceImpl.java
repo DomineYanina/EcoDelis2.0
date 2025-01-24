@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Service("LocalService")
 @Transactional
@@ -50,19 +51,19 @@ public class LocalServiceImpl implements LocalService {
     }
 
     @Transactional
-    public boolean existeSucursal(SucursalViewModel sucursalViewModel){
-        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
+    public boolean existeSucursal(SucursalViewModel sucursalViewModel, Local local){
+        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre(),local);
         return sucursal != null;
     }
 
     @Transactional
     public void eliminarSucursal(SucursalViewModel sucursalViewModel){
-        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre());
+        Sucursal sucursal = localRepository.buscarSucursalPorNombre(sucursalViewModel.getNombre(), sucursalViewModel.getLocal());
         localRepository.eliminarSucursal(sucursal);
     }
 
     @Override
-    public Sucursal buscarSucuralPorNombre(String nombre) {
+    public Sucursal buscarSucursalPorNombre(String nombre, Local local) {
         return null;
     }
 
@@ -74,6 +75,11 @@ public class LocalServiceImpl implements LocalService {
     @Override
     public void registrarLocalPrimerPaso(Local local) {
         localRepository.guardar(local);
+    }
+
+    @Override
+    public List<Sucursal> obtenerSucursalesPorLocal(Local local) {
+        return localRepository.obtenerSucursalesPorLocal(local);
     }
 
 }

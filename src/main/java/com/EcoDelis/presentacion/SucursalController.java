@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class SucursalController {
@@ -30,7 +31,8 @@ public class SucursalController {
         if(session.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("redirect:/loginLocal");
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(sucursalViewModel.getNombre());
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(sucursalViewModel.getNombre(), local);
             sucursal.setTipoSuscripcion(tipoDeSuscripcionSucursal);
 
             sucursalService.modificar(sucursal);
@@ -46,7 +48,8 @@ public class SucursalController {
         if(session.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("redirect:/loginLocal");
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(nombre);
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(nombre, local);
 
             SucursalViewModel sucursalViewModel = new SucursalViewModel();
             sucursalViewModel.setNombre(sucursal.getNombre());
@@ -65,7 +68,8 @@ public class SucursalController {
             mv = new ModelAndView("redirect:/loginLocal");
             return mv;
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(sucursalViewModel.getNombre());
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(sucursalViewModel.getNombre(), sucursalViewModel.getLocal());
             sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
             sucursal.setNombre(sucursal.getNombre());
 
@@ -82,7 +86,8 @@ public class SucursalController {
             mv = new ModelAndView("redirect:/loginLocal");
             return mv;
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(nombreSucursal);
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(nombreSucursal, local);
             DireccionSucursalViewModel direccionSucursalViewModel = new DireccionSucursalViewModel();
             mv = new ModelAndView("agregarDireccionSucursal");
             mv.addObject("direccionSucursal", direccionSucursalViewModel);
@@ -117,7 +122,8 @@ public class SucursalController {
             mv = new ModelAndView("redirect:/loginLocal");
             return mv;
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(nombreSucursal);
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(nombreSucursal, local);
             TelefonoSucursalViewModel telefonoSucursalViewModel = new TelefonoSucursalViewModel();
             mv = new ModelAndView("agregarTelefonoSucursal");
             mv.addObject("telefonoSucursal", telefonoSucursalViewModel);
@@ -149,7 +155,8 @@ public class SucursalController {
         if(session.getAttribute("localLogueado") == null ){
             mv = new ModelAndView("redirect:/loginLocal");
         } else {
-            Sucursal sucursal = localService.buscarSucuralPorNombre(nombreSucursal);
+            Local local = (Local) session.getAttribute("localLogueado");
+            Sucursal sucursal = localService.buscarSucursalPorNombre(nombreSucursal, local);
             HorarioRetiroViewModel horarioRetiroViewModel = new HorarioRetiroViewModel();
             mv = new ModelAndView("agregarHorarioSucursal");
             mv.addObject("horarioRetiro", horarioRetiroViewModel);
@@ -175,6 +182,5 @@ public class SucursalController {
         }
         return mv;
     }
-
 
 }
