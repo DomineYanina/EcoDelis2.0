@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Service("UsuarioService")
 @Transactional
@@ -101,6 +102,11 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void eliminarDireccion(DireccionCliente direccionCliente) {
         direccionClienteRepository.eliminar(direccionCliente);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorCliente(Cliente cliente) {
+        return clienteRepository.obtenerPedidosPorCliente(cliente);
     }
 
 }

@@ -4,6 +4,8 @@ import com.EcoDelis.presentacion.ClienteViewModel;
 import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public interface ClienteService {
 
@@ -29,4 +31,5 @@ public interface ClienteService {
 
     void eliminarDireccion(DireccionCliente direccionCliente);
 
+    List<Pedido> obtenerPedidosPorCliente(Cliente cliente);
 }

@@ -8,4 +8,6 @@ import javax.transaction.Transactional;
 @Transactional
 public interface HorarioRetiroService {
     void agregar(HorarioRetiro horarioRetiro);
+
+    void actualizar(HorarioRetiro horarioRetiro);
 }
