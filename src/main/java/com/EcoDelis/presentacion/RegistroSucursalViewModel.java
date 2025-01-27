@@ -12,6 +12,7 @@ public class RegistroSucursalViewModel {
     private String nombre;
     private Date f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
+    private TipoLocal tipoLocal;
     private Local local;
     private DireccionSucursal direccion;
     private List<TelefonoSucursal> telefonos = new ArrayList<>();
@@ -19,7 +20,6 @@ public class RegistroSucursalViewModel {
     private List<Promocion> promociones = new ArrayList<>();
     private List<Item> items = new ArrayList<>();
     private List<Pedido> pedidos = new ArrayList<>();
-    private Responsable responsable;
 
     public long getId() {
         return id;
@@ -109,11 +109,11 @@ public class RegistroSucursalViewModel {
         this.pedidos = pedidos;
     }
 
-    public Responsable getResponsable() {
-        return responsable;
+    public TipoLocal getTipoLocal() {
+        return tipoLocal;
     }
 
-    public void setResponsable(Responsable responsable) {
-        this.responsable = responsable;
+    public void setTipoLocal(TipoLocal tipoLocal) {
+        this.tipoLocal = tipoLocal;
     }
 }

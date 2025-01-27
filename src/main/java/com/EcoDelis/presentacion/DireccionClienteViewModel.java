@@ -1,33 +1,17 @@
-package com.EcoDelis.dominio;
+package com.EcoDelis.presentacion;
 
+import com.EcoDelis.dominio.Cliente;
+import com.EcoDelis.dominio.Localidad;
+import com.EcoDelis.dominio.Provincia;
 
-import javax.persistence.*;
+public class DireccionClienteViewModel {
 
-@Entity
-public class DireccionResponsable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String calle;
     private long numero;
     private Localidad localidad;
     private Provincia provincia;
-
-    @ManyToOne
-    @JoinColumn(name = "responsable_id")
-    private Responsable responsable;
-
-    public DireccionResponsable(String calle, long numero, Localidad localidad, Provincia provincia, Responsable responsable) {
-        this.calle = calle;
-        this.numero = numero;
-        this.localidad = localidad;
-        this.provincia = provincia;
-        this.responsable = responsable;
-    }
-
-    public DireccionResponsable() {
-
-    }
+    private Cliente cliente;
 
     public long getId() {
         return id;
@@ -69,11 +53,11 @@ public class DireccionResponsable {
         this.provincia = provincia;
     }
 
-    public Responsable getResponsable() {
-        return responsable;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setResponsable(Responsable responsable) {
-        this.responsable = responsable;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

@@ -2,13 +2,12 @@ package com.EcoDelis.dominio;
 
 import org.springframework.data.annotation.Id;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Calificacion {
+    @javax.persistence.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,6 +25,10 @@ public class Calificacion {
         this.puntaje = puntaje;
         this.comentarios = comentarios;
         this.pedido = pedido;
+    }
+
+    public Calificacion() {
+
     }
 
     public long getId() {
@@ -67,4 +70,5 @@ public class Calificacion {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
+
 }

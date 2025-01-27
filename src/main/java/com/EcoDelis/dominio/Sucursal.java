@@ -1,6 +1,7 @@
 package com.EcoDelis.dominio;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,8 +13,9 @@ public class Sucursal {
     private long id;
 
     private String nombre;
-    private Date f_registro;
+    private LocalDate f_registro;
     private TipoSuscripcionSucursal tipoSuscripcion;
+    private TipoLocal tipoLocal;
 
     @ManyToOne
     @JoinColumn(name = "local_id")
@@ -38,17 +40,13 @@ public class Sucursal {
     @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name = "responsable_sucursal")
-    private Responsable responsable;
-
-    public Sucursal(String nombre, Date f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, Responsable responsable) {
+    public Sucursal(String nombre, LocalDate f_registro, TipoSuscripcionSucursal tipoSuscripcion, Local local, DireccionSucursal direccion, TipoLocal tipoLocal) {
         this.nombre = nombre;
         this.f_registro = f_registro;
         this.tipoSuscripcion = tipoSuscripcion;
         this.local = local;
         this.direccion = direccion;
-        this.responsable = responsable;
+        this.tipoLocal = tipoLocal;
     }
 
     public Sucursal() {
@@ -71,11 +69,11 @@ public class Sucursal {
         this.nombre = nombre;
     }
 
-    public Date getF_registro() {
+    public LocalDate getF_registro() {
         return f_registro;
     }
 
-    public void setF_registro(Date f_registro) {
+    public void setF_registro(LocalDate f_registro) {
         this.f_registro = f_registro;
     }
 
@@ -135,14 +133,6 @@ public class Sucursal {
         this.items = items;
     }
 
-    public Responsable getResponsable() {
-        return responsable;
-    }
-
-    public void setResponsable(Responsable responsable) {
-        this.responsable = responsable;
-    }
-
     public void agregarPedido(Pedido pedido){
         this.pedidos.add(pedido);
     }
@@ -153,5 +143,21 @@ public class Sucursal {
 
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
+    }
+
+    public Local getLocal() {
+        return local;
+    }
+
+    public void setLocal(Local local) {
+        this.local = local;
+    }
+
+    public TipoLocal getTipoLocal() {
+        return tipoLocal;
+    }
+
+    public void setTipoLocal(TipoLocal tipoLocal) {
+        this.tipoLocal = tipoLocal;
     }
 }

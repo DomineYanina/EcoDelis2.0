@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:object="${telefonoCliente}" th:action="@{/agregarTelefonoCliente}" method="post">
+
+        <div>
+            <select th:field="*{tipo}" id="tipoTelefono" required>
+                <option value="" disabled selected>Seleccione la provincia</option>
+                <option th:each="prov : ${tipoTelefono}" th:value="${prov}" th:text="${prov}"></option>
+            </select>
+        </div>
+        <div>
+            <input th:field="*{numero}" placeholder="Número" id="numeroCliente" required />
+        </div>
+        <div>
+            <button type="submit">Registrar teléfono</button>
+        </div>
+    </form>
+</body>
+</html>

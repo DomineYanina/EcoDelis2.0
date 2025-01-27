@@ -12,11 +12,11 @@ public class LocalLoginViewModel {
         this.email = email;
     }
 
-    public String getClave() {
+    public String getPassword() {
         return password;
     }
 
-    public void setClave(String clave) {
-        this.password = clave;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

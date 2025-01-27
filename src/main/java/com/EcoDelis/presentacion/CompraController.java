@@ -1,0 +1,50 @@
+package com.EcoDelis.presentacion;
+
+import com.EcoDelis.dominio.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
+import static com.EcoDelis.dominio.EstadoPedido.Creado;
+
+@Controller
+public class CompraController {
+
+    @Autowired
+    private SucursalService sucursalService;
+
+    @Autowired
+    private PedidoService pedidoService;
+
+    @Autowired
+    private PromocionService promocionService;
+
+    @GetMapping("/realizarPedido")
+    public ModelAndView realizarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession httpSession) {
+        ModelAndView mv = new ModelAndView("mostrarConfirmacionDeCompra");
+        LocalDate fechaActual = LocalDate.now();
+        Pedido pedido = new Pedido();
+        pedido.setCliente((Cliente) httpSession.getAttribute("clienteLogueado"));
+        pedido.setEstado(Creado);
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setFecha_realizado(fechaActual);
+        pedidoService.agregarPedido(pedido);
+        List<Promocion> promociones = pedidoViewModel.getPromociones();
+        for (Promocion promocion : promociones) {
+            int unidadesRestantes = promocion.getUnidadesRestantes() -1;
+            promocion.setUnidadesRestantes(unidadesRestantes);
+            promocionService.modificarPromocion(promocion);
+        }
+        mv.addObject("pedido", pedidoViewModel);
+        return mv;
+    }
+}

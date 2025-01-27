@@ -12,11 +12,11 @@ public class Cliente {
     private long Id;
     private String nombre;
     private String apellido;
-    private TipoDocumento tipo_doc;
-    private long nro_doc;
-    private Date f_nac;
-    private Date f_registro;
-    private TipoCliente tipo_cliente;
+    private TipoDocumento tipodoc;
+    private long nrodoc;
+    private Date fnac;
+    private Date fregistro;
+    private TipoCliente tipocliente;
     private String email;
     private String password;
 
@@ -35,11 +35,11 @@ public class Cliente {
     public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Date f_registro, TipoCliente tipo_cliente, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.tipo_doc = tipo_doc;
-        this.nro_doc = nro_doc;
-        this.f_nac = f_nac;
-        this.f_registro = f_registro;
-        this.tipo_cliente = tipo_cliente;
+        this.tipodoc = tipo_doc;
+        this.nrodoc = nro_doc;
+        this.fnac = f_nac;
+        this.fregistro = f_registro;
+        this.tipocliente = tipo_cliente;
         this.email=email;
         this.password=password;
     }
@@ -68,76 +68,44 @@ public class Cliente {
         this.apellido = apellido;
     }
 
-    public TipoDocumento getTipo_doc() {
-        return tipo_doc;
+    public TipoDocumento getTipodoc() {
+        return tipodoc;
     }
 
-    public void setTipo_doc(TipoDocumento tipo_doc) {
-        this.tipo_doc = tipo_doc;
+    public void setTipodoc(TipoDocumento tipodoc) {
+        this.tipodoc = tipodoc;
     }
 
-    public long getNro_doc() {
-        return nro_doc;
+    public long getNrodoc() {
+        return nrodoc;
     }
 
-    public void setNro_doc(long nro_doc) {
-        this.nro_doc = nro_doc;
+    public void setNrodoc(long nrodoc) {
+        this.nrodoc = nrodoc;
     }
 
-    public Date getF_nac() {
-        return f_nac;
+    public Date getFnac() {
+        return fnac;
     }
 
-    public void setF_nac(Date f_nac) {
-        this.f_nac = f_nac;
+    public void setFnac(Date fnac) {
+        this.fnac = fnac;
     }
 
-    public Date getF_registro() {
-        return f_registro;
+    public Date getFregistro() {
+        return fregistro;
     }
 
-    public void setF_registro(Date f_registro) {
-        this.f_registro = f_registro;
+    public void setFregistro(Date fregistro) {
+        this.fregistro = fregistro;
     }
 
-    public TipoCliente getTipo_cliente() {
-        return tipo_cliente;
+    public TipoCliente getTipocliente() {
+        return tipocliente;
     }
 
-    public void setTipo_cliente(TipoCliente tipo_cliente) {
-        this.tipo_cliente = tipo_cliente;
-    }
-
-    public void agregarDireccion(DireccionCliente direccionCliente){
-        direcciones.add(direccionCliente);
-    }
-
-    public void agregarTelefono(TelefonoCliente telefonoCliente){
-        telefonoClientes.add(telefonoCliente);
-    }
-
-    public void eliminarDireccion(DireccionCliente direccionCliente){
-        direcciones.remove(direccionCliente);
-    }
-
-    public void eliminarTelefono(TelefonoCliente telefonoCliente){
-        telefonoClientes.remove(telefonoCliente);
-    }
-
-    public List<DireccionCliente> getDirecciones() {
-        return direcciones;
-    }
-
-    public void setDirecciones(List<DireccionCliente> direcciones) {
-        this.direcciones = direcciones;
-    }
-
-    public List<TelefonoCliente> getTelefonos() {
-        return telefonoClientes;
-    }
-
-    public void setTelefonos(List<TelefonoCliente> telefonoClientes) {
-        this.telefonoClientes = telefonoClientes;
+    public void setTipocliente(TipoCliente tipocliente) {
+        this.tipocliente = tipocliente;
     }
 
     public String getEmail() {
@@ -154,5 +122,29 @@ public class Cliente {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<DireccionCliente> getDirecciones() {
+        return direcciones;
+    }
+
+    public void setDirecciones(List<DireccionCliente> direcciones) {
+        this.direcciones = direcciones;
+    }
+
+    public List<TelefonoCliente> getTelefonoClientes() {
+        return telefonoClientes;
+    }
+
+    public void setTelefonoClientes(List<TelefonoCliente> telefonoClientes) {
+        this.telefonoClientes = telefonoClientes;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 }

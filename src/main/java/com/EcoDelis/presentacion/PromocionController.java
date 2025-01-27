@@ -6,7 +6,9 @@ import com.EcoDelis.dominio.SucursalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -49,6 +51,22 @@ public class PromocionController {
             promocionService.agregarPromocion(promocion);
             return new ModelAndView("redirect:/homeSucursal");
         }
+    }
+
+    @PutMapping("/modificarPromocion")
+    public ModelAndView modificarPromocion(@ModelAttribute PromocionViewModel promocionViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("homeLocal");
+        Promocion promocion = new Promocion();
+        promocion.setSucursal(promocionViewModel.getSucursal());
+        promocion.setUnidadesRestantes(promocionViewModel.getUnidadesRestantes());
+        promocion.setPrecio_final(promocionViewModel.getPrecio_final());
+        promocion.setItems(promocionViewModel.getItems());
+        promocion.setDescuento(promocionViewModel.getDescuento());
+        promocion.setPrecio_original(promocionViewModel.getPrecio_original());
+        promocion.setNombre(promocionViewModel.getNombre());
+        promocionService.modificarPromocion(promocion);
+
+        return mv;
     }
 
 }

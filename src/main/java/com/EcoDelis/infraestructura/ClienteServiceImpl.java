@@ -1,14 +1,16 @@
 package com.EcoDelis.infraestructura;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.ClienteRepository;
-import com.EcoDelis.dominio.ClienteService;
-import com.EcoDelis.presentacion.RegistroViewModel;
+import com.EcoDelis.dominio.*;
+import com.EcoDelis.presentacion.ClienteViewModel;
+import com.EcoDelis.presentacion.RegistroClienteViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Service("UsuarioService")
 @Transactional
@@ -18,25 +20,39 @@ public class ClienteServiceImpl implements ClienteService {
     private ClienteRepository clienteRepository;
 
     @Autowired
+    private TelefonoClienteRepository telefonoClienteRepository;
+
+    @Autowired
+    private DireccionClienteRepository direccionClienteRepository;
+
+    @Autowired
     private HttpServletRequest request;
 
+    @Override
     @Transactional
     public boolean existeEmail(String email) {
         Cliente cliente = clienteRepository.buscarPorEmail(email);
         return cliente != null;
     }
 
-    public Cliente registrarCliente(RegistroViewModel registroViewModel) {
+    @Override
+    @Transactional
+    public Cliente registrarCliente(ClienteViewModel clienteViewModel) {
+        Local local = new Local();
+        LocalDate fechaLocal = LocalDate.now();
+        Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         Cliente cliente = new Cliente();
-        cliente.setEmail(registroViewModel.getEmail());
-        cliente.setPassword(registroViewModel.getPassword());
-        cliente.setApellido(registroViewModel.getApellido());
-        cliente.setTipo_cliente(registroViewModel.getTipo_cliente());
-        cliente.setF_nac(registroViewModel.getF_nac());
-        cliente.setF_registro(registroViewModel.getF_registro());
-        cliente.setNombre(registroViewModel.getNombre());
-        cliente.setNro_doc(registroViewModel.getNro_doc());
-        cliente.setTipo_doc(registroViewModel.getTipo_doc());
+        cliente.setFregistro(fechaActual);
+        cliente.setEmail(clienteViewModel.getEmail());
+        cliente.setPassword(clienteViewModel.getPassword());
+        cliente.setApellido(clienteViewModel.getApellido());
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        cliente.setFnac(clienteViewModel.getFnac());
+        cliente.setFregistro(clienteViewModel.getFregistro());
+        cliente.setNombre(clienteViewModel.getNombre());
+        cliente.setNrodoc(clienteViewModel.getNrodoc());
+        cliente.setTipodoc(clienteViewModel.getTipodoc());
 
         clienteRepository.guardar(cliente);
         return cliente;
@@ -57,5 +73,34 @@ public class ClienteServiceImpl implements ClienteService {
         clienteRepository.modificar(clienteLogueado);
     }
 
+    @Override
+    public void registrarTelefono(TelefonoCliente telefonoCliente) {
+        telefonoClienteRepository.agregar(telefonoCliente);
+    }
+
+    @Override
+    public void modificarTelefono(TelefonoCliente telefonoCliente){
+        telefonoClienteRepository.modificar(telefonoCliente);
+    }
+
+    @Override
+    public void eliminarTelefono(TelefonoCliente telefonoCliente) {
+        telefonoClienteRepository.eliminar(telefonoCliente);
+    }
+
+    @Override
+    public void registrarDireccion(DireccionCliente direccionCliente) {
+        direccionClienteRepository.agregar(direccionCliente);
+    }
+
+    @Override
+    public void modificarDireccion(DireccionCliente direccionCliente){
+        direccionClienteRepository.modificar(direccionCliente);
+    }
+
+    @Override
+    public void eliminarDireccion(DireccionCliente direccionCliente) {
+        direccionClienteRepository.eliminar(direccionCliente);
+    }
 
 }

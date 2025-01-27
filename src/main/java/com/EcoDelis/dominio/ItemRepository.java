@@ -1,7 +1,10 @@
 package com.EcoDelis.dominio;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Repository
 public interface ItemRepository {
 
     Item buscarItemPorId(int id);
@@ -9,4 +12,8 @@ public interface ItemRepository {
     void actualizarItem(Item item);
 
     List<Item> obtenerListaDeItemsPorsucursal(long id);
+
+    void agregarItem(Item item);
+
+    void eliminarItem(Item item);
 }

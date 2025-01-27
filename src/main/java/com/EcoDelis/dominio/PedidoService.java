@@ -10,4 +10,12 @@ import java.util.List;
 public interface PedidoService {
 
     List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado);
+
+    List<Pedido> obtenerPedidosPorSucursal(Sucursal sucursal);
+
+    void agregarPedido(Pedido pedido);
+
+    void actualizar(Pedido pedido);
+
+    void cancelar(Pedido pedido);
 }

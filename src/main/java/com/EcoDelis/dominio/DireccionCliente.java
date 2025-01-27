@@ -76,4 +76,5 @@ public class DireccionCliente {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
 }

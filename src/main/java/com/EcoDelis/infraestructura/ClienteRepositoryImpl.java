@@ -6,6 +6,7 @@ import com.EcoDelis.dominio.Pedido;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
@@ -15,7 +16,13 @@ import java.util.List;
 @Repository("ClienteRepository")
 public class ClienteRepositoryImpl implements ClienteRepository {
 
+    @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    public ClienteRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
     @Override
     public Cliente buscarCliente(String email, String password){

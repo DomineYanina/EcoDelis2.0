@@ -1,0 +1,28 @@
+package com.EcoDelis.dominio;
+
+public enum TipoLocal {
+    Pizzería,
+    Hamburguesería,
+    Sandwichería,
+    Food_truck,
+    Pollería,
+    Parrilla,
+    Sushi_bar,
+    Comida_vegetariana,
+    Comida_vegana,
+    Taquería,
+    Ramen_bar,
+    Marisquería,
+    Panadería,
+    Pastelería,
+    Repostería,
+    Chocolatería,
+    Heladería,
+    Cafetería,
+    Comida_italiana,
+    Comida_mexicana,
+    Comida_japonesa,
+    Comida_china,
+    Comida_india,
+    Comida_peruana,
+}
