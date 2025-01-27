@@ -1,9 +1,6 @@
 package com.EcoDelis.infraestructura;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.Local;
-import com.EcoDelis.dominio.LocalRepository;
-import com.EcoDelis.dominio.Sucursal;
+import com.EcoDelis.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -85,6 +82,19 @@ public class LocalRepositoryImpl implements LocalRepository {
         try{
             return session.createQuery(query, Sucursal.class)
                     .setParameter("local", local)
+                    .getResultList();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    @Override
+    public List<Local> filtrarLocalesPorTipoLocal(TipoLocal tipoLocal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "SELECT DISTINCT l FROM Local l JOIN l.sucursales s WHERE s.tipoLocal = :tipoLocal";
+        try{
+            return session.createQuery(query, Local.class)
+                    .setParameter("tipoLocal", tipoLocal)
                     .getResultList();
         } catch (NoResultException e){
             return null;

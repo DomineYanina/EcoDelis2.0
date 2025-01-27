@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -65,6 +66,31 @@ public class SucursalServiceImpl implements SucursalService {
     @Transactional
     public void eliminar(Sucursal sucursal) {
         sucursalRepository.eliminar(sucursal);
+    }
+
+    @Override
+    public List<Promocion> obtenerPromocionesPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerPromocionesPorSucursal(sucursal);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerPedidos(sucursal);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosNoConfirmadosPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerPedidosNoConfirmados(sucursal);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosConfirmadosPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerPedidosConfirmados(sucursal);
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosEntregadosPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerPedidosEntregados(sucursal);
     }
 
 }

@@ -2,14 +2,15 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 public class PedidoViewModel {
     private long id;
-    private Date fecha_realizado;
-    private Date fecha_retirado;
+    private LocalDate fecha_realizado;
+    private LocalDate fecha_retirado;
     private double monto_total;
     private EstadoPedido estado;
     private Sucursal sucursal;
@@ -24,19 +25,19 @@ public class PedidoViewModel {
         this.id = id;
     }
 
-    public Date getFecha_realizado() {
+    public LocalDate getFecha_realizado() {
         return fecha_realizado;
     }
 
-    public void setFecha_realizado(Date fecha_realizado) {
+    public void setFecha_realizado(LocalDate fecha_realizado) {
         this.fecha_realizado = fecha_realizado;
     }
 
-    public Date getFecha_retirado() {
+    public LocalDate getFecha_retirado() {
         return fecha_retirado;
     }
 
-    public void setFecha_retirado(Date fecha_retirado) {
+    public void setFecha_retirado(LocalDate fecha_retirado) {
         this.fecha_retirado = fecha_retirado;
     }
 

@@ -82,4 +82,9 @@ public class LocalServiceImpl implements LocalService {
         return localRepository.obtenerSucursalesPorLocal(local);
     }
 
+    @Override
+    public List<Local> filtrarLocalesPorTipoLocal(TipoLocal tipoLocal) {
+        return localRepository.filtrarLocalesPorTipoLocal(tipoLocal);
+    }
+
 }

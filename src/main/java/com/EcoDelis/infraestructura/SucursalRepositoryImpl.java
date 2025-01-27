@@ -60,4 +60,56 @@ public class SucursalRepositoryImpl implements SucursalRepository {
             return null;
         }
     }
+
+    @Override
+    public List<Promocion> obtenerPromocionesPorSucursal(Sucursal sucursal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Promocion WHERE sucursal = :sucursal";
+        try{
+            return session.createQuery(query, Promocion.class)
+                    .setParameter("sucursal", sucursal)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosNoConfirmados(Sucursal sucursal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Pedido WHERE sucursal = :sucursal AND estado = 'Creado'";
+        try{
+            return session.createQuery(query, Pedido.class)
+                    .setParameter("sucursal", sucursal)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosConfirmados(Sucursal sucursal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Pedido WHERE sucursal = :sucursal AND estado = 'Confirmado'";
+        try{
+            return session.createQuery(query, Pedido.class)
+                    .setParameter("sucursal", sucursal)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Pedido> obtenerPedidosEntregados(Sucursal sucursal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Pedido WHERE sucursal = :sucursal AND estado = 'Entregado'";
+        try{
+            return session.createQuery(query, Pedido.class)
+                    .setParameter("sucursal", sucursal)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

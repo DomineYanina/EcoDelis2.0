@@ -19,4 +19,6 @@ public interface LocalRepository {
     void modificar(Local localExistente);
 
     List<Sucursal> obtenerSucursalesPorLocal(Local local);
+
+    List<Local> filtrarLocalesPorTipoLocal(TipoLocal tipoLocal);
 }

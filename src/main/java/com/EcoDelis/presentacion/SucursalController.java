@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 import java.util.List;
+
+import static com.EcoDelis.dominio.EstadoPedido.*;
 
 @Controller
 public class SucursalController {
@@ -22,6 +25,8 @@ public class SucursalController {
     private TelefonoSucursalService telefonoSucursalService;
     @Autowired
     private HorarioRetiroService horarioRetiroService;
+    @Autowired
+    private PedidoService pedidoService;
 
     @PutMapping("/modificarTipoDePromocion")
     public ModelAndView modificarTipoDePromocion(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session, TipoSuscripcionSucursal tipoDeSuscripcionSucursal) {
@@ -202,4 +207,130 @@ public class SucursalController {
         return mv;
     }
 
+    @GetMapping("/obtenerSucursalesPorLocal")
+    public ModelAndView obtenerSucursalesPorLocal(HttpSession session){
+        if(session.getAttribute("localLogueado") == null) {
+            return new ModelAndView("loginLocal");
+        } else {
+            ModelAndView mv = new ModelAndView("obtenerSucursalesPorLocal");
+            Local local = (Local) session.getAttribute("localLogueado");
+            List<Sucursal> sucursales = localService.obtenerSucursalesPorLocal(local);
+            mv.addObject("sucursales", sucursales);
+            return mv;
+        }
+    }
+
+    @GetMapping("/obtenerPedidosPorSucursal")
+    public ModelAndView irAPedidosAunNoRetirados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("verPedidos");
+        Sucursal sucursal = new Sucursal();
+        sucursal.setNombre(sucursalViewModel.getNombre());
+        sucursal.setLocal(sucursalViewModel.getLocal());
+        sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
+        sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
+        sucursal.setDireccion(sucursalViewModel.getDireccion());
+        sucursal.setF_registro(sucursalViewModel.getF_registro());
+        sucursal.setTelefonos(sucursalViewModel.getTelefonos());
+        List<Pedido> pedidos = sucursalService.obtenerPedidosPorSucursal(sucursal);
+        mv.addObject("pedidos", pedidos);
+        return mv;
+    }
+
+    @GetMapping("/obtenerPedidosNoConfirmados")
+    public ModelAndView obtenerPedidosNoConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("verPedidos");
+        Sucursal sucursal = new Sucursal();
+        sucursal.setNombre(sucursalViewModel.getNombre());
+        sucursal.setLocal(sucursalViewModel.getLocal());
+        sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
+        sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
+        sucursal.setDireccion(sucursalViewModel.getDireccion());
+        sucursal.setF_registro(sucursalViewModel.getF_registro());
+        sucursal.setTelefonos(sucursalViewModel.getTelefonos());
+        List<Pedido> pedidos = sucursalService.obtenerPedidosNoConfirmadosPorSucursal(sucursal);
+        mv.addObject("pedidos", pedidos);
+        return mv;
+    }
+
+    @GetMapping("/obtenerPedidosConfirmados")
+    public ModelAndView obtenerPedidosConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("verPedidos");
+        Sucursal sucursal = new Sucursal();
+        sucursal.setNombre(sucursalViewModel.getNombre());
+        sucursal.setLocal(sucursalViewModel.getLocal());
+        sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
+        sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
+        sucursal.setDireccion(sucursalViewModel.getDireccion());
+        sucursal.setF_registro(sucursalViewModel.getF_registro());
+        sucursal.setTelefonos(sucursalViewModel.getTelefonos());
+        List<Pedido> pedidos = sucursalService.obtenerPedidosConfirmadosPorSucursal(sucursal);
+        mv.addObject("pedidos", pedidos);
+        return mv;
+    }
+
+    @GetMapping("/obtenerPedidosEntregados")
+    public ModelAndView obtenerPedidosEntregados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("verPedidos");
+        Sucursal sucursal = new Sucursal();
+        sucursal.setNombre(sucursalViewModel.getNombre());
+        sucursal.setLocal(sucursalViewModel.getLocal());
+        sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
+        sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
+        sucursal.setDireccion(sucursalViewModel.getDireccion());
+        sucursal.setF_registro(sucursalViewModel.getF_registro());
+        sucursal.setTelefonos(sucursalViewModel.getTelefonos());
+        List<Pedido> pedidos = sucursalService.obtenerPedidosEntregadosPorSucursal(sucursal);
+        mv.addObject("pedidos", pedidos);
+        return mv;
+    }
+
+    @PutMapping("/cancelarPedido")
+    public ModelAndView cancelarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession session){
+        ModelAndView mv = new ModelAndView("homeLocal");
+        Pedido pedido = new Pedido();
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setEstado(pedidoViewModel.getEstado());
+        pedido.setCliente(pedidoViewModel.getCliente());
+        pedido.setFecha_realizado(pedidoViewModel.getFecha_realizado());
+        pedido.setFecha_retirado(pedidoViewModel.getFecha_retirado());
+        pedido.setMonto_total(pedidoViewModel.getMonto_total());
+        pedido.setEstado(Cancelado);
+        pedidoService.actualizar(pedido);
+        return mv;
+    }
+
+    @PutMapping("/confirmarRetiroDePedido")
+    public ModelAndView confirmarRetiroDePedido(@ModelAttribute PedidoViewModel pedidoViewModel){
+        ModelAndView mv = new ModelAndView("homeLocal");
+        Pedido pedido = new Pedido();
+
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setEstado(pedidoViewModel.getEstado());
+        pedido.setCliente(pedidoViewModel.getCliente());
+        pedido.setFecha_realizado(pedidoViewModel.getFecha_realizado());
+        pedido.setFecha_retirado(pedidoViewModel.getFecha_retirado());
+        pedido.setMonto_total(pedidoViewModel.getMonto_total());
+        pedido.setEstado(Entregado);
+        pedidoService.actualizar(pedido);
+        return mv;
+    }
+
+    @PutMapping("/confirmarPedido")
+    public ModelAndView confirmarPedido(@ModelAttribute PedidoViewModel pedidoViewModel){
+        ModelAndView mv = new ModelAndView("homeLocal");
+        Pedido pedido = new Pedido();
+
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setEstado(pedidoViewModel.getEstado());
+        pedido.setCliente(pedidoViewModel.getCliente());
+        pedido.setFecha_realizado(pedidoViewModel.getFecha_realizado());
+        pedido.setFecha_retirado(pedidoViewModel.getFecha_retirado());
+        pedido.setMonto_total(pedidoViewModel.getMonto_total());
+        pedido.setEstado(Confirmado);
+        pedidoService.actualizar(pedido);
+        return mv;
+    }
 }

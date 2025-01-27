@@ -2,7 +2,6 @@ package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -103,7 +102,6 @@ public class LocalController {
                 }
             }
         }
-
         return mv;
     }
 
@@ -189,4 +187,5 @@ public class LocalController {
         localService.modificar(local);
         return new ModelAndView("homeLocal");
     }
+
 }

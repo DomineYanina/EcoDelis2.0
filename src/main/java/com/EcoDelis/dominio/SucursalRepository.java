@@ -16,4 +16,12 @@ public interface SucursalRepository {
     void eliminar(Sucursal sucursal);
 
     List<Pedido> obtenerPedidos(Sucursal sucursal);
+
+    List<Promocion> obtenerPromocionesPorSucursal(Sucursal sucursal);
+
+    List<Pedido> obtenerPedidosNoConfirmados(Sucursal sucursal);
+
+    List<Pedido> obtenerPedidosConfirmados(Sucursal sucursal);
+
+    List<Pedido> obtenerPedidosEntregados(Sucursal sucursal);
 }

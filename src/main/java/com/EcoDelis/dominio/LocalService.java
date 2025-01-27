@@ -30,4 +30,6 @@ public interface LocalService {
     void registrarLocalPrimerPaso(Local local);
 
     List<Sucursal> obtenerSucursalesPorLocal(Local local);
+
+    List<Local> filtrarLocalesPorTipoLocal(TipoLocal tipoLocal);
 }
