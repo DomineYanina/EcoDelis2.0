@@ -1,27 +1,30 @@
 package com.EcoDelis.dominio;
 
-public enum Provincia {
-    Buenos_Aires,
-    Catamarca,
-    Chaco,
-    Chubut,
-    Córdoba,
-    Corrientes,
-    Entre_Ríos,
-    Formosa,
-    Jujuy,
-    La_Pampa,
-    La_Rioja,
-    Mendoza,
-    Misiones,
-    Neuquén,
-    Río_Negro,
-    Salta,
-    San_Juan,
-    San_Luis,
-    Santa_Cruz,
-    Santa_Fe,
-    Santiago_del_Estero,
-    Tierra_del_Fuego,
-    Tucumán
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Provincia {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long Id;
+    private String nombre;
+
+    public long getId() {
+        return Id;
+    }
+
+    public void setId(long id) {
+        Id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

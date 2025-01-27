@@ -9,7 +9,13 @@ public class DireccionSucursal {
     private long id;
     private String calle;
     private long numero;
+
+    @ManyToOne
+    @JoinColumn(name = "localidad_id", nullable = false)
     private Localidad localidad;
+
+    @ManyToOne
+    @JoinColumn(name = "provincia_id", nullable = false)
     private Provincia provincia;
 
     @ManyToOne

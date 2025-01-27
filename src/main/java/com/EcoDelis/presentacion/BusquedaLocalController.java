@@ -31,14 +31,19 @@ public class BusquedaLocalController {
         return mv;
     }
 
-    @GetMapping("/fitrarLocales")
-    public ModelAndView fitrarLocales(HttpSession httpSession, @RequestParam TipoLocal tipoLocal){
+    @GetMapping("/fitrarLocalesPorTipo")
+    public ModelAndView fitrarLocalesPorTipo(HttpSession httpSession, @RequestParam TipoLocal tipoLocal){
         List<Local> localesFiltrados = localService.filtrarLocalesPorTipoLocal(tipoLocal);
         ModelAndView mv = new ModelAndView("filtrarLocales");
         mv.addObject("tiposLocales", TipoLocal.values());
         mv.addObject("locales", localesFiltrados);
         return mv;
     }
+
+    /*@GetMapping("/filtrarLocalesPorLocalidad")
+    public ModelAndView filtrarLocalesPorLocalidad(HttpSession httpSession, @RequestParam Localidad localidad){
+
+    }*/
 
     @GetMapping("/mostrarSucursalesPorLocal")
     public ModelAndView mostrarSucursalesPorLocal(HttpSession httpSession, @RequestParam Local local){

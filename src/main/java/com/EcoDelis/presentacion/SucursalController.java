@@ -17,14 +17,19 @@ public class SucursalController {
 
     @Autowired
     private SucursalService sucursalService;
+
     @Autowired
     private LocalService localService;
+
     @Autowired
     private DireccionSucursalService direccionSucursalService;
+
     @Autowired
     private TelefonoSucursalService telefonoSucursalService;
+
     @Autowired
     private HorarioRetiroService horarioRetiroService;
+
     @Autowired
     private PedidoService pedidoService;
 
@@ -186,6 +191,21 @@ public class SucursalController {
         return mv;
     }
 
+    @PutMapping("/modificarHorarioSucursal")
+    public ModelAndView modificarHorarioSucursal(@ModelAttribute HorarioRetiroViewModel horarioRetiroViewModel){
+        ModelAndView mv = new ModelAndView("homeLocal");
+
+        HorarioRetiro horarioRetiro = new HorarioRetiro();
+        horarioRetiro.setSucursal(horarioRetiroViewModel.getSucursal());
+        horarioRetiro.setDia(horarioRetiroViewModel.getDia());
+        horarioRetiro.setHora_inicio(horarioRetiroViewModel.getHora_inicio());
+        horarioRetiro.setHora_fin(horarioRetiroViewModel.getHora_fin());
+
+        horarioRetiroService.actualizar(horarioRetiro);
+
+        return mv;
+    }
+
     @GetMapping("/irAEliminarSucursal")
     public ModelAndView irAEliminarSucursal(HttpSession session){
         if(session.getAttribute("localLogueado") == null) {
@@ -284,8 +304,8 @@ public class SucursalController {
         return mv;
     }
 
-    @PutMapping("/cancelarPedido")
-    public ModelAndView cancelarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession session){
+    @PutMapping("/cancelarPedidoS")
+    public ModelAndView cancelarPedidoS(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession session){
         ModelAndView mv = new ModelAndView("homeLocal");
         Pedido pedido = new Pedido();
         pedido.setSucursal(pedidoViewModel.getSucursal());

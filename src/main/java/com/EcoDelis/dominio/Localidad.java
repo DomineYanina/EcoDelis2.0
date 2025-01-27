@@ -1,6 +1,28 @@
 package com.EcoDelis.dominio;
 
-public enum Localidad {
-    Prueba1,
-    Prueba2;
+import javax.persistence.*;
+
+@Entity
+public class Localidad {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String nombre;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 }

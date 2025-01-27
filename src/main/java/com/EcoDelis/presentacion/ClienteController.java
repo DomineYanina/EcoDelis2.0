@@ -1,9 +1,6 @@
 package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.ClienteService;
-import com.EcoDelis.dominio.TelefonoCliente;
-import com.EcoDelis.dominio.TipoDocumento;
+import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,6 +11,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+
+import static com.EcoDelis.dominio.EstadoPedido.Calificado;
+import static com.EcoDelis.dominio.EstadoPedido.Cancelado;
 
 @Controller
 public class ClienteController {
@@ -22,6 +23,8 @@ public class ClienteController {
     private ClienteService clienteService;
     @Autowired
     private HttpSession httpSession;
+    @Autowired
+    private PedidoService pedidoService;
 
     @GetMapping("/irAModificarCliente")
     public ModelAndView irAModificarCliente(HttpSession session) {
@@ -212,6 +215,51 @@ public class ClienteController {
         Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
         cliente.setPassword(clienteViewModel.getClave());
         clienteService.modificar(cliente);
+        return new ModelAndView("homeCliente");
+    }
+
+    @GetMapping("/verMisPedidos")
+    public ModelAndView verMisPedidos(HttpSession session){
+        ModelAndView mv;
+        if(httpSession.getAttribute("clienteLogueado") == null) {
+            mv = new ModelAndView("loginCliente");
+        } else {
+            mv = new ModelAndView("verMisPedidos");
+            Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+            List<Pedido> pedidos = clienteService.obtenerPedidosPorCliente(cliente);
+            mv.addObject("pedidos", pedidos);
+            mv.addObject("cliente", cliente);
+        }
+        return mv;
+    }
+
+    @PutMapping("/calificarPedido")
+    public ModelAndView calificarPedido(HttpSession httpSession, @ModelAttribute PedidoViewModel pedidoViewModel){
+        Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setEstado(Calificado);
+        pedido.setFecha_retirado(pedidoViewModel.getFecha_retirado());
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setFecha_realizado(pedidoViewModel.getFecha_realizado());
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setMonto_total(pedidoViewModel.getMonto_total());
+        pedidoService.actualizar(pedido);
+        return new ModelAndView("homeCliente");
+    }
+
+    @PutMapping("/cancelarPedidoC")
+    public ModelAndView cancelarPedidoC(HttpSession httpSession, @ModelAttribute PedidoViewModel pedidoViewModel){
+        Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setEstado(Cancelado);
+        pedido.setFecha_retirado(pedidoViewModel.getFecha_retirado());
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setFecha_realizado(pedidoViewModel.getFecha_realizado());
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setMonto_total(pedidoViewModel.getMonto_total());
+        pedidoService.actualizar(pedido);
         return new ModelAndView("homeCliente");
     }
 }

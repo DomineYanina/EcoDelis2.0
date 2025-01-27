@@ -19,4 +19,9 @@ public class HorarioRetiroServiceImpl implements HorarioRetiroService {
     public void agregar(HorarioRetiro horarioRetiro) {
         horarioRetiroRepository.agregar(horarioRetiro);
     }
+
+    @Override
+    public void actualizar(HorarioRetiro horarioRetiro) {
+        horarioRetiroRepository.modificar(horarioRetiro);
+    }
 }

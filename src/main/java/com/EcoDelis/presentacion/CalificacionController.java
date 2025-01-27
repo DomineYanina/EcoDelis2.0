@@ -23,6 +23,9 @@ public class CalificacionController {
     @Autowired
     private LocalService localService;
 
+    @Autowired
+    private PedidoService pedidoService;
+
     @GetMapping("/obtenerCalificacionesObtenidas")
     public ModelAndView obtenerCalificacionesObtenidas(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
         ModelAndView mv;
@@ -58,6 +61,9 @@ public class CalificacionController {
         calificacion.setFecha(calificacionViewModel.getFecha());
         calificacion.setPuntaje(calificacionViewModel.getPuntaje());
         calificacionService.nueva(calificacion);
+        Pedido pedido = calificacion.getPedido();
+        pedido.setEstado(EstadoPedido.Calificado);
+        pedidoService.actualizar(pedido);
         return mv = new ModelAndView("homeLocal");
     }
 

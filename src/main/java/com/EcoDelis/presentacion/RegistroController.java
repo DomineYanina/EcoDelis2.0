@@ -18,6 +18,12 @@ public class RegistroController {
     @Autowired
     LocalService localService;
 
+    private final GeorefService georefService;
+
+    public RegistroController(GeorefService georefService) {
+        this.georefService = georefService;
+    }
+
     @GetMapping("/irARegistrarLocal")
     public ModelAndView irARegistrarLocal(HttpSession httpSession) {
         ModelAndView mv;
@@ -93,8 +99,10 @@ public class RegistroController {
         session.setAttribute("clienteLogueado", cliente);
         mv.addObject("cliente", cliente);
         mv.addObject("direccionCliente", direccionClienteViewModel);
-        mv.addObject("localidades", Localidad.values());
-        mv.addObject("provincias", Provincia.values());
+        mv.addObject("provincias", georefService.obtenerProvincias());
+
+        /*mv.addObject("localidades", Localidad.values());
+        mv.addObject("provincias", Provincia.values());*/
         return mv;
     }
 
@@ -135,8 +143,9 @@ public class RegistroController {
         mv.addObject("sucursal", sucursalViewModel);
         mv.addObject("direccionSucursal", direccionSucursalViewModel);
         mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
-        mv.addObject("localidades", Localidad.values());
-        mv.addObject("provincias", Provincia.values());
+        mv.addObject("provincias", georefService.obtenerProvincias());
+        /*mv.addObject("localidades", Localidad.values());
+        mv.addObject("provincias", Provincia.values());*/
         mv.addObject("tiposDocumento", TipoDocumento.values());
         return mv;
     }
