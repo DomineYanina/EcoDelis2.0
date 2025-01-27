@@ -140,20 +140,6 @@ public class LocalController {
         return new ModelAndView("homeLocal");
     }
 
-    @GetMapping("obtenerSucursalesPorLocal")
-    public ModelAndView obtenerSucursalesPorLocal(HttpSession session){
-        ModelAndView mv;
-        if(session.getAttribute("localLogueado") == null) {
-            mv = new ModelAndView("loginLocal");
-        } else {
-            Local local = (Local) session.getAttribute("localLogueado");
-            List<Sucursal> sucursales = localService.obtenerSucursalesPorLocal(local);
-            mv = new ModelAndView("verMisSucursales");
-            mv.addObject("sucursales", sucursales);
-        }
-        return mv;
-    }
-
     @GetMapping("/irACambiarPasswordLocal")
     public ModelAndView irACambiarPasswordLocal(HttpSession httpSession){
         ModelAndView mv;
