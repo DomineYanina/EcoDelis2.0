@@ -1,9 +1,6 @@
 package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.Pedido;
-import com.EcoDelis.dominio.PedidoService;
-import com.EcoDelis.dominio.SucursalService;
+import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static com.EcoDelis.dominio.EstadoPedido.Creado;
 
@@ -26,6 +24,9 @@ public class CompraController {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private PromocionService promocionService;
+
     @GetMapping("/realizarPedido")
     public ModelAndView realizarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession httpSession) {
         ModelAndView mv = new ModelAndView("mostrarConfirmacionDeCompra");
@@ -37,6 +38,12 @@ public class CompraController {
         pedido.setSucursal(pedidoViewModel.getSucursal());
         pedido.setFecha_realizado(fechaActual);
         pedidoService.agregarPedido(pedido);
+        List<Promocion> promociones = pedidoViewModel.getPromociones();
+        for (Promocion promocion : promociones) {
+            int unidadesRestantes = promocion.getUnidadesRestantes() -1;
+            promocion.setUnidadesRestantes(unidadesRestantes);
+            promocionService.modificarPromocion(promocion);
+        }
         mv.addObject("pedido", pedidoViewModel);
         return mv;
     }

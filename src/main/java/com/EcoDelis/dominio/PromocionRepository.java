@@ -10,4 +10,5 @@ public interface PromocionRepository {
     void modificar(Promocion promocion);
 
     void eliminar(Promocion promocion);
+
 }

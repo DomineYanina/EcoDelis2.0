@@ -52,9 +52,9 @@ public class PromocionController {
             return new ModelAndView("redirect:/homeSucursal");
         }
     }
-    
-    @PutMapping("/modificarStockDePromocion")
-    public ModelAndView modificarStockDePromocion(@ModelAttribute PromocionViewModel promocionViewModel, HttpSession session){
+
+    @PutMapping("/modificarPromocion")
+    public ModelAndView modificarPromocion(@ModelAttribute PromocionViewModel promocionViewModel, HttpSession session){
         ModelAndView mv = new ModelAndView("homeLocal");
         Promocion promocion = new Promocion();
         promocion.setSucursal(promocionViewModel.getSucursal());
@@ -65,6 +65,7 @@ public class PromocionController {
         promocion.setPrecio_original(promocionViewModel.getPrecio_original());
         promocion.setNombre(promocionViewModel.getNombre());
         promocionService.modificarPromocion(promocion);
+
         return mv;
     }
 

@@ -33,4 +33,5 @@ public class PromocionServiceImpl implements PromocionService {
     public void eliminarPromocion(Promocion promocion) {
         promocionRepository.eliminar(promocion);
     }
+
 }
