@@ -23,14 +23,15 @@ public class RegistroController {
     @GetMapping("/irARegistrarLocal")
     public ModelAndView irARegistrarLocal(HttpSession httpSession) {
         ModelAndView mv;
-        if(httpSession.getAttribute("localLogueado") == null) {
-            Local local = new Local();
+        if(httpSession.getAttribute("localLogueado") == null && httpSession.getAttribute("clienteLogueado") == null) {
             mv = new ModelAndView("registroLocalSegundoPaso");
-            mv.addObject("local", local);
+            mv.addObject("local", new Local());
         } else{
-            Local local = (Local) httpSession.getAttribute("localLogueado");
-            mv = new ModelAndView("homeLocal");
-            mv.addObject("local", local);
+            if(httpSession.getAttribute("clienteLogueado") != null) {
+                mv = new ModelAndView("homeCliente");
+            } else {
+                mv = new ModelAndView("homeLocal");
+            }
         }
         return mv;
     }
@@ -49,13 +50,17 @@ public class RegistroController {
 
     @GetMapping("/irARegistroCliente")
     public ModelAndView irARegistroCliente(HttpSession httpSession) {
-        if(httpSession.getAttribute("localLogueado") == null) {
+        if(httpSession.getAttribute("localLogueado") == null && httpSession.getAttribute("clienteLogueado") == null) {
             ClienteViewModel clienteViewModel = new ClienteViewModel();
             ModelAndView modelAndView = new ModelAndView("registroClientePrimerPaso");
             modelAndView.addObject("cliente", clienteViewModel);
             return modelAndView;
         } else {
-            return new ModelAndView("homeCliente");
+            if(httpSession.getAttribute("localLogueado") != null) {
+                return new ModelAndView("homeLocal");
+            } else {
+                return new ModelAndView("homeCliente");
+            }
         }
     }
 

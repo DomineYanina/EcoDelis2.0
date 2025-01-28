@@ -32,22 +32,26 @@ public class CalificacionController {
         if(session.getAttribute("localLogueado") == null ){
             mv = new ModelAndView("loginLocal");
         } else {
-            Sucursal sucursal = new Sucursal();
-            sucursal.setId(sucursalViewModel.getId());
-            sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
-            sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
-            sucursal.setNombre(sucursalViewModel.getNombre());
-            double promedio = 0.0;
-            int calificaciones = 0;
-            List<Calificacion> calificacionesObtenidas = calificacionService.obtenerCalificacionesPorSucursal(sucursal);
-            if(!calificacionesObtenidas.isEmpty()){
-                for(Calificacion calificacion : calificacionesObtenidas){
-                    calificaciones=calificaciones+calificacion.getPuntaje();
+            if(session.getAttribute("clienteLogueado") != null){
+                mv = new ModelAndView("homeCliente");
+            } else {
+                Sucursal sucursal = new Sucursal();
+                sucursal.setId(sucursalViewModel.getId());
+                sucursal.setTipoLocal(sucursalViewModel.getTipoLocal());
+                sucursal.setTipoSuscripcion(sucursalViewModel.getTipoSuscripcion());
+                sucursal.setNombre(sucursalViewModel.getNombre());
+                double promedio = 0.0;
+                int calificaciones = 0;
+                List<Calificacion> calificacionesObtenidas = calificacionService.obtenerCalificacionesPorSucursal(sucursal);
+                if(!calificacionesObtenidas.isEmpty()){
+                    for(Calificacion calificacion : calificacionesObtenidas){
+                        calificaciones=calificaciones+calificacion.getPuntaje();
+                    }
+                    promedio = (double) calificaciones /calificacionesObtenidas.size();
                 }
-                promedio = (double) calificaciones /calificacionesObtenidas.size();
+                mv = new ModelAndView("calificacionesObtenidas");
+                mv.addObject("calificaciones", calificacionesObtenidas);
             }
-            mv = new ModelAndView("calificacionesObtenidas");
-            mv.addObject("calificaciones", calificacionesObtenidas);
         }
         return mv;
     }
