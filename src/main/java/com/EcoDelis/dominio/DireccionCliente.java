@@ -10,22 +10,18 @@ public class DireccionCliente {
     private long id;
     private String calle;
     private long numero;
-
-    @ManyToOne
-    @JoinColumn(name = "localidad_id", nullable = false)
-    private Localidad localidad;
-
-    @ManyToOne
-    @JoinColumn(name = "provincia_id", nullable = false)
-    private Provincia provincia;
+    private long codigopostal;
+    private String localidad;
+    private String provincia;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    public DireccionCliente(String calle, long numero, Localidad localidad, Provincia provincia, Cliente cliente) {
+    public DireccionCliente(String calle, long numero, long codigopostal, String localidad, String provincia, Cliente cliente) {
         this.calle = calle;
         this.numero = numero;
+        this.codigopostal = codigopostal;
         this.localidad = localidad;
         this.provincia = provincia;
         this.cliente = cliente;
@@ -59,19 +55,19 @@ public class DireccionCliente {
         this.numero = numero;
     }
 
-    public Localidad getLocalidad() {
+    public String getLocalidad() {
         return localidad;
     }
 
-    public void setLocalidad(Localidad localidad) {
+    public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
@@ -83,4 +79,11 @@ public class DireccionCliente {
         this.cliente = cliente;
     }
 
+    public long getCodigopostal() {
+        return codigopostal;
+    }
+
+    public void setCodigopostal(long codigopostal) {
+        this.codigopostal = codigopostal;
+    }
 }

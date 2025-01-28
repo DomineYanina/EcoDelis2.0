@@ -61,12 +61,13 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public boolean validarCredenciales(String email, String clave) {
-        return false;
+        Cliente cliente = clienteRepository.buscarCliente(email,clave);
+        return cliente != null;
     }
 
     @Override
     public Cliente buscarPorEmail(String email) {
-        return null;
+        return clienteRepository.buscarPorEmail(email);
     }
 
     @Override

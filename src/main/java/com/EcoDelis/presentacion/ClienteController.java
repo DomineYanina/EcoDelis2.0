@@ -73,17 +73,39 @@ public class ClienteController {
 
     @GetMapping("/irAAgregarUnaDireccionCliente")
     public ModelAndView irAAgregarUnaDireccionCliente(HttpSession session) {
+        ModelAndView mv;
         if(session.getAttribute("clienteLogueado") == null) {
-            return new ModelAndView("loginCliente");
+            mv = new ModelAndView("loginCliente");
+            mv.addObject("cliente", new ClienteLoginViewModel());
         } else {
             Cliente clienteLogueado = (Cliente) session.getAttribute("clienteLogueado");
-            ModelAndView mv = new ModelAndView("agregarDireccionCliente");
+            mv = new ModelAndView("agregarDireccionCliente");
             mv.addObject("cliente", clienteLogueado);
             mv.addObject("direccionCliente", new DireccionClienteViewModel());
+            mv.addObject("codigosPostales", new CodigoPostalViewModel());
 
-            return mv;
         }
+        return mv;
     }
+
+    @PostMapping("/agregarDireccionCliente")
+    public ModelAndView agregarDireccionCliente(@ModelAttribute DireccionClienteViewModel direccionClienteViewModel, HttpSession session) {
+        Cliente cliente = (Cliente) session.getAttribute("clienteLogueado");
+
+        DireccionCliente direccionCliente = new DireccionCliente();
+        direccionCliente.setCliente(cliente);
+        direccionCliente.setCalle(direccionClienteViewModel.getCalle());
+        direccionCliente.setNumero(direccionClienteViewModel.getNumero());
+        direccionCliente.setLocalidad(direccionClienteViewModel.getLocalidad());
+        direccionCliente.setProvincia(direccionClienteViewModel.getProvincia());
+        direccionCliente.setCodigopostal(direccionClienteViewModel.getCodigopostal());
+
+        clienteService.registrarDireccion(direccionCliente);
+
+        ModelAndView mv = new ModelAndView("homeCliente");
+        return mv;
+    }
+
 
     @GetMapping("/irAAgregarUnTelefonoCliente")
     public ModelAndView irAAgregarUnTelefonoCliente(HttpSession session) {
@@ -194,7 +216,7 @@ public class ClienteController {
             Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
             ClienteLoginViewModel clienteViewModel = new ClienteLoginViewModel();
             clienteViewModel.setEmail(cliente.getEmail());
-            clienteViewModel.setClave(cliente.getPassword());
+            clienteViewModel.setPassword(cliente.getPassword());
             mv.addObject("cliente", clienteViewModel);
         }
         return mv;
@@ -203,7 +225,7 @@ public class ClienteController {
     @GetMapping("/validarPasswordActual")
     public ModelAndView validarPasswordActual(HttpSession httpSession, BindingResult bindingResult, @ModelAttribute ClienteLoginViewModel clienteViewModel){
         ModelAndView mv = new ModelAndView("cambiarPasswordCliente");
-        if(!clienteService.validarCredenciales(clienteViewModel.getEmail(), clienteViewModel.getClave())){
+        if(!clienteService.validarCredenciales(clienteViewModel.getEmail(), clienteViewModel.getPassword())){
             bindingResult.reject("error", "La clave es incorrecta");
             mv.addObject("error", "La clave es incorrecta");
         }
@@ -213,7 +235,7 @@ public class ClienteController {
     @PutMapping("/resetearPasswordCliente")
     public ModelAndView resetearPasswordCliente(HttpSession httpSession, @ModelAttribute ClienteLoginViewModel clienteViewModel){
         Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
-        cliente.setPassword(clienteViewModel.getClave());
+        cliente.setPassword(clienteViewModel.getPassword());
         clienteService.modificar(cliente);
         return new ModelAndView("homeCliente");
     }

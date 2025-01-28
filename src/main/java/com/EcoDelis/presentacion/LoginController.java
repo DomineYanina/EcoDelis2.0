@@ -52,9 +52,11 @@ public class LoginController {
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
         } else {
-            if(clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getClave())){
+            if(clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getPassword())){
                 mv = new ModelAndView("homeCliente");
-                session.setAttribute("clienteLogueado", clienteLoginViewModel);
+                Cliente cliente = clienteService.buscarPorEmail(clienteLoginViewModel.getEmail());
+                session.setAttribute("clienteLogueado", cliente);
+                System.out.println(((Cliente)session.getAttribute("clienteLogueado")).getNombre());
             } else {
                 mv = new ModelAndView("loginCliente");
                 if(clienteService.existeEmail(clienteLoginViewModel.getEmail())){

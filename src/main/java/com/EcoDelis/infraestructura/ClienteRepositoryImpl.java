@@ -76,4 +76,5 @@ public class ClienteRepositoryImpl implements ClienteRepository {
                 .setParameter("clienteLogueado", clienteLogueado)
                 .getResultList();
     }
+
 }

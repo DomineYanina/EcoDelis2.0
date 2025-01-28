@@ -1,16 +1,15 @@
 package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.Localidad;
-import com.EcoDelis.dominio.Provincia;
 
 public class DireccionClienteViewModel {
 
     private long id;
     private String calle;
     private long numero;
-    private Localidad localidad;
-    private Provincia provincia;
+    private long codigopostal;
+    private String localidad;
+    private String provincia;
     private Cliente cliente;
 
     public long getId() {
@@ -37,19 +36,19 @@ public class DireccionClienteViewModel {
         this.numero = numero;
     }
 
-    public Localidad getLocalidad() {
+    public String getLocalidad() {
         return localidad;
     }
 
-    public void setLocalidad(Localidad localidad) {
+    public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
 
-    public Provincia getProvincia() {
+    public String getProvincia() {
         return provincia;
     }
 
-    public void setProvincia(Provincia provincia) {
+    public void setProvincia(String provincia) {
         this.provincia = provincia;
     }
 
@@ -59,5 +58,13 @@ public class DireccionClienteViewModel {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public long getCodigopostal() {
+        return codigopostal;
+    }
+
+    public void setCodigopostal(long codigopostal) {
+        this.codigopostal = codigopostal;
     }
 }

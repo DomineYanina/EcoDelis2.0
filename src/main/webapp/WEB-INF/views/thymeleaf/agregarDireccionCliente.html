@@ -5,20 +5,94 @@
     <title>Title</title>
 </head>
 <body>
-    <form th:object="${direccionCliente}" th:action="@{/agregarDireccionCliente}" method="post">
+<form th:object="${direccionCliente}" th:action="@{/agregarDireccionCliente}" method="post">
+    <input th:field="*{calle}" placeholder="Calle" id="calleDireccionSucursal" required />
+    <input th:field="*{numero}" placeholder="Número" id="numeroDireccionSucursal" required />
+    <input th:field="*{codigopostal}" placeholder="Código postal" id="codigoPostal" required />
 
-        <input th:field="*{calle}" placeholder="Calle" id="calleDireccionSucursal" required />
-        <input th:field="*{numero}" placeholder="Número" id="numeroDireccionSucursal" required />
-        <select th:field="*{localidad}" id="localidadDireccionSucursal" required>
-            <option value="" disabled selected>Seleccione la localidad</option>
-            <option th:each="loc : ${localidades}" th:value="${loc}" th:text="${loc}"></option>
-        </select>
-        <select th:field="*{provincia}" id="provinciaDireccionSucursal" required>
-            <option value="" disabled selected>Seleccione la provincia</option>
-            <option th:each="prov : ${provincias}" th:value="${prov}" th:text="${prov}"></option>
-        </select>
+    <select th:field="*{localidad}" id="localidad" required>
+        <option value="" disabled selected>Seleccione la localidad</option>
+    </select>
 
-        <button type="submit">Registrar Cliente</button>
-    </form>
+    <select th:field="*{provincia}" id="provinciaDireccionSucursal" required>
+        <option value="" disabled selected>Seleccione la provincia</option>
+    </select>
+
+    <button type="submit">Registrar Cliente</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const codigoPostalInput = document.getElementById("codigoPostal");
+        const localidadSelect = document.getElementById("localidad");
+        const provinciaSelect = document.getElementById("provinciaDireccionSucursal");
+
+        codigoPostalInput.addEventListener("input", function () {
+            const codigoPostal = codigoPostalInput.value.trim(); // Asegúrate de que no haya espacios en blanco
+
+            if (codigoPostal.length > 0) {
+                fetch(`/filtrarCodigoPostal?codigoPostal=${codigoPostal}`, {
+                    method: "GET",
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Error en la respuesta del servidor");
+                        }
+                        return response.json(); // Suponiendo que el controlador devuelve JSON
+                    })
+                    .then(data => {
+                        if (data.codigosPostales) {
+                            // Limpiar selects actuales
+                            limpiarSelect(localidadSelect, "Seleccione la localidad");
+                            limpiarSelect(provinciaSelect, "Seleccione la provincia");
+
+                            // Actualizar opciones
+                            const localidades = new Set(); // Usamos un Set para evitar duplicados
+                            const provincias = new Set();
+
+                            data.codigosPostales.forEach(cp => {
+                                localidades.add(cp.localidad);
+                                provincias.add(cp.provincia);
+                            });
+
+                            // Añadir opciones únicas al select de localidad
+                            localidades.forEach(localidad => {
+                                const localidadOption = document.createElement("option");
+                                localidadOption.value = localidad;
+                                localidadOption.textContent = localidad;
+                                localidadSelect.appendChild(localidadOption);
+                            });
+
+                            // Añadir opciones únicas al select de provincia
+                            provincias.forEach(provincia => {
+                                const provinciaOption = document.createElement("option");
+                                provinciaOption.value = provincia;
+                                provinciaOption.textContent = provincia;
+                                provinciaSelect.appendChild(provinciaOption);
+                            });
+                        } else {
+                            console.error("No se encontraron coincidencias");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al filtrar el código postal:", error);
+                    });
+            }
+        });
+
+        // Función para limpiar un select y añadir una opción por defecto
+        function limpiarSelect(selectElement, defaultText) {
+            selectElement.innerHTML = ''; // Limpia todas las opciones
+            const defaultOption = document.createElement("option");
+            defaultOption.value = '';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            defaultOption.textContent = defaultText;
+            selectElement.appendChild(defaultOption);
+        }
+    });
+</script>
+
+
 </body>
 </html>

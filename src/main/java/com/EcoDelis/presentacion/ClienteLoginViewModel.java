@@ -12,11 +12,11 @@ public class ClienteLoginViewModel {
         this.email = email;
     }
 
-    public String getClave() {
+    public String getPassword() {
         return password;
     }
 
-    public void setClave(String clave) {
+    public void setPassword(String clave) {
         this.password = clave;
     }
 }
