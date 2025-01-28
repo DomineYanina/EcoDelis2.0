@@ -39,10 +39,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public Cliente registrarCliente(Cliente cliente) {
-        Local local = new Local();
         LocalDate fechaLocal = LocalDate.now();
-        Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        cliente.setFregistro(fechaActual);
+        cliente.setFregistro(fechaLocal);
         clienteRepository.guardar(cliente);
         return cliente;
     }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
 
 @Controller
 public class RegistroController {
@@ -61,7 +62,7 @@ public class RegistroController {
     }
 
     @GetMapping("/verificarDisponibilidadMailCliente")
-    public ModelAndView verificarDisponibilidadMailCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession httpSession) {
+    public ModelAndView verificarDisponibilidadMailCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, HttpSession httpSession) {
         if(!clienteService.existeEmail(clienteViewModel.getEmail())) {
             ModelAndView modelAndView = new ModelAndView("registroClienteSegundoPaso");
             httpSession.setAttribute("password",transformarClienteAModeloLogin(clienteViewModel).getPassword());
@@ -80,11 +81,21 @@ public class RegistroController {
     }
 
     @PostMapping("/registrarCliente")
-    public ModelAndView registrarCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession session){
+    public ModelAndView registrarCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, HttpSession session){
         ModelAndView mv = new ModelAndView("agregarDireccionCliente");
 
         clienteViewModel.setPassword((String) session.getAttribute("password"));
         clienteViewModel.setEmail((String) session.getAttribute("email"));
+
+        // Parse the date string from the form
+        try {
+            LocalDate fechaNacimiento = clienteViewModel.getFnac();
+            clienteViewModel.setFnac(fechaNacimiento);
+        } catch (Exception e) {
+            // Handle parsing error (e.g., show an error message to the user)
+            mv.addObject("error", "Error en el formato de la fecha de nacimiento");
+            return mv;
+        }
 
         Cliente cliente = clienteService.registrarCliente(transformarModeloACliente(clienteViewModel));
 

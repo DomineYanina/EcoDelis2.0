@@ -1,6 +1,7 @@
 package com.EcoDelis.dominio;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,8 +15,8 @@ public class Cliente {
     private String apellido;
     private TipoDocumento tipodoc;
     private long nrodoc;
-    private Date fnac;
-    private Date fregistro;
+    private LocalDate fnac;
+    private LocalDate fregistro;
     private TipoCliente tipocliente;
     private String email;
     private String password;
@@ -32,7 +33,7 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, Date f_nac, Date f_registro, TipoCliente tipo_cliente, String email, String password) {
+    public Cliente(String nombre, String apellido, TipoDocumento tipo_doc, long nro_doc, LocalDate f_nac, LocalDate f_registro, TipoCliente tipo_cliente, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.tipodoc = tipo_doc;
@@ -84,19 +85,19 @@ public class Cliente {
         this.nrodoc = nrodoc;
     }
 
-    public Date getFnac() {
+    public LocalDate getFnac() {
         return fnac;
     }
 
-    public void setFnac(Date fnac) {
+    public void setFnac(LocalDate fnac) {
         this.fnac = fnac;
     }
 
-    public Date getFregistro() {
+    public LocalDate getFregistro() {
         return fregistro;
     }
 
-    public void setFregistro(Date fregistro) {
+    public void setFregistro(LocalDate fregistro) {
         this.fregistro = fregistro;
     }
 
