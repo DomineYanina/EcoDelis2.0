@@ -44,8 +44,6 @@ public class LocalController {
             mv.addObject("sucursal", registroSucursalViewModel);
             mv.addObject("direccionSucursal", direccionSucursalViewModel);
             mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
-            /*mv.addObject("localidades", Localidad.values());
-            mv.addObject("provincias", Provincia.values());*/
             mv.addObject("tipoLocal", TipoLocal.values());
         }
         return mv;

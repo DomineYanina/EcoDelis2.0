@@ -6,15 +6,15 @@
 </head>
 <body>
 <form th:object="${direccionCliente}" th:action="@{/agregarDireccionCliente}" method="post">
-    <input th:field="*{calle}" placeholder="Calle" id="calleDireccionSucursal" required />
-    <input th:field="*{numero}" placeholder="Número" id="numeroDireccionSucursal" required />
-    <input th:field="*{codigopostal}" placeholder="Código postal" id="codigoPostal" required />
+    <input th:field="*{calle}" placeholder="Calle" id="calleDireccionCliente" required />
+    <input th:field="*{numero}" placeholder="Número" id="numeroDireccionCliente" required />
+    <input th:field="*{codigopostal}" placeholder="Código postal" id="codigoPostalCliente" required />
 
-    <select th:field="*{localidad}" id="localidad" required>
+    <select th:field="*{localidad}" id="localidadCliente" required>
         <option value="" disabled selected>Seleccione la localidad</option>
     </select>
 
-    <select th:field="*{provincia}" id="provinciaDireccionSucursal" required>
+    <select th:field="*{provincia}" id="provinciaDireccionCliente" required>
         <option value="" disabled selected>Seleccione la provincia</option>
     </select>
 
@@ -23,9 +23,9 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const codigoPostalInput = document.getElementById("codigoPostal");
-        const localidadSelect = document.getElementById("localidad");
-        const provinciaSelect = document.getElementById("provinciaDireccionSucursal");
+        const codigoPostalInput = document.getElementById("codigoPostalCliente");
+        const localidadSelect = document.getElementById("localidadCliente");
+        const provinciaSelect = document.getElementById("provinciaDireccionCliente");
 
         codigoPostalInput.addEventListener("input", function () {
             const codigoPostal = codigoPostalInput.value.trim(); // Asegúrate de que no haya espacios en blanco
