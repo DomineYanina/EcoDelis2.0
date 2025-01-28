@@ -18,14 +18,12 @@ public class RegistroController {
     @Autowired
     LocalService localService;
 
-
-
     @GetMapping("/irARegistrarLocal")
     public ModelAndView irARegistrarLocal(HttpSession httpSession) {
         ModelAndView mv;
         if(httpSession.getAttribute("localLogueado") == null && httpSession.getAttribute("clienteLogueado") == null) {
             mv = new ModelAndView("registroLocalSegundoPaso");
-            mv.addObject("local", new Local());
+            mv.addObject("local", new RegistroLocalViewModel());
         } else{
             if(httpSession.getAttribute("clienteLogueado") != null) {
                 mv = new ModelAndView("homeCliente");
@@ -39,9 +37,8 @@ public class RegistroController {
     @GetMapping("/irARegistroLocal")
     public ModelAndView irARegistroLocal(HttpSession httpSession) {
         if(httpSession.getAttribute("localLogueado") == null) {
-            RegistroLocalViewModel registroViewModel = new RegistroLocalViewModel();
             ModelAndView modelAndView = new ModelAndView("registroLocalPrimerPaso");
-            modelAndView.addObject("local", registroViewModel);
+            modelAndView.addObject("local", new RegistroLocalViewModel());
             return modelAndView;
         } else {
             return new ModelAndView("homeLocal");
@@ -51,9 +48,8 @@ public class RegistroController {
     @GetMapping("/irARegistroCliente")
     public ModelAndView irARegistroCliente(HttpSession httpSession) {
         if(httpSession.getAttribute("localLogueado") == null && httpSession.getAttribute("clienteLogueado") == null) {
-            ClienteViewModel clienteViewModel = new ClienteViewModel();
             ModelAndView modelAndView = new ModelAndView("registroClientePrimerPaso");
-            modelAndView.addObject("cliente", clienteViewModel);
+            modelAndView.addObject("cliente", new ClienteViewModel());
             return modelAndView;
         } else {
             if(httpSession.getAttribute("localLogueado") != null) {
@@ -68,12 +64,8 @@ public class RegistroController {
     public ModelAndView verificarDisponibilidadMailCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession httpSession) {
         if(!clienteService.existeEmail(clienteViewModel.getEmail())) {
             ModelAndView modelAndView = new ModelAndView("registroClienteSegundoPaso");
-            Cliente cliente = new Cliente();
-            cliente.setEmail(clienteViewModel.getEmail());
-            cliente.setPassword(clienteViewModel.getPassword());
-
-            httpSession.setAttribute("password",cliente.getPassword());
-            httpSession.setAttribute("email",cliente.getEmail());
+            httpSession.setAttribute("password",transformarClienteAModeloLogin(clienteViewModel).getPassword());
+            httpSession.setAttribute("email",transformarClienteAModeloLogin(clienteViewModel).getEmail());
             modelAndView.addObject("cliente", clienteViewModel);
             modelAndView.addObject("tiposDocumento", TipoDocumento.values());
             modelAndView.addObject("TiposDeCliente", TipoCliente.values());
@@ -90,16 +82,15 @@ public class RegistroController {
     @PostMapping("/registrarCliente")
     public ModelAndView registrarCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, BindingResult bindingResult, HttpSession session){
         ModelAndView mv = new ModelAndView("agregarDireccionCliente");
-        DireccionClienteViewModel direccionClienteViewModel = new DireccionClienteViewModel();
 
         clienteViewModel.setPassword((String) session.getAttribute("password"));
         clienteViewModel.setEmail((String) session.getAttribute("email"));
 
-        Cliente cliente = clienteService.registrarCliente(clienteViewModel);
+        Cliente cliente = clienteService.registrarCliente(transformarModeloACliente(clienteViewModel));
 
         session.setAttribute("clienteLogueado", cliente);
-        mv.addObject("cliente", cliente);
-        mv.addObject("direccionCliente", direccionClienteViewModel);
+        mv.addObject("cliente", clienteViewModel);
+        mv.addObject("direccionCliente", new DireccionClienteViewModel());
         return mv;
     }
 
@@ -127,8 +118,6 @@ public class RegistroController {
     @PostMapping("/registrarLocal")
     public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session){
         ModelAndView mv = new ModelAndView("agregarSucursal");
-        RegistroSucursalViewModel sucursalViewModel = new RegistroSucursalViewModel();
-        DireccionSucursalViewModel direccionSucursalViewModel = new DireccionSucursalViewModel();
 
         registroLocalViewModel.setPassword((String) session.getAttribute("password"));
         registroLocalViewModel.setEmail((String) session.getAttribute("email"));
@@ -136,12 +125,65 @@ public class RegistroController {
         Local localExistente = localService.registrarLocal(registroLocalViewModel);
 
         session.setAttribute("localLogueado", localExistente);
-        mv.addObject("local", localExistente);
-        mv.addObject("sucursal", sucursalViewModel);
-        mv.addObject("direccionSucursal", direccionSucursalViewModel);
+        mv.addObject("local", transformarLocalAModelo(localExistente));
+        mv.addObject("sucursal", new RegistroSucursalViewModel());
+        mv.addObject("direccionSucursal", new DireccionSucursalViewModel());
         mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
         mv.addObject("tiposDocumento", TipoDocumento.values());
         return mv;
     }
 
+    //Métodos auxiliares
+
+    private LocalViewModel transformarLocalAModelo(Local local){
+        LocalViewModel localViewModel = new LocalViewModel();
+        localViewModel.setNombre(local.getNombre());
+        localViewModel.setEmail(local.getEmail());
+        localViewModel.setPassword(local.getPassword());
+        localViewModel.setCUIT(local.getCUIT());
+        localViewModel.setF_registro(local.getF_registro());
+        localViewModel.setSucursales(local.getSucursales());
+        return localViewModel;
+    }
+
+    private Cliente transformarClienteAModeloLogin(ClienteViewModel clienteViewModel){
+        Cliente cliente = new Cliente();
+        cliente.setEmail(clienteViewModel.getEmail());
+        cliente.setPassword(clienteViewModel.getPassword());
+        return cliente;
+    }
+
+    private ClienteViewModel transformarClienteAModelo(Cliente cliente) {
+        ClienteViewModel viewModel = new ClienteViewModel();
+        viewModel.setNombre(cliente.getNombre());
+        viewModel.setApellido(cliente.getApellido());
+        viewModel.setTipocliente(cliente.getTipocliente());
+        viewModel.setFnac(cliente.getFnac());
+        viewModel.setTipodoc(cliente.getTipodoc());
+        viewModel.setNrodoc(cliente.getNrodoc());
+        viewModel.setEmail(cliente.getEmail());
+        viewModel.setPassword(cliente.getPassword());
+        viewModel.setFregistro(cliente.getFregistro());
+        viewModel.setDirecciones(cliente.getDirecciones());
+        viewModel.setTelefonoClientes(cliente.getTelefonoClientes());
+        viewModel.setPedidos(cliente.getPedidos());
+        return viewModel;
+    }
+
+    private Cliente transformarModeloACliente(ClienteViewModel clienteViewModel){
+        Cliente cliente = new Cliente();
+        cliente.setNombre(clienteViewModel.getNombre());
+        cliente.setApellido(clienteViewModel.getApellido());
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        cliente.setFnac(clienteViewModel.getFnac());
+        cliente.setTipodoc(clienteViewModel.getTipodoc());
+        cliente.setNrodoc(clienteViewModel.getNrodoc());
+        cliente.setEmail(clienteViewModel.getEmail());
+        cliente.setPassword(clienteViewModel.getPassword());
+        cliente.setFregistro(clienteViewModel.getFregistro());
+        cliente.setDirecciones(clienteViewModel.getDirecciones());
+        cliente.setTelefonoClientes(clienteViewModel.getTelefonoClientes());
+        cliente.setPedidos(clienteViewModel.getPedidos());
+        return cliente;
+    }
 }

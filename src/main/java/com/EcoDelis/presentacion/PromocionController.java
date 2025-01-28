@@ -17,56 +17,53 @@ import javax.servlet.http.HttpSession;
 public class PromocionController {
 
     @Autowired
-    private SucursalService sucursalService;
-
-    @Autowired
     private PromocionService promocionService;
 
     @GetMapping("/irACrearNuevaPromocion")
     public ModelAndView irACrearNuevaPromocion(HttpSession httpSession) {
+        ModelAndView mv;
         if (httpSession.getAttribute("localLogueado") == null) {
-            return new ModelAndView("redirect:/loginLocal");
+            mv = new ModelAndView("loginLocal");
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
-            PromocionViewModel promocionViewModel = new PromocionViewModel();
-            ModelAndView modelAndView = new ModelAndView("agregarPromocion");
-            modelAndView.addObject("promocion", promocionViewModel);
-            return modelAndView;
+            mv = new ModelAndView("agregarPromocion");
+            mv.addObject("promocion", new PromocionViewModel());
         }
+        return mv;
     }
 
     @PostMapping("/crearNuevaPromocion")
     public ModelAndView crearNuevaPromocion(HttpSession httpSession, PromocionViewModel promocionViewModel) {
+        ModelAndView mv;
         if (httpSession.getAttribute("localLogueado") == null) {
-            return new ModelAndView("redirect:/loginLocal");
+            mv = new ModelAndView("loginLocal");
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
-            Promocion promocion = new Promocion();
-            promocion.setNombre(promocionViewModel.getNombre());
-            promocion.setDescuento(promocion.getDescuento());
-            promocion.setItems(promocionViewModel.getItems());
-            promocion.setPrecio_original(promocionViewModel.getPrecio_original());
-            promocion.setPrecio_final(promocionViewModel.getPrecio_final());
-            promocion.setUnidadesRestantes(promocionViewModel.getUnidadesRestantes());
-            promocion.setSucursal(promocionViewModel.getSucursal());
-
-            promocionService.agregarPromocion(promocion);
-            return new ModelAndView("redirect:/homeSucursal");
+            promocionService.agregarPromocion(transformarModeloAPromocion(promocionViewModel));
+            mv = new ModelAndView("homeSucursal");
         }
+        return mv;
     }
 
     @PutMapping("/modificarPromocion")
     public ModelAndView modificarPromocion(@ModelAttribute PromocionViewModel promocionViewModel, HttpSession session){
         ModelAndView mv = new ModelAndView("homeLocal");
-        Promocion promocion = new Promocion();
-        promocion.setSucursal(promocionViewModel.getSucursal());
-        promocion.setUnidadesRestantes(promocionViewModel.getUnidadesRestantes());
-        promocion.setPrecio_final(promocionViewModel.getPrecio_final());
-        promocion.setItems(promocionViewModel.getItems());
-        promocion.setDescuento(promocionViewModel.getDescuento());
-        promocion.setPrecio_original(promocionViewModel.getPrecio_original());
-        promocion.setNombre(promocionViewModel.getNombre());
-        promocionService.modificarPromocion(promocion);
-
+        promocionService.modificarPromocion(transformarModeloAPromocion(promocionViewModel));
         return mv;
+    }
+
+    //Métodos auxiliares
+
+    private Promocion transformarModeloAPromocion(PromocionViewModel promocionViewModel) {
+        Promocion promocion = new Promocion();
+        promocion.setNombre(promocionViewModel.getNombre());
+        promocion.setDescuento(promocion.getDescuento());
+        promocion.setItems(promocionViewModel.getItems());
+        promocion.setPrecio_original(promocionViewModel.getPrecio_original());
+        promocion.setPrecio_final(promocionViewModel.getPrecio_final());
+        promocion.setUnidadesRestantes(promocionViewModel.getUnidadesRestantes());
+        promocion.setSucursal(promocionViewModel.getSucursal());
+        return promocion;
     }
 
 }

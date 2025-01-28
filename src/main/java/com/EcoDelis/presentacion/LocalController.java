@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -30,19 +29,12 @@ public class LocalController {
         ModelAndView mv;
         if (session.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("loginLocal");
-            LocalLoginViewModel vm = new LocalLoginViewModel();
-            mv.addObject("local", vm);
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
-            Local local = (Local) session.getAttribute("localLogueado");
-            String nombre = local.getNombre();
-            System.out.println(nombre);
-
             mv = new ModelAndView("agregarSucursal");
-            mv.addObject("localLogueado", session.getAttribute("localLogueado"));
-            RegistroSucursalViewModel registroSucursalViewModel = new RegistroSucursalViewModel();
-            DireccionSucursalViewModel direccionSucursalViewModel = new DireccionSucursalViewModel();
-            mv.addObject("sucursal", registroSucursalViewModel);
-            mv.addObject("direccionSucursal", direccionSucursalViewModel);
+            mv.addObject("localLogueado", transformarLocalAModelo((Local) session.getAttribute("localLogueado")));
+            mv.addObject("sucursal", new RegistroSucursalViewModel());
+            mv.addObject("direccionSucursal", new DireccionSucursalViewModel());
             mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
             mv.addObject("tipoLocal", TipoLocal.values());
         }
@@ -59,8 +51,7 @@ public class LocalController {
         if (session.getAttribute("localLogueado") == null) {
             System.out.println("No hay local logueado");
             mv = new ModelAndView("loginLocal");
-            LocalLoginViewModel vm = new LocalLoginViewModel();
-            mv.addObject("local", vm);
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
             if (bindingResult.hasErrors()) {
                 mv = new ModelAndView("agregarSucursal");
@@ -68,31 +59,24 @@ public class LocalController {
                 mv.addObject("sucursal", registroSucursalViewModel);
                 mv.addObject("direccionSucursal", direccionSucursalViewModel);
                 mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
-                /*mv.addObject("localidades", Localidad.values());
-                mv.addObject("provincias", Provincia.values());*/
                 mv.addObject("tiposDocumento", TipoDocumento.values());
                 mv.addObject("tipoLocal", TipoLocal.values());
             } else {
                 // Validar si el nombre de la sucursal ya existe
-                Local local = (Local) session.getAttribute("localLogueado");
-                if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel, local)) {
+                if(sucursalService.nombreDeSucursalYaExiste(registroSucursalViewModel, (Local) session.getAttribute("localLogueado"))) {
                     mv = new ModelAndView("agregarSucursal");
                     bindingResult.rejectValue("nombre", "nombre", "La sucursal ya existe");
                     mv.addObject("error", "La sucursal ingresada ya existe");
                     mv.addObject("sucursal", registroSucursalViewModel);
                     mv.addObject("direccionSucursal", direccionSucursalViewModel);
                     mv.addObject("tipoSuscripciones", TipoSuscripcionSucursal.values());
-                    /*mv.addObject("localidades", Localidad.values());
-                    mv.addObject("provincias", Provincia.values());*/
                     mv.addObject("tiposDocumento", TipoDocumento.values());
                     mv.addObject("tipoLocal", TipoLocal.values());
-                    System.out.println("Ya existe el nombre de la sucursal");
                 } else {
                     // Registrar la nueva sucursal
-                    System.out.println("No existe el nombre de la sucursal");
                     direccionSucursalService.agregar(registroSucursalViewModel.getDireccion());
                     DireccionSucursal direccion = registroSucursalViewModel.getDireccion();
-                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, local);
+                    Sucursal sucursal = sucursalService.registrar(registroSucursalViewModel, direccion, (Local) session.getAttribute("localLogueado"));
                     direccion.setSucursal(sucursal);
                     direccionSucursalService.modificar(direccion);
                     mv = new ModelAndView("homeLocal");
@@ -108,18 +92,9 @@ public class LocalController {
         if(session.getAttribute("localLogueado") == null) {
             return new ModelAndView("loginLocal");
         } else {
-            Local localLogueado = (Local) session.getAttribute("localLogueado");
-            String email = localLogueado.getEmail();
-
             ModelAndView mv = new ModelAndView("modificarDatosLocal");
-            Local local = localService.buscarPorEmail(email);
 
-            RegistroLocalViewModel resp = new RegistroLocalViewModel();
-            resp.setCUIT(local.getCUIT());
-            resp.setNombre(local.getNombre());
-            resp.setEmail(local.getEmail());
-
-            mv.addObject("local", resp);
+            mv.addObject("local", transformarRegistroLocalAModelo(localService.buscarPorEmail(((Local) (session.getAttribute("localLogueado"))).getEmail())));
 
             return mv;
         }
@@ -143,12 +118,12 @@ public class LocalController {
         ModelAndView mv;
         if(httpSession.getAttribute("localLogueado") == null) {
             mv = new ModelAndView("loginLocal");
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
             mv = new ModelAndView("cambiarPasswordLocal");
-            Local local = (Local) httpSession.getAttribute("localLogueado");
             LocalLoginViewModel localViewModel = new LocalLoginViewModel();
-            localViewModel.setEmail(local.getEmail());
-            localViewModel.setPassword(local.getPassword());
+            localViewModel.setEmail(((Local) httpSession.getAttribute("localLogueado")).getEmail());
+            localViewModel.setPassword(((Local) httpSession.getAttribute("localLogueado")).getPassword());
             mv.addObject("local", localViewModel);
         }
         return mv;
@@ -172,4 +147,24 @@ public class LocalController {
         return new ModelAndView("homeLocal");
     }
 
+    //Métodos auxiliares
+
+    private LocalViewModel transformarLocalAModelo(Local local){
+        LocalViewModel localViewModel = new LocalViewModel();
+        localViewModel.setNombre(local.getNombre());
+        localViewModel.setEmail(local.getEmail());
+        localViewModel.setPassword(local.getPassword());
+        localViewModel.setCUIT(local.getCUIT());
+        localViewModel.setF_registro(local.getF_registro());
+        localViewModel.setSucursales(local.getSucursales());
+        return localViewModel;
+    }
+
+    private RegistroLocalViewModel transformarRegistroLocalAModelo(Local local){
+        RegistroLocalViewModel resp = new RegistroLocalViewModel();
+        resp.setCUIT(local.getCUIT());
+        resp.setNombre(local.getNombre());
+        resp.setEmail(local.getEmail());
+        return resp;
+    }
 }

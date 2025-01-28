@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 import static com.EcoDelis.dominio.EstadoPedido.Calificado;
 import static com.EcoDelis.dominio.EstadoPedido.Cancelado;
@@ -71,9 +70,8 @@ public class ClienteController {
             mv.addObject("cliente", new ClienteLoginViewModel());
         } else {
             if (httpSession.getAttribute("localLogueado") == null) {
-                Cliente clienteLogueado = (Cliente) session.getAttribute("clienteLogueado");
                 mv = new ModelAndView("agregarDireccionCliente");
-                mv.addObject("cliente", clienteLogueado);
+                mv.addObject("cliente", transformarClienteAModelo((Cliente) session.getAttribute("clienteLogueado")));
                 mv.addObject("direccionCliente", new DireccionClienteViewModel());
                 mv.addObject("codigosPostales", new CodigoPostalViewModel());
             } else {
@@ -97,9 +95,8 @@ public class ClienteController {
             mv.addObject("cliente", new ClienteLoginViewModel());
         } else {
             if (httpSession.getAttribute("localLogueado") == null) {
-                Cliente clienteLogueado = (Cliente) session.getAttribute("clienteLogueado");
                 mv = new ModelAndView("agregarTelefonoCliente");
-                mv.addObject("cliente", transformarClienteAModelo(clienteLogueado));
+                mv.addObject("cliente", transformarClienteAModelo((Cliente) session.getAttribute("clienteLogueado")));
                 mv.addObject("telefonoCliente", new TelefonoClienteViewModel());
                 mv.addObject("tipoTelefono", TipoDocumento.values());
             } else {
@@ -115,9 +112,8 @@ public class ClienteController {
         if (session.getAttribute("clienteLogueado") != null) {
             return new ModelAndView("homeCliente");
         } else {
-            RegistroClienteViewModel registroClienteViewModel = new RegistroClienteViewModel();
             ModelAndView mv = new ModelAndView("registroClientePrimerPaso");
-            mv.addObject("cliente", registroClienteViewModel);
+            mv.addObject("cliente", new RegistroClienteViewModel());
             return mv;
         }
     }
@@ -129,7 +125,7 @@ public class ClienteController {
     }
 
     @GetMapping("/chequearMailYaExistente")
-    public ModelAndView chequearMailYaExistente(HttpSession session, BindingResult bindingResult, RegistroClienteViewModel registroClienteViewModel) {
+    public ModelAndView chequearMailYaExistente(HttpSession session, RegistroClienteViewModel registroClienteViewModel) {
         ModelAndView mv;
         if (session.getAttribute("clienteLogueado") == null) {
             if (clienteService.existeEmail(registroClienteViewModel.getEmail())) {
@@ -152,7 +148,7 @@ public class ClienteController {
             mv = new ModelAndView("homeCliente");
         } else {
             mv = new ModelAndView("homeCliente");
-            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(clienteViewModel));
+            httpSession.setAttribute("clienteLogueado", clienteService.registrarCliente(transformarModeloACliente(clienteViewModel)));
             mv.addObject("cliente", clienteViewModel);
         }
         return mv;
@@ -213,12 +209,11 @@ public class ClienteController {
         ModelAndView mv;
         if (httpSession.getAttribute("clienteLogueado") == null) {
             mv = new ModelAndView("loginCliente");
+            mv.addObject("cliente",new ClienteLoginViewModel());
         } else {
             mv = new ModelAndView("verMisPedidos");
-            Cliente cliente = (Cliente) httpSession.getAttribute("clienteLogueado");
-            List<Pedido> pedidos = clienteService.obtenerPedidosPorCliente(cliente);
-            mv.addObject("pedidos", pedidos);
-            mv.addObject("cliente", cliente);
+            mv.addObject("pedidos", clienteService.obtenerPedidosPorCliente((Cliente) httpSession.getAttribute("clienteLogueado")));
+            mv.addObject("cliente", transformarClienteAModelo((Cliente) httpSession.getAttribute("clienteLogueado")));
         }
         return mv;
     }
@@ -301,5 +296,22 @@ public class ClienteController {
         pedido.setPromociones(pedidoViewModel.getPromociones());
         pedido.setMonto_total(pedidoViewModel.getMonto_total());
         return pedido;
+    }
+
+    private Cliente transformarModeloACliente(ClienteViewModel clienteViewModel){
+        Cliente cliente = new Cliente();
+        cliente.setNombre(clienteViewModel.getNombre());
+        cliente.setApellido(clienteViewModel.getApellido());
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        cliente.setFnac(clienteViewModel.getFnac());
+        cliente.setTipodoc(clienteViewModel.getTipodoc());
+        cliente.setNrodoc(clienteViewModel.getNrodoc());
+        cliente.setEmail(clienteViewModel.getEmail());
+        cliente.setPassword(clienteViewModel.getPassword());
+        cliente.setFregistro(clienteViewModel.getFregistro());
+        cliente.setDirecciones(clienteViewModel.getDirecciones());
+        cliente.setTelefonoClientes(clienteViewModel.getTelefonoClientes());
+        cliente.setPedidos(clienteViewModel.getPedidos());
+        return cliente;
     }
 }
