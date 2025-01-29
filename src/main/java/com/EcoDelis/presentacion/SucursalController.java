@@ -88,7 +88,7 @@ public class SucursalController {
             mv.addObject("local", new LocalLoginViewModel());
             return mv;
         } else {
-            mv = new ModelAndView("agregarDireccionSucursal");
+            mv = new ModelAndView("modificarDireccionSucursal");
             mv.addObject("direccionSucursal", new DireccionSucursalViewModel());
             return mv;
         }
@@ -108,7 +108,7 @@ public class SucursalController {
     }
 
     @GetMapping("/irAAgregarTelefonoSucursal")
-    public ModelAndView irAAgregarTelefonoSucursal(HttpSession session, String nombreSucursal){
+    public ModelAndView irAAgregarTelefonoSucursal(HttpSession session){
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null ){
             mv = new ModelAndView("loginLocal");
@@ -116,6 +116,7 @@ public class SucursalController {
         } else {
             mv = new ModelAndView("agregarTelefonoSucursal");
             mv.addObject("telefonoSucursal", new TelefonoSucursalViewModel());
+            mv.addObject("tipoTelefono", TipoTelefono.values());
         }
         return mv;
     }

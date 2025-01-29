@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nueva Promoción</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Crear Nueva Promoción</h2>
+    <form th:action="@{/crearNuevaPromocion}" th:object="${promocion}" method="post">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre de la Promoción:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="descuento" class="form-label">Descuento (%):</label>
+            <input type="number" id="descuento" name="descuento" class="form-control" min="0" max="100" required>
+        </div>
+        <h4>Seleccionar Ítems</h4>
+        <div id="items-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Seleccionar</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Stock Disponible</th>
+                    <th>Cantidad en Promoción</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td><input type="checkbox" name="selectedItems" th:value="${item.id}" class="item-checkbox"></td>
+                    <td th:text="${item.nombre}"></td>
+                    <td th:text="${item.precio}"></td>
+                    <td th:text="${item.stock}" class="stock-value"></td>
+                    <td>
+                        <input type="number" name="cantidadItems" class="form-control cantidad-item" min="1" max="${item.stock}" disabled>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mb-3">
+            <label for="unidadesRestantes" class="form-label">Cantidad de Promociones en Stock:</label>
+            <input type="number" id="unidadesRestantes" name="unidadesRestantes" class="form-control" min="1" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Crear Promoción</button>
+        <a href="/homeSucursal" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll(".item-checkbox");
+        const cantidadInputs = document.querySelectorAll(".cantidad-item");
+        const unidadesRestantesInput = document.getElementById("unidadesRestantes");
+
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener("change", function () {
+                cantidadInputs[index].disabled = !this.checked;
+                if (!this.checked) cantidadInputs[index].value = "";
+                calcularMaxUnidadesRestantes();
+            });
+        });
+
+        cantidadInputs.forEach(input => {
+            input.addEventListener("input", calcularMaxUnidadesRestantes);
+        });
+
+        function calcularMaxUnidadesRestantes() {
+            let maxStock = Infinity;
+
+            checkboxes.forEach((checkbox, index) => {
+                if (checkbox.checked) {
+                    const stockDisponible = parseInt(checkbox.closest("tr").querySelector(".stock-value").textContent, 10);
+                    const cantidadItem = parseInt(cantidadInputs[index].value) || 1;
+                    maxStock = Math.min(maxStock, Math.floor(stockDisponible / cantidadItem));
+                }
+            });
+
+            unidadesRestantesInput.max = isFinite(maxStock) ? maxStock : 1;
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

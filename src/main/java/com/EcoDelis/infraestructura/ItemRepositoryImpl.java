@@ -21,7 +21,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public Item buscarItemPorId(int id) {
+    public Item buscarItemPorId(long id) {
         Item item = null;
         try (Session session = sessionFactory.openSession()) {
             String hql = "FROM Item i WHERE i.id = :id";

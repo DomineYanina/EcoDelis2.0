@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2>Confirmación de Compra</h2>
+    <div>
+        <div>
+            <h4>Detalles del Pedido</h4>
+            <p><strong>ID del Pedido:</strong> <span th:text="${pedido.id}"></span></p>
+            <p><strong>Fecha de Realización:</strong> <span th:text="${pedido.fecha_realizado}"></span></p>
+            <p><strong>Fecha de Retiro:</strong> <span th:text="${pedido.fecha_retirado}"></span></p>
+            <p><strong>Monto Total:</strong> $<span th:text="${pedido.monto_total}"></span></p>
+            <p><strong>Estado:</strong> <span th:text="${pedido.estado}"></span></p>
+
+            <h5>Sucursal</h5>
+            <p><strong>Nombre:</strong> <span th:text="${pedido.sucursal.nombre}"></span></p>
+            <p><strong>Dirección:</strong> <span th:text="${pedido.sucursal.direccion}"></span></p>
+
+            <h5>Promociones Incluidas</h5>
+            <ul>
+                <li th:each="promocion : ${pedido.promociones}">
+                    <span th:text="${promocion.nombre}"></span> - $<span th:text="${promocion.precio_final}"></span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <a href="/" class="btn btn-primary">Volver a la Página Principal</a>
+    </div>
+</div>
+</body>
+</html>

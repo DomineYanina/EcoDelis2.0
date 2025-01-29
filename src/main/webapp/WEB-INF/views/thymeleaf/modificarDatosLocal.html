@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2>Modificar Datos del Local</h2>
+    <form th:action="@{/modificarDatosLocal}" th:object="${local}" method="post">
+        <input type="hidden" name="_method" value="put" />
+        <input type="hidden" name="id" th:value="${local.id}">
+        <div>
+            <label for="nombre" class="form-label">Nombre del Local:</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" th:value="${local.nombre}" required>
+        </div>
+        <div>
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${local.email}" required>
+        </div>
+        <div>
+            <label for="password" class="form-label">Contraseña:</label>
+            <input type="password" id="password" name="password" class="form-control" required>
+        </div>
+        <div>
+            <label for="cuit" class="form-label">CUIT:</label>
+            <input type="text" id="cuit" name="CUIT" class="form-control" th:value="${local.CUIT}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Actualizar Datos</button>
+        <a href="/homeLocal" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>

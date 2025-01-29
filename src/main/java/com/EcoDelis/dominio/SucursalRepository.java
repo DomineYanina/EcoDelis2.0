@@ -24,4 +24,6 @@ public interface SucursalRepository {
     List<Pedido> obtenerPedidosConfirmados(Sucursal sucursal);
 
     List<Pedido> obtenerPedidosEntregados(Sucursal sucursal);
+
+    List<Item> obtenerItemsPorSucursal(Sucursal sucursal);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 @Repository
 public interface ItemRepository {
 
-    Item buscarItemPorId(int id);
+    Item buscarItemPorId(long id);
 
     void actualizarItem(Item item);
 

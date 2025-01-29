@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="items-container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Fecha recepción</th>
+            <th>Cliente</th>
+            <th>Monto total</th>
+            <th>Estado</th>
+            <th>Fecha retiro</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="suc : ${pedidos}">
+            <td th:text="${suc.getFecha_realizado()}"></td>
+            <td th:text="${suc.getCliente()}"></td>
+            <td th:text="${suc.getMonto_total()}"></td>
+            <td th:text="${suc.getEstado()}"></td>
+            <td th:text="${suc.getFecha_retirado()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

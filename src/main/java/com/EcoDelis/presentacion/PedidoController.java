@@ -30,5 +30,11 @@ public class PedidoController {
         }
         return mv;
     }
-    
+
+    @GetMapping("/verDetallesPedido")
+    public ModelAndView verDetallesPedido(Long pedidoId){
+        ModelAndView mv = new ModelAndView("verMisPedidos");
+        mv.addObject("pedidoBuscado", pedidoService.obtenerPromocionesPorPedido(pedidoId));
+        return mv;
+    }
 }

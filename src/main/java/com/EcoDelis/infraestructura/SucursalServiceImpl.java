@@ -3,6 +3,7 @@ package com.EcoDelis.infraestructura;
 import com.EcoDelis.dominio.*;
 import com.EcoDelis.presentacion.DireccionSucursalViewModel;
 import com.EcoDelis.presentacion.RegistroSucursalViewModel;
+import com.EcoDelis.presentacion.SucursalViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +92,11 @@ public class SucursalServiceImpl implements SucursalService {
     @Override
     public List<Pedido> obtenerPedidosEntregadosPorSucursal(Sucursal sucursal) {
         return sucursalRepository.obtenerPedidosEntregados(sucursal);
+    }
+
+    @Override
+    public List<Item> obtenerItemsPorSucursal(Sucursal sucursal) {
+        return sucursalRepository.obtenerItemsPorSucursal(sucursal);
     }
 
 }

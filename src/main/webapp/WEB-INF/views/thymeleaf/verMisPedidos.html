@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="contTabla" th:if="${!#lists.isEmpty(pedidos)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Fecha Realizado</th>
+            <th>Monto</th>
+            <th>Local</th>
+            <th>Sucursal</th>
+            <th>Estado</th>
+            <th>Fecha Retirado</th>
+            <th>Ver detalles</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pedido : ${pedidos}">
+            <td th:text="${pedido.getFecha_realizado()}"></td>
+            <td th:text="${pedido.getMonto_total()}"></td>
+            <td th:text="${pedido.getSucursal().getLocal().getNombre()}"></td>
+            <td th:text="${pedido.getSucursal().getNombre()}"></td>
+            <td th:text="${pedido.getEstado()}"></td>
+            <td th:text="${pedido.getFecha_realizado()}"></td>
+            <td>
+                <a class="button" th:href="@{/verDetallesPedido(pedidoId=${pedido.getId()})}">Ver detalles</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:if="${!#lists.isEmpty(pedidoBuscado)}">
+    <table>
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descuento</th>
+            <th>Precio original</th>
+            <th>Precio final</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="promocion : ${pedidoBuscado}">
+            <td th:text="${promocion.getNombre()}"></td>
+            <td th:text="${promocion.getDescuento()}"></td>
+            <td th:text="${promocion.getPrecio_original()}"></td>
+            <td th:text="${promocion.getPrecio_final()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

@@ -18,4 +18,8 @@ public interface PedidoService {
     void actualizar(Pedido pedido);
 
     void cancelar(Pedido pedido);
+
+    Pedido buscar(Long pedidoId);
+
+    List<Promocion> obtenerPromocionesPorPedido(Long pedidoId);
 }
