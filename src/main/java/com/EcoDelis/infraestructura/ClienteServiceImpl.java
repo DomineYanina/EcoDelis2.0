@@ -39,8 +39,6 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public Cliente registrarCliente(Cliente cliente) {
-        LocalDate fechaLocal = LocalDate.now();
-        cliente.setFregistro(fechaLocal);
         clienteRepository.guardar(cliente);
         return cliente;
     }

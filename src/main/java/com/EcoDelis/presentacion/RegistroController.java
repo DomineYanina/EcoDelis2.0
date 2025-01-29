@@ -87,16 +87,8 @@ public class RegistroController {
         clienteViewModel.setPassword((String) session.getAttribute("password"));
         clienteViewModel.setEmail((String) session.getAttribute("email"));
 
-        // Parse the date string from the form
-        try {
-            LocalDate fechaNacimiento = clienteViewModel.getFnac();
-            clienteViewModel.setFnac(fechaNacimiento);
-        } catch (Exception e) {
-            // Handle parsing error (e.g., show an error message to the user)
-            mv.addObject("error", "Error en el formato de la fecha de nacimiento");
-            return mv;
-        }
-
+        LocalDate fechaActual = LocalDate.now();
+        clienteViewModel.setFregistro(fechaActual);
         Cliente cliente = clienteService.registrarCliente(transformarModeloACliente(clienteViewModel));
 
         session.setAttribute("clienteLogueado", cliente);

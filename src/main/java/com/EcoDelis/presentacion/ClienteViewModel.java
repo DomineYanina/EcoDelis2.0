@@ -1,10 +1,10 @@
 package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ClienteViewModel {
@@ -13,6 +13,7 @@ public class ClienteViewModel {
     private String apellido;
     private TipoDocumento tipodoc;
     private long nrodoc;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fnac;
     private LocalDate fregistro;
     private TipoCliente tipocliente;

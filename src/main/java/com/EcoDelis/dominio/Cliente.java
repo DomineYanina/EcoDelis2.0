@@ -1,9 +1,10 @@
 package com.EcoDelis.dominio;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,6 +16,7 @@ public class Cliente {
     private String apellido;
     private TipoDocumento tipodoc;
     private long nrodoc;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fnac;
     private LocalDate fregistro;
     private TipoCliente tipocliente;
