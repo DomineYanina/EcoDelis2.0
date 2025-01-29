@@ -11,7 +11,7 @@ public interface ClienteService {
 
     boolean existeEmail(String email);
 
-    Cliente registrarCliente(ClienteViewModel clienteViewModel);
+    Cliente registrarCliente(Cliente cliente);
 
     boolean validarCredenciales(String email, String clave);
 

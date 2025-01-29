@@ -1,5 +1,7 @@
 INSERT INTO Local(id, nombre, email, password, CUIT, f_registro) VALUES(null, 'Viva la birra', 'domineyanina@hotmail.com', 'Prueba1', 123456789, '2025-01-01');
 
+INSERT INTO Cliente(id, nombre, apellido, nrodoc, fnac, fregistro, email, password) VALUES (null, 'Yanina', 'Domine', 37598287, '1993-05-01', '2024-01-01', 'domineyanina@hotmail.com', 'Boruro25');
+
 INSERT INTO CodigoPostal(id, codigoPostal, provincia, localidad) VALUES (DEFAULT, '1001', 'Capital Federal', 'CABA - Retiro');
 INSERT INTO CodigoPostal(id, codigoPostal, provincia, localidad) VALUES (DEFAULT, '1002', 'Capital Federal', 'CABA - Monserrat');
 INSERT INTO CodigoPostal(id, codigoPostal, provincia, localidad) VALUES (DEFAULT, '1003', 'Capital Federal', 'CABA - San Nicolas');

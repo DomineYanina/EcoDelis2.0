@@ -1,9 +1,10 @@
 package com.EcoDelis.presentacion;
 
 import com.EcoDelis.dominio.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class ClienteViewModel {
@@ -12,8 +13,9 @@ public class ClienteViewModel {
     private String apellido;
     private TipoDocumento tipodoc;
     private long nrodoc;
-    private Date fnac;
-    private Date fregistro;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate fnac;
+    private LocalDate fregistro;
     private TipoCliente tipocliente;
     private List<DireccionCliente> direcciones = new ArrayList<>();
     private List<TelefonoCliente> telefonoClientes = new ArrayList<>();
@@ -61,19 +63,19 @@ public class ClienteViewModel {
         this.nrodoc = nrodoc;
     }
 
-    public Date getFnac() {
+    public LocalDate getFnac() {
         return fnac;
     }
 
-    public void setFnac(Date fnac) {
+    public void setFnac(LocalDate fnac) {
         this.fnac = fnac;
     }
 
-    public Date getFregistro() {
+    public LocalDate getFregistro() {
         return fregistro;
     }
 
-    public void setFregistro(Date fregistro) {
+    public void setFregistro(LocalDate fregistro) {
         this.fregistro = fregistro;
     }
 

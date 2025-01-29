@@ -38,35 +38,20 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional
-    public Cliente registrarCliente(ClienteViewModel clienteViewModel) {
-        Local local = new Local();
-        LocalDate fechaLocal = LocalDate.now();
-        Date fechaActual = Date.from(fechaLocal.atStartOfDay(ZoneId.systemDefault()).toInstant());
-
-        Cliente cliente = new Cliente();
-        cliente.setFregistro(fechaActual);
-        cliente.setEmail(clienteViewModel.getEmail());
-        cliente.setPassword(clienteViewModel.getPassword());
-        cliente.setApellido(clienteViewModel.getApellido());
-        cliente.setTipocliente(clienteViewModel.getTipocliente());
-        cliente.setFnac(clienteViewModel.getFnac());
-        cliente.setFregistro(clienteViewModel.getFregistro());
-        cliente.setNombre(clienteViewModel.getNombre());
-        cliente.setNrodoc(clienteViewModel.getNrodoc());
-        cliente.setTipodoc(clienteViewModel.getTipodoc());
-
+    public Cliente registrarCliente(Cliente cliente) {
         clienteRepository.guardar(cliente);
         return cliente;
     }
 
     @Override
     public boolean validarCredenciales(String email, String clave) {
-        return false;
+        Cliente cliente = clienteRepository.buscarCliente(email,clave);
+        return cliente != null;
     }
 
     @Override
     public Cliente buscarPorEmail(String email) {
-        return null;
+        return clienteRepository.buscarPorEmail(email);
     }
 
     @Override

@@ -10,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpSession;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static com.EcoDelis.dominio.EstadoPedido.Creado;
@@ -31,13 +30,7 @@ public class CompraController {
     public ModelAndView realizarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession httpSession) {
         ModelAndView mv = new ModelAndView("mostrarConfirmacionDeCompra");
         LocalDate fechaActual = LocalDate.now();
-        Pedido pedido = new Pedido();
-        pedido.setCliente((Cliente) httpSession.getAttribute("clienteLogueado"));
-        pedido.setEstado(Creado);
-        pedido.setPromociones(pedidoViewModel.getPromociones());
-        pedido.setSucursal(pedidoViewModel.getSucursal());
-        pedido.setFecha_realizado(fechaActual);
-        pedidoService.agregarPedido(pedido);
+        pedidoService.agregarPedido(transformarModeloPedidoAPedido(pedidoViewModel, (Cliente) httpSession.getAttribute("clienteLogueado"), fechaActual));
         List<Promocion> promociones = pedidoViewModel.getPromociones();
         for (Promocion promocion : promociones) {
             int unidadesRestantes = promocion.getUnidadesRestantes() -1;
@@ -46,5 +39,17 @@ public class CompraController {
         }
         mv.addObject("pedido", pedidoViewModel);
         return mv;
+    }
+
+    //Métodos auxiliares
+
+    private Pedido transformarModeloPedidoAPedido(PedidoViewModel pedidoViewModel, Cliente cliente, LocalDate fecha){
+        Pedido pedido = new Pedido();
+        pedido.setCliente(cliente);
+        pedido.setEstado(Creado);
+        pedido.setPromociones(pedidoViewModel.getPromociones());
+        pedido.setSucursal(pedidoViewModel.getSucursal());
+        pedido.setFecha_realizado(fecha);
+        return pedido;
     }
 }

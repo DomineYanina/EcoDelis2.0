@@ -19,15 +19,16 @@ public class PedidoController {
 
     @GetMapping("/obtenerPedidos")
     public ModelAndView obtenerPedidos(HttpSession httpSession){
+        ModelAndView mv;
         if(httpSession.getAttribute("clienteLogueado") != null){
-            ModelAndView mv = new ModelAndView("verMisPedidos");
-            Cliente clienteLogueado = (Cliente) httpSession.getAttribute("clienteLogueado");
-            List<Pedido> listaDePedidos = pedidoService.obtenerPedidosPorCliente(clienteLogueado);
-            mv.addObject("pedidos", listaDePedidos);
+            mv = new ModelAndView("verMisPedidos");
+            mv.addObject("pedidos", pedidoService.obtenerPedidosPorCliente((Cliente) httpSession.getAttribute("clienteLogueado")));
             return mv;
         } else{
-            return new ModelAndView("loginCliente");
+            mv = new ModelAndView("loginCliente");
+            mv.addObject("cliente", new ClienteLoginViewModel());
         }
+        return mv;
     }
     
 }

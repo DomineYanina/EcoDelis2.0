@@ -17,7 +17,7 @@
 
         <select th:field="*{tipodoc}" id="Tipo_doc" required>
             <option value="" disabled selected>Seleccione la localidad</option>
-            <option th:each="loc : ${tiposDocumento}" th:value="${tiposDocumento}" th:text="${tiposDocumento}"></option>
+            <option th:each="tip : ${tiposDocumento}" th:value="${tip}" th:text="${tip}"></option>
         </select>
         <br />
 
@@ -34,7 +34,6 @@
 
         <label for="F_nac">Fecha de Nacimiento:</label>
         <input th:field="*{fnac}" type="date" id="F_nac" required />
-        <br />
 
         <!-- Botón para enviar el formulario -->
         <button type="submit">Registrate</button>

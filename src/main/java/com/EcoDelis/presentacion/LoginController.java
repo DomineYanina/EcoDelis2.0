@@ -1,9 +1,6 @@
 package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.ClienteService;
-import com.EcoDelis.dominio.Local;
-import com.EcoDelis.dominio.LocalService;
+import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -40,8 +37,7 @@ public class LoginController {
             mv = new ModelAndView("homeLocal");
         } else {
             mv = new ModelAndView("loginLocal");
-            LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
-            mv.addObject("local", localLoginViewModel);
+            mv.addObject("local", new LocalLoginViewModel());
         }
         return mv;
     }
@@ -52,9 +48,9 @@ public class LoginController {
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
         } else {
-            if(clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getClave())){
+            if(clienteService.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getPassword())){
                 mv = new ModelAndView("homeCliente");
-                session.setAttribute("clienteLogueado", clienteLoginViewModel);
+                session.setAttribute("clienteLogueado", transformarClienteAModelo(clienteService.buscarPorEmail(clienteLoginViewModel.getEmail())));
             } else {
                 mv = new ModelAndView("loginCliente");
                 if(clienteService.existeEmail(clienteLoginViewModel.getEmail())){
@@ -79,8 +75,7 @@ public class LoginController {
         } else {
             if(localService.validarCredenciales(localLoginViewModel.getEmail(), localLoginViewModel.getPassword())){
                 mv = new ModelAndView("homeLocal");
-                Local local = localService.buscarPorEmail(localLoginViewModel.getEmail());
-                session.setAttribute("localLogueado", local);
+                session.setAttribute("localLogueado", transformarLocalAModelo(localService.buscarPorEmail(localLoginViewModel.getEmail())));
             } else {
                 mv = new ModelAndView("loginLocal");
                 if(localService.existeEmail(localLoginViewModel.getEmail())){
@@ -104,8 +99,7 @@ public class LoginController {
             session.removeAttribute("localLogueado");
         }
         mv = new ModelAndView("loginLocal");
-        LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
-        mv.addObject("local", localLoginViewModel);
+        mv.addObject("local", new LocalLoginViewModel());
         return mv;
     }
 
@@ -116,8 +110,7 @@ public class LoginController {
             session.removeAttribute("clienteLogueado");
         }
         mv = new ModelAndView("loginCliente");
-        ClienteLoginViewModel clienteLoginViewModel = new ClienteLoginViewModel();
-        mv.addObject("cliente", clienteLoginViewModel);
+        mv.addObject("cliente", new ClienteLoginViewModel());
         return mv;
     }
 
@@ -128,8 +121,7 @@ public class LoginController {
             mv = new ModelAndView("homeLocal");
         } else {
             mv = new ModelAndView("loginLocal");
-            LocalLoginViewModel localLoginViewModel = new LocalLoginViewModel();
-            mv.addObject("local", localLoginViewModel);
+            mv.addObject("local", new LocalLoginViewModel());
         }
         return mv;
     }
@@ -141,9 +133,38 @@ public class LoginController {
             mv = new ModelAndView("homeCliente");
         } else {
             mv = new ModelAndView("loginCliente");
-            ClienteLoginViewModel clienteLoginViewModel = new ClienteLoginViewModel();
-            mv.addObject("cliente", clienteLoginViewModel);
+            mv.addObject("cliente", new ClienteLoginViewModel());
         }
         return mv;
+    }
+
+    //Métodos auxiliares
+
+    private ClienteViewModel transformarClienteAModelo(Cliente cliente) {
+        ClienteViewModel viewModel = new ClienteViewModel();
+        viewModel.setNombre(cliente.getNombre());
+        viewModel.setApellido(cliente.getApellido());
+        viewModel.setTipocliente(cliente.getTipocliente());
+        viewModel.setFnac(cliente.getFnac());
+        viewModel.setTipodoc(cliente.getTipodoc());
+        viewModel.setNrodoc(cliente.getNrodoc());
+        viewModel.setEmail(cliente.getEmail());
+        viewModel.setPassword(cliente.getPassword());
+        viewModel.setFregistro(cliente.getFregistro());
+        viewModel.setDirecciones(cliente.getDirecciones());
+        viewModel.setTelefonoClientes(cliente.getTelefonoClientes());
+        viewModel.setPedidos(cliente.getPedidos());
+        return viewModel;
+    }
+
+    private LocalViewModel transformarLocalAModelo(Local local){
+        LocalViewModel localViewModel = new LocalViewModel();
+        localViewModel.setNombre(local.getNombre());
+        localViewModel.setEmail(local.getEmail());
+        localViewModel.setPassword(local.getPassword());
+        localViewModel.setCUIT(local.getCUIT());
+        localViewModel.setF_registro(local.getF_registro());
+        localViewModel.setSucursales(local.getSucursales());
+        return localViewModel;
     }
 }

@@ -40,11 +40,6 @@ public class BusquedaLocalController {
         return mv;
     }
 
-    /*@GetMapping("/filtrarLocalesPorLocalidad")
-    public ModelAndView filtrarLocalesPorLocalidad(HttpSession httpSession, @RequestParam Localidad localidad){
-
-    }*/
-
     @GetMapping("/mostrarSucursalesPorLocal")
     public ModelAndView mostrarSucursalesPorLocal(HttpSession httpSession, @RequestParam Local local){
         List<Sucursal> sucursales = localService.obtenerSucursalesPorLocal(local);
