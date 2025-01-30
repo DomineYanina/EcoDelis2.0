@@ -23,6 +23,9 @@ public class CalificacionControllerTest {
     private CalificacionService calificacionServiceMock;
 
     @Mock
+    private PedidoService pedidoServiceMock;
+
+    @Mock
     private ClienteService servicioClienteMock;
 
     private AutoCloseable closeable;

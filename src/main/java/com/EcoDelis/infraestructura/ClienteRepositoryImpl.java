@@ -1,9 +1,6 @@
 package com.EcoDelis.infraestructura;
 
-import com.EcoDelis.dominio.Calificacion;
-import com.EcoDelis.dominio.Cliente;
-import com.EcoDelis.dominio.ClienteRepository;
-import com.EcoDelis.dominio.Pedido;
+import com.EcoDelis.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -89,6 +86,73 @@ public class ClienteRepositoryImpl implements ClienteRepository {
             return null;
         }
 
+    }
+
+    @Override
+    public List<DireccionCliente> obtenerDireccionesPorCliente(Cliente cliente) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM DireccionCliente WHERE cliente = :cliente";
+        try{
+            return session.createQuery(query,DireccionCliente.class)
+                    .setParameter("cliente", cliente)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<TelefonoCliente> obtenerTelefonosPorCliente(Cliente cliente) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "From TelefonoCliente WHERE cliente = :cliente";
+        try{
+            return session.createQuery(query, TelefonoCliente.class)
+                    .setParameter("cliente", cliente)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public DireccionCliente chequearDireccionYaExistente(DireccionCliente direccionCliente, Cliente clienteLogueado) {
+        Session session = sessionFactory.getCurrentSession();
+        String calle = direccionCliente.getCalle();
+        String provincia = direccionCliente.getProvincia();
+        long numero = direccionCliente.getNumero();
+        long cp = direccionCliente.getCodigopostal();
+        String localidad = direccionCliente.getLocalidad();
+        String query = "FROM DireccionCliente WHERE cliente = :clienteLogueado AND codigopostal = :cp AND calle = :calle AND provincia = :provincia AND numero = :numero AND localidad = :localidad";
+        try{
+            return session.createQuery(query, DireccionCliente.class)
+                    .setParameter("clienteLogueado", clienteLogueado)
+                    .setParameter("calle", calle)
+                    .setParameter("provincia", provincia)
+                    .setParameter("cp", cp)
+                    .setParameter("numero", numero)
+                    .setParameter("localidad", localidad)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
+    }
+
+    @Override
+    public TelefonoCliente chequearTelefonoYaExistente(TelefonoCliente telefonoCliente) {
+        Session session = sessionFactory.getCurrentSession();
+        TipoTelefono tipo = telefonoCliente.getTipo();
+        long numero = telefonoCliente.getNumero();
+        Cliente cliente = telefonoCliente.getCliente();
+        String query = "FROM TelefonoCliente WHERE tipo = :tipo AND numero = :numero AND cliente = :cliente";
+        try{
+            return session.createQuery(query, TelefonoCliente.class)
+                    .setParameter("cliente", cliente)
+                    .setParameter("tipo", tipo)
+                    .setParameter("numero", numero)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
 }

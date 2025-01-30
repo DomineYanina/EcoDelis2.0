@@ -20,4 +20,12 @@ public interface ClienteRepository {
     List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado);
 
     List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente);
+
+    List<DireccionCliente> obtenerDireccionesPorCliente(Cliente cliente);
+
+    List<TelefonoCliente> obtenerTelefonosPorCliente(Cliente cliente);
+
+    DireccionCliente chequearDireccionYaExistente(DireccionCliente direccionCliente, Cliente clienteLogueado);
+
+    TelefonoCliente chequearTelefonoYaExistente(TelefonoCliente telefonoCliente);
 }

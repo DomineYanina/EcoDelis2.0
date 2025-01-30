@@ -1,8 +1,5 @@
 package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.Localidad;
-import com.EcoDelis.dominio.Provincia;
-
 public abstract class DireccionViewModel {
     private long id;
     private String calle;

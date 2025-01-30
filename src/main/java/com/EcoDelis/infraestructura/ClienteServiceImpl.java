@@ -99,4 +99,32 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.obtenerCalificacionesDadasPorCliente(cliente);
     }
 
+    @Override
+    public List<DireccionCliente> obtenerDireccionesPorCliente(Cliente cliente) {
+        return clienteRepository.obtenerDireccionesPorCliente(cliente);
+    }
+
+    @Override
+    public List<TelefonoCliente> obtenerTelefonosPorCliente(Cliente cliente) {
+        return clienteRepository.obtenerTelefonosPorCliente(cliente);
+    }
+
+    @Override
+    public boolean chequearDireccionYaExistente(DireccionCliente direccionCliente, Cliente clienteLogueado) {
+        if(clienteRepository.chequearDireccionYaExistente(direccionCliente,clienteLogueado)==null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean chequearTelefonoYaExistente(TelefonoCliente telefonoCliente){
+        if(clienteRepository.chequearTelefonoYaExistente(telefonoCliente) == null){
+            return false;
+        } else {
+            return true;
+        }
+    }
+
 }

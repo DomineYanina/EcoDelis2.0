@@ -83,8 +83,16 @@ public class ClienteController {
 
     @PostMapping("/agregarDireccionCliente")
     public ModelAndView agregarDireccionCliente(@ModelAttribute DireccionClienteViewModel direccionClienteViewModel, HttpSession session) {
-        clienteService.registrarDireccion(transformarDeModeloDireccionADireccion(direccionClienteViewModel, (Cliente) session.getAttribute("clienteLogueado")));
-        return new ModelAndView("homeCliente");
+        ModelAndView mv;
+        if(!clienteService.chequearDireccionYaExistente(transformarDeModeloDireccionADireccion(direccionClienteViewModel,(Cliente) session.getAttribute("clienteLogueado")),(Cliente) session.getAttribute("clienteLogueado"))){
+            clienteService.registrarDireccion(transformarDeModeloDireccionADireccion(direccionClienteViewModel, (Cliente) session.getAttribute("clienteLogueado")));
+            mv = new ModelAndView("homeCliente");
+        } else {
+            mv= new ModelAndView("agregarDireccionCliente");
+            mv.addObject("direccionCliente", new DireccionClienteViewModel());
+            mv.addObject("error", "La dirección ingresada ya existe");
+        }
+        return mv;
     }
 
     @GetMapping("/irAAgregarUnTelefonoCliente")
@@ -120,8 +128,16 @@ public class ClienteController {
 
     @PostMapping("/agregarTelefonoCliente")
     public ModelAndView agregarTelefonoCliente(@ModelAttribute("telefonoCliente") TelefonoClienteViewModel telefonoClienteViewModel, HttpSession session) {
-        clienteService.registrarTelefono(transformarTelefonoClienteModeloATelefonoCliente(telefonoClienteViewModel,(Cliente) session.getAttribute("clienteLogueado")));
-        return new ModelAndView("homeCliente");
+        ModelAndView mv;
+        if(!clienteService.chequearTelefonoYaExistente(transformarTelefonoClienteModeloATelefonoCliente(telefonoClienteViewModel,(Cliente) session.getAttribute("clienteLogueado")))){
+            clienteService.registrarTelefono(transformarTelefonoClienteModeloATelefonoCliente(telefonoClienteViewModel,(Cliente) session.getAttribute("clienteLogueado")));
+            mv = new ModelAndView("homeCliente");
+        } else {
+            mv= new ModelAndView("agregarTelefonoCliente");
+            mv.addObject("telefono", new TelefonoClienteViewModel());
+            mv.addObject("error", "El teléfono ingresado ya existe");
+        }
+        return mv;
     }
 
     @GetMapping("/chequearMailYaExistente")
@@ -250,7 +266,19 @@ public class ClienteController {
         return viewModel;
     }
 
-    private Cliente transformarDeModeloACliente(Cliente cliente, ClienteViewModel clienteViewModel) {
+    public Cliente transformarDeModeloACliente(Cliente cliente, ClienteViewModel clienteViewModel) {
+        cliente.setNombre(clienteViewModel.getNombre());
+        cliente.setApellido(clienteViewModel.getApellido());
+        cliente.setTipocliente(clienteViewModel.getTipocliente());
+        cliente.setFnac(clienteViewModel.getFnac());
+        cliente.setTipodoc(clienteViewModel.getTipodoc());
+        cliente.setNrodoc(clienteViewModel.getNrodoc());
+        cliente.setEmail(clienteViewModel.getEmail());
+        return cliente;
+    }
+
+    public Cliente transformarDeModeloAClienteSinCliente(ClienteViewModel clienteViewModel) {
+        Cliente cliente = new Cliente();
         cliente.setNombre(clienteViewModel.getNombre());
         cliente.setApellido(clienteViewModel.getApellido());
         cliente.setTipocliente(clienteViewModel.getTipocliente());

@@ -34,4 +34,12 @@ public interface ClienteService {
     List<Pedido> obtenerPedidosPorCliente(Cliente cliente);
 
     List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente);
+
+    List<DireccionCliente> obtenerDireccionesPorCliente(Cliente clienteMock);
+
+    List<TelefonoCliente> obtenerTelefonosPorCliente(Cliente clienteMock);
+
+    boolean chequearDireccionYaExistente(DireccionCliente direccionCliente, Cliente clienteLogueado);
+
+    boolean chequearTelefonoYaExistente(TelefonoCliente telefonoCliente);
 }
