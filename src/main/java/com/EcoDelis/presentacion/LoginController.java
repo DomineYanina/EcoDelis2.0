@@ -95,9 +95,7 @@ public class LoginController {
     @GetMapping("/cerrarSesionLocal")
     public ModelAndView cerrarSesionLocal(HttpSession session) {
         ModelAndView mv;
-        if(session.getAttribute("localLogueado") != null) {
-            session.removeAttribute("localLogueado");
-        }
+        session.removeAttribute("localLogueado");
         mv = new ModelAndView("loginLocal");
         mv.addObject("local", new LocalLoginViewModel());
         return mv;
@@ -106,9 +104,7 @@ public class LoginController {
     @GetMapping("/cerrarSesionCliente")
     public ModelAndView cerrarSesionCliente(HttpSession session) {
         ModelAndView mv;
-        if(session.getAttribute("clienteLogueado") != null) {
-            session.removeAttribute("clienteLogueado");
-        }
+        session.removeAttribute("clienteLogueado");
         mv = new ModelAndView("loginCliente");
         mv.addObject("cliente", new ClienteLoginViewModel());
         return mv;
