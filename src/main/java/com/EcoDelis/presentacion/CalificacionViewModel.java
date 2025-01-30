@@ -1,9 +1,7 @@
 package com.EcoDelis.presentacion;
 
-import com.EcoDelis.dominio.Pedido;
+import com.EcoDelis.dominio.*;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.util.Date;
 
 public class CalificacionViewModel {
@@ -12,6 +10,7 @@ public class CalificacionViewModel {
     private int puntaje;
     private String comentarios;
     private Pedido pedido;
+    private Cliente cliente;
 
     public long getId() {
         return id;
@@ -51,5 +50,13 @@ public class CalificacionViewModel {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }

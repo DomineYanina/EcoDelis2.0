@@ -1,5 +1,6 @@
 package com.EcoDelis.infraestructura;
 
+import com.EcoDelis.dominio.Calificacion;
 import com.EcoDelis.dominio.Cliente;
 import com.EcoDelis.dominio.ClienteRepository;
 import com.EcoDelis.dominio.Pedido;
@@ -70,11 +71,24 @@ public class ClienteRepositoryImpl implements ClienteRepository {
     @Override
     public List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado) {
         Session session = sessionFactory.getCurrentSession();
-        Long idCliente = clienteLogueado.getId();
         String query = "FROM Pedido WHERE cliente = :clienteLogueado";
         return session.createQuery(query, Pedido.class)
                 .setParameter("clienteLogueado", clienteLogueado)
                 .getResultList();
+    }
+
+    @Override
+    public List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Calificacion WHERE cliente = :cliente";
+        try{
+            return session.createQuery(query,Calificacion.class)
+                    .setParameter("cliente", cliente)
+                    .getResultList();
+        } catch (NoResultException e) {
+            return null;
+        }
+
     }
 
 }

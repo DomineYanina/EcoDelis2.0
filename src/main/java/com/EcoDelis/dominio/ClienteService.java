@@ -32,4 +32,6 @@ public interface ClienteService {
     void eliminarDireccion(DireccionCliente direccionCliente);
 
     List<Pedido> obtenerPedidosPorCliente(Cliente cliente);
+
+    List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente);
 }

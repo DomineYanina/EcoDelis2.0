@@ -18,4 +18,6 @@ public interface ClienteRepository {
     void modificar(Cliente cliente);
 
     List<Pedido> obtenerPedidosPorCliente(Cliente clienteLogueado);
+
+    List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente);
 }

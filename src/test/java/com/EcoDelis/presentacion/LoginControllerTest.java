@@ -109,7 +109,7 @@ class LoginControllerTest {
         ClienteLoginViewModel clienteLoginViewModel = new ClienteLoginViewModel();
         clienteLoginViewModel.setEmail("domineyanina@hotmail.com");
         clienteLoginViewModel.setPassword("Boruro25");
-        Cliente clienteMock = new Cliente(); // Crear mock de Cliente
+        Cliente clienteMock = new Cliente();
         clienteMock.setNombre("Yanina Domine");
         when(servicioClienteMock.existeEmail(clienteLoginViewModel.getEmail())).thenReturn(true);
         when(servicioClienteMock.validarCredenciales(clienteLoginViewModel.getEmail(), clienteLoginViewModel.getPassword())).thenReturn(true);

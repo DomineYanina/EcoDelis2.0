@@ -94,4 +94,9 @@ public class ClienteServiceImpl implements ClienteService {
         return clienteRepository.obtenerPedidosPorCliente(cliente);
     }
 
+    @Override
+    public List<Calificacion> obtenerCalificacionesDadasPorCliente(Cliente cliente) {
+        return clienteRepository.obtenerCalificacionesDadasPorCliente(cliente);
+    }
+
 }

@@ -18,12 +18,6 @@ public class CalificacionController {
     private CalificacionService calificacionService;
 
     @Autowired
-    private ClienteService clienteService;
-
-    @Autowired
-    private LocalService localService;
-
-    @Autowired
     private PedidoService pedidoService;
 
     @GetMapping("/obtenerCalificacionesObtenidas")
@@ -31,6 +25,7 @@ public class CalificacionController {
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null ){
             mv = new ModelAndView("loginLocal");
+            mv.addObject("local", new LocalLoginViewModel());
         } else {
             if(session.getAttribute("clienteLogueado") != null){
                 mv = new ModelAndView("homeCliente");
@@ -57,7 +52,7 @@ public class CalificacionController {
     }
 
     @PostMapping("/agregarCalificacion")
-    public ModelAndView agregarCalificacion(@ModelAttribute CalificacionViewModel calificacionViewModel, HttpSession session){
+    public ModelAndView agregarCalificacion(@ModelAttribute CalificacionViewModel calificacionViewModel){
         ModelAndView mv;
         Calificacion calificacion = new Calificacion();
         calificacion.setPedido(calificacionViewModel.getPedido());
@@ -68,9 +63,18 @@ public class CalificacionController {
         Pedido pedido = calificacion.getPedido();
         pedido.setEstado(EstadoPedido.Calificado);
         pedidoService.actualizar(pedido);
-        return mv = new ModelAndView("homeLocal");
+        return mv = new ModelAndView("homeCliente");
     }
 
+    public Calificacion transformarModeloACalificacion(CalificacionViewModel viewModel){
+        Calificacion calificacion = new Calificacion();
+        calificacion.setPedido(viewModel.getPedido());
+        calificacion.setComentarios(viewModel.getComentarios());
+        calificacion.setFecha(viewModel.getFecha());
+        calificacion.setPuntaje(viewModel.getPuntaje());
+        calificacion.setCliente(viewModel.getCliente());
+        return calificacion;
+    }
 
 
 }

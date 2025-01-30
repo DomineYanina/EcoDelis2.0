@@ -11,7 +11,6 @@ public class Calificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private Date fecha;
     private int puntaje;
     private String comentarios;
@@ -20,11 +19,16 @@ public class Calificacion {
     @JoinColumn(name = "calificacion")
     private Pedido pedido;
 
-    public Calificacion(Date fecha, int puntaje, String comentarios, Pedido pedido) {
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public Calificacion(Date fecha, int puntaje, String comentarios, Pedido pedido, Cliente cliente) {
         this.fecha = fecha;
         this.puntaje = puntaje;
         this.comentarios = comentarios;
         this.pedido = pedido;
+        this.cliente = cliente;
     }
 
     public Calificacion() {
@@ -71,4 +75,11 @@ public class Calificacion {
         this.pedido = pedido;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 }
