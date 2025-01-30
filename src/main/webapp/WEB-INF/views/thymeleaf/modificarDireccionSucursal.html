@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Dirección de Sucursal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Modificar Dirección de Sucursal</h2>
+    <form th:object="${direccionSucursal}" th:action="@{/modificarDireccionSucursal}" method="post">
+        <input type="hidden" th:field="*{id}" />
+        <div class="mb-3">
+            <label for="calle" class="form-label">Calle:</label>
+            <input type="text" id="calle" name="calle" class="form-control" th:field="*{calle}" required>
+        </div>
+        <div class="mb-3">
+            <label for="numero" class="form-label">Número:</label>
+            <input type="number" id="numero" name="numero" class="form-control" th:field="*{numero}" required>
+        </div>
+        <div class="mb-3">
+            <label for="codigoPostal" class="form-label">Código Postal:</label>
+            <input type="number" id="codigoPostal" name="codigoPostal" class="form-control" th:field="*{codigopostal}" required>
+        </div>
+        <div class="mb-3">
+            <label for="localidad" class="form-label">Localidad:</label>
+            <select id="localidad" name="localidad" class="form-control" th:field="*{localidad}" required>
+                <option value="" disabled selected>Seleccione la localidad</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="provincia" class="form-label">Provincia:</label>
+            <select id="provincia" name="provincia" class="form-control" th:field="*{provincia}" required>
+                <option value="" disabled selected>Seleccione la provincia</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Modificar Dirección</button>
+        <a href="/homeSucursal" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const codigoPostalInput = document.getElementById("codigoPostal");
+        const localidadSelect = document.getElementById("localidad");
+        const provinciaSelect = document.getElementById("provincia");
+
+        codigoPostalInput.addEventListener("input", function () {
+            const codigoPostal = codigoPostalInput.value.trim();
+            if (codigoPostal.length > 0) {
+                fetch(`/filtrarCodigoPostal?codigoPostal=${codigoPostal}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        limpiarSelect(localidadSelect, "Seleccione la localidad");
+                        limpiarSelect(provinciaSelect, "Seleccione la provincia");
+
+                        const localidades = new Set();
+                        const provincias = new Set();
+
+                        data.codigosPostales.forEach(cp => {
+                            localidades.add(cp.localidad);
+                            provincias.add(cp.provincia);
+                        });
+
+                        localidades.forEach(localidad => {
+                            const option = document.createElement("option");
+                            option.value = localidad;
+                            option.textContent = localidad;
+                            localidadSelect.appendChild(option);
+                        });
+
+                        provincias.forEach(provincia => {
+                            const option = document.createElement("option");
+                            option.value = provincia;
+                            option.textContent = provincia;
+                            provinciaSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error("Error al filtrar el código postal:", error));
+            }
+        });
+
+        function limpiarSelect(selectElement, defaultText) {
+            selectElement.innerHTML = '';
+            const defaultOption = document.createElement("option");
+            defaultOption.value = '';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            defaultOption.textContent = defaultText;
+            selectElement.appendChild(defaultOption);
+        }
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

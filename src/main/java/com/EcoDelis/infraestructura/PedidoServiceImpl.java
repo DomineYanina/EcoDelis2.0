@@ -45,4 +45,14 @@ public class PedidoServiceImpl implements PedidoService {
     public void cancelar(Pedido pedido) {
         pedidoRepository.cancelar(pedido);
     }
+
+    @Override
+    public Pedido buscar(Long pedidoId) {
+        return pedidoRepository.buscarPorId(pedidoId);
+    }
+
+    @Override
+    public List<Promocion> obtenerPromocionesPorPedido(Long pedidoId) {
+        return pedidoRepository.obtenerPromocionesPorPedido(pedidoId);
+    }
 }

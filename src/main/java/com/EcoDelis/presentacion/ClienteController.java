@@ -129,10 +129,10 @@ public class ClienteController {
         ModelAndView mv;
         if (session.getAttribute("clienteLogueado") == null) {
             if (clienteService.existeEmail(registroClienteViewModel.getEmail())) {
-                mv = new ModelAndView("primerPasoRegistroCliente");
+                mv = new ModelAndView("registroClientePrimerPaso");
                 mv.addObject("error", "Email ya existe");
             } else {
-                mv = new ModelAndView("cargarDatosNuevoCliente");
+                mv = new ModelAndView("registroClienteSegundoPaso");
                 mv.addObject("cliente", registroClienteViewModel);
             }
         } else {
@@ -162,6 +162,7 @@ public class ClienteController {
         } else {
             mv = new ModelAndView("modificarTipoSuscripcionCliente");
             mv.addObject("cliente", transformarClienteAModelo((Cliente) httpSession.getAttribute("clienteLogueado")));
+            mv.addObject("tiposSuscripcion", TipoCliente.values());
         }
         return mv;
     }
@@ -187,7 +188,7 @@ public class ClienteController {
     }
 
     @GetMapping("/validarPasswordActual")
-    public ModelAndView validarPasswordActual(HttpSession httpSession, BindingResult bindingResult, @ModelAttribute ClienteLoginViewModel clienteViewModel) {
+    public ModelAndView validarPasswordActual(BindingResult bindingResult, @ModelAttribute ClienteLoginViewModel clienteViewModel) {
         ModelAndView mv = new ModelAndView("cambiarPasswordCliente");
         if (!clienteService.validarCredenciales(clienteViewModel.getEmail(), clienteViewModel.getPassword())) {
             bindingResult.reject("error", "La clave es incorrecta");
@@ -207,7 +208,7 @@ public class ClienteController {
     @GetMapping("/verMisPedidos")
     public ModelAndView verMisPedidos(HttpSession session) {
         ModelAndView mv;
-        if (httpSession.getAttribute("clienteLogueado") == null) {
+        if (session.getAttribute("clienteLogueado") == null) {
             mv = new ModelAndView("loginCliente");
             mv.addObject("cliente",new ClienteLoginViewModel());
         } else {

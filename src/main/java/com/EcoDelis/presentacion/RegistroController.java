@@ -98,7 +98,7 @@ public class RegistroController {
     }
 
     @GetMapping("/verificarDisponibilidadMailLocal")
-    public ModelAndView verificarDisponibilidadMailLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession httpSession) {
+    public ModelAndView verificarDisponibilidadMailLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, HttpSession httpSession) {
         if(!localService.existeEmail(registroLocalViewModel.getEmail())) {
             ModelAndView modelAndView = new ModelAndView("registroLocalSegundoPaso");
             Local local = new Local();
@@ -119,7 +119,7 @@ public class RegistroController {
     }
 
     @PostMapping("/registrarLocal")
-    public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult, HttpSession session){
+    public ModelAndView registrarLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, HttpSession session){
         ModelAndView mv = new ModelAndView("agregarSucursal");
 
         registroLocalViewModel.setPassword((String) session.getAttribute("password"));

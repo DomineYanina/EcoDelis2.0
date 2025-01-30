@@ -2,6 +2,7 @@ package com.EcoDelis.dominio;
 
 import com.EcoDelis.presentacion.DireccionSucursalViewModel;
 import com.EcoDelis.presentacion.RegistroSucursalViewModel;
+import com.EcoDelis.presentacion.SucursalViewModel;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -28,4 +29,6 @@ public interface SucursalService {
     List<Pedido> obtenerPedidosConfirmadosPorSucursal(Sucursal sucursal);
 
     List<Pedido> obtenerPedidosEntregadosPorSucursal(Sucursal sucursal);
+
+    List<Item> obtenerItemsPorSucursal(Sucursal sucursal);
 }

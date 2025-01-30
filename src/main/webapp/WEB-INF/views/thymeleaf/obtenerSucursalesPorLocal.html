@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="items-container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha de registro</th>
+            <th>Tipo de suscripción</th>
+            <th>Gastronomía</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="suc : ${sucursales}">
+            <td th:text="${suc.nombre}"></td>
+            <td th:text="${suc.f_registro}"></td>
+            <td th:text="${suc.tipoSuscripcion}"></td>
+            <td th:text="${suc.tipoLocal}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

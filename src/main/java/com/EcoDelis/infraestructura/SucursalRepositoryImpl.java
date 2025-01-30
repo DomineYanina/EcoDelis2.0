@@ -112,4 +112,17 @@ public class SucursalRepositoryImpl implements SucursalRepository {
             return null;
         }
     }
+
+    @Override
+    public List<Item> obtenerItemsPorSucursal(Sucursal sucursal) {
+        Session session = sessionFactory.getCurrentSession();
+        String query = "FROM Item WHERE sucursal = :sucursal";
+        try{
+            return session.createQuery(query, Item.class)
+                    .setParameter("sucursal", sucursal)
+                    .getResultList();
+            } catch (NoResultException e){
+            return null;
+        }
+    }
 }

@@ -3,8 +3,8 @@ package com.EcoDelis.presentacion;
 import com.EcoDelis.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
@@ -18,15 +18,12 @@ import static com.EcoDelis.dominio.EstadoPedido.Creado;
 public class CompraController {
 
     @Autowired
-    private SucursalService sucursalService;
-
-    @Autowired
     private PedidoService pedidoService;
 
     @Autowired
     private PromocionService promocionService;
 
-    @GetMapping("/realizarPedido")
+    @PostMapping("/realizarPedido")
     public ModelAndView realizarPedido(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession httpSession) {
         ModelAndView mv = new ModelAndView("mostrarConfirmacionDeCompra");
         LocalDate fechaActual = LocalDate.now();

@@ -88,7 +88,7 @@ public class SucursalController {
             mv.addObject("local", new LocalLoginViewModel());
             return mv;
         } else {
-            mv = new ModelAndView("agregarDireccionSucursal");
+            mv = new ModelAndView("modificarDireccionSucursal");
             mv.addObject("direccionSucursal", new DireccionSucursalViewModel());
             return mv;
         }
@@ -108,7 +108,7 @@ public class SucursalController {
     }
 
     @GetMapping("/irAAgregarTelefonoSucursal")
-    public ModelAndView irAAgregarTelefonoSucursal(HttpSession session, String nombreSucursal){
+    public ModelAndView irAAgregarTelefonoSucursal(HttpSession session){
         ModelAndView mv;
         if(session.getAttribute("localLogueado") == null ){
             mv = new ModelAndView("loginLocal");
@@ -116,6 +116,7 @@ public class SucursalController {
         } else {
             mv = new ModelAndView("agregarTelefonoSucursal");
             mv.addObject("telefonoSucursal", new TelefonoSucursalViewModel());
+            mv.addObject("tipoTelefono", TipoTelefono.values());
         }
         return mv;
     }
@@ -200,35 +201,35 @@ public class SucursalController {
     }
 
     @GetMapping("/obtenerPedidosPorSucursal")
-    public ModelAndView irAPedidosAunNoRetirados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+    public ModelAndView irAPedidosAunNoRetirados(@ModelAttribute SucursalViewModel sucursalViewModel){
         ModelAndView mv = new ModelAndView("verPedidos");
         mv.addObject("pedidos", sucursalService.obtenerPedidosPorSucursal(transformarModeloSucursalASucursal(sucursalViewModel)));
         return mv;
     }
 
     @GetMapping("/obtenerPedidosNoConfirmados")
-    public ModelAndView obtenerPedidosNoConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+    public ModelAndView obtenerPedidosNoConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel){
         ModelAndView mv = new ModelAndView("verPedidos");
         mv.addObject("pedidos", sucursalService.obtenerPedidosNoConfirmadosPorSucursal(transformarModeloSucursalASucursal(sucursalViewModel)));
         return mv;
     }
 
     @GetMapping("/obtenerPedidosConfirmados")
-    public ModelAndView obtenerPedidosConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+    public ModelAndView obtenerPedidosConfirmados(@ModelAttribute SucursalViewModel sucursalViewModel){
         ModelAndView mv = new ModelAndView("verPedidos");
         mv.addObject("pedidos", sucursalService.obtenerPedidosConfirmadosPorSucursal(transformarModeloSucursalASucursal(sucursalViewModel)));
         return mv;
     }
 
     @GetMapping("/obtenerPedidosEntregados")
-    public ModelAndView obtenerPedidosEntregados(@ModelAttribute SucursalViewModel sucursalViewModel, HttpSession session){
+    public ModelAndView obtenerPedidosEntregados(@ModelAttribute SucursalViewModel sucursalViewModel){
         ModelAndView mv = new ModelAndView("verPedidos");
         mv.addObject("pedidos", sucursalService.obtenerPedidosEntregadosPorSucursal(transformarModeloSucursalASucursal(sucursalViewModel)));
         return mv;
     }
 
     @PutMapping("/cancelarPedidoS")
-    public ModelAndView cancelarPedidoS(@ModelAttribute PedidoViewModel pedidoViewModel, HttpSession session){
+    public ModelAndView cancelarPedidoS(@ModelAttribute PedidoViewModel pedidoViewModel){
         ModelAndView mv = new ModelAndView("homeLocal");
         pedidoService.actualizar(transformarModeloPedidoAPedido(pedidoViewModel, Cancelado));
         return mv;

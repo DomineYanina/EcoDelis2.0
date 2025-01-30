@@ -101,8 +101,7 @@ public class LocalController {
     }
 
     @PutMapping("/modificarDatosLocal")
-    private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel, BindingResult bindingResult) {
-        ModelAndView mv = new ModelAndView("modificarDatosLocal");
+    private ModelAndView modificarDatosLocal(@ModelAttribute("local") RegistroLocalViewModel registroLocalViewModel) {
         Local localExistente = localService.buscarPorEmail(registroLocalViewModel.getEmail());
         localExistente.setNombre(registroLocalViewModel.getNombre());
         localExistente.setEmail(registroLocalViewModel.getEmail());
