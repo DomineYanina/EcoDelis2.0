@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/loginCliente.css}" />
+    <link rel="stylesheet" th:href="@{/css/footerCliente.css}" />
+    <link rel="stylesheet" th:href="@{/css/navCliente.css}" />
 </head>
 <body>
-<!--<div th:replace="templates/headerCliente :: headerFragment"></div>-->
-<form th:action="@{/logueoCliente}" method="get" th:object="${cliente}">
-    <input th:field="*{email}" id="email" type="email" placeholder="E-Mail" required/>
-    <input th:field="*{password}" id="password" type="password" placeholder="Contraseña" required/>
-    <button id="btn-login-local" type="submit">Login</button>
-    <p th:if="${error != null}" th:text="'Error ' + ${error}"></p>
-</form>
-<!--<div th:replace="templates/footerCliente :: footerFragment"></div>-->
+<div th:replace="templates/headerLoginCliente :: headerFragment"></div>
+<section class="formulario-hoja">
+    <form th:action="@{/logueoCliente}" method="get" th:object="${cliente}">
+        <div>
+            <input th:field="*{email}" id="email" type="email" placeholder="E-Mail" required/>
+            <input th:field="*{password}" id="password" type="password" placeholder="Contraseña" required/>
+        </div>
+        <button id="btn-login-local" type="submit">Login</button>
+        <p th:if="${error != null}" th:text="'Error ' + ${error}"></p>
+    </form>
+</section>
+
+<div th:replace="templates/footerCliente :: footerFragment"></div>
 </body>
 </html>
