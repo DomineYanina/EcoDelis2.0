@@ -16,7 +16,7 @@ footer{
 }
 
 footer div{
-    color: #e4fc94;
+    color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -34,12 +34,12 @@ footer div{
 }
 
 .footerColumn a{
-    color: #e4fc94;
+    color: white;
     text-decoration: none;
 }
 
 .textoFooter{
-    color: #e4fc94;
+    color: white;
     text-decoration: none;
 }
 
@@ -47,4 +47,5 @@ footer div{
     font-size: 110%;
     text-decoration: underline;
     margin-bottom: 10%;
+    color: white;
 }
