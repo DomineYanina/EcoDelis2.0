@@ -120,8 +120,9 @@ public class ClienteController {
         if (session.getAttribute("clienteLogueado") != null) {
             return new ModelAndView("homeCliente");
         } else {
-            ModelAndView mv = new ModelAndView("registroClientePrimerPaso");
+            ModelAndView mv = new ModelAndView("loginCliente");
             mv.addObject("cliente", new RegistroClienteViewModel());
+            mv.addObject("clienteLogin", new ClienteLoginViewModel());
             return mv;
         }
     }
@@ -148,7 +149,7 @@ public class ClienteController {
                 mv = new ModelAndView("registroClientePrimerPaso");
                 mv.addObject("error", "Email ya existe");
             } else {
-                mv = new ModelAndView("registroClienteSegundoPaso");
+                mv = new ModelAndView("registroCliente");
                 mv.addObject("cliente", registroClienteViewModel);
             }
         } else {

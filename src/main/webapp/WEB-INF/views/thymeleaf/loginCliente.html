@@ -9,27 +9,69 @@
 </head>
 <body>
 <div th:replace="templates/headerLoginCliente :: headerFragment"></div>
-<section class="formulario-hoja">
-    <form th:action="@{/logueoCliente}" method="get" th:object="${cliente}" id="loginClienteForm">
-        <div>
-            <input th:field="*{email}" id="email" type="email" placeholder="E-Mail" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+<div class="container" id="container">
+    <div class="form-container sign-up-container">
+        <form th:object="${clienteLogin}" th:action="@{/verificarDisponibilidadMailCliente}" method="get">
+            <h1>Crea tu cuenta</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>O usa tu mail</span>
+            <input th:field="*{email}" type="email" id="emailReg" placeholder="Ingrese el email" required />
+            <input th:field="*{password}" type="password" id="passwordReg" placeholder="Ingrese la contraseña" required />
+            <button type="submit">Registrate</button>
+        </form>
+    </div>
+    <div class="form-container sign-in-container">
+        <form th:action="@{/logueoCliente}" method="get" th:object="${cliente}" id="loginClienteForm">
+            <h1>Inicia sesión</h1>
+            <div class="social-container">
+                <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+            <span>Ingresa tus datos</span>
+            <input th:field="*{email}" id="email" type="email" placeholder="E-Mail" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
             <span id="emailError" style="color: red; display: none;">Ingrese un correo válido</span>
             <input th:field="*{password}" id="password" type="password" placeholder="Clave" required />
-
+            <a href="#">Olvidé mi contraseña</a>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Bienvenido de vuelta!</h1>
+                <p>Si ya estás registrado, inicia sesión con tu correo y contraseña</p>
+                <button class="ghost" id="signIn">Logueate</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Hola!</h1>
+                <p>Ingresa tu información y empezá a salvar comida!</p>
+                <button class="ghost" id="signUp">Registrarme</button>
+            </div>
         </div>
-        <button id="btn-login-local" type="submit">Login</button>
-        <p th:if="${error != null}" th:text="'Error ' + ${error}"></p>
-        <div class="contEnlacesLoginCliente">
-            <a onclick="irACambiarPasswordCliente();">Olvidé mi clave</a>
-            <a onclick="irARegistroCliente();">Registrarme</a>
+    </div>
+</div>
 
-        </div>
-    </form>
-</section>
-
-<div th:replace="templates/footerCliente :: footerFragment"></div>
+<!--<div th:replace="templates/footerCliente :: footerFragment"></div>-->
 
 <script th:src="@{/js/cliente.js}"></script>
 
 </body>
+<script>
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container = document.getElementById('container');
+
+    signUpButton.addEventListener('click', () => {
+        container.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container.classList.remove("right-panel-active");
+    });
+</script>
 </html>

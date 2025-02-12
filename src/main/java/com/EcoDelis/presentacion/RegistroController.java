@@ -49,7 +49,7 @@ public class RegistroController {
     @GetMapping("/irARegistroCliente")
     public ModelAndView irARegistroCliente(HttpSession httpSession) {
         if(httpSession.getAttribute("localLogueado") == null && httpSession.getAttribute("clienteLogueado") == null) {
-            ModelAndView modelAndView = new ModelAndView("registroClientePrimerPaso");
+            ModelAndView modelAndView = new ModelAndView("pruebaLoginCliente");
             modelAndView.addObject("cliente", new ClienteViewModel());
             return modelAndView;
         } else {
@@ -64,15 +64,17 @@ public class RegistroController {
     @GetMapping("/verificarDisponibilidadMailCliente")
     public ModelAndView verificarDisponibilidadMailCliente(@ModelAttribute("cliente") ClienteViewModel clienteViewModel, HttpSession httpSession) {
         if(!clienteService.existeEmail(clienteViewModel.getEmail())) {
-            ModelAndView modelAndView = new ModelAndView("registroClienteSegundoPaso");
+            ModelAndView modelAndView = new ModelAndView("registroCliente");
             httpSession.setAttribute("password",transformarClienteAModeloLogin(clienteViewModel).getPassword());
             httpSession.setAttribute("email",transformarClienteAModeloLogin(clienteViewModel).getEmail());
             modelAndView.addObject("cliente", clienteViewModel);
             modelAndView.addObject("tiposDocumento", TipoDocumento.values());
             modelAndView.addObject("TiposDeCliente", TipoCliente.values());
+            modelAndView.addObject("direccionCliente", new DireccionClienteViewModel());
+            modelAndView.addObject("telefonoCliente", new TelefonoClienteViewModel());
             return modelAndView;
         } else {
-            ModelAndView modelAndView = new ModelAndView("registroClientePrimerPaso");
+            ModelAndView modelAndView = new ModelAndView("loginCliente");
             modelAndView.addObject("error", "El email ya existe");
             ClienteViewModel clienteViewModel2 = new ClienteViewModel();
             modelAndView.addObject("cliente", clienteViewModel2);

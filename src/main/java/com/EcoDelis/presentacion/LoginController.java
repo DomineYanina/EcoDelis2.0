@@ -19,13 +19,14 @@ public class LoginController {
     LocalService localService;
 
     @GetMapping("/irALoginCliente")
-    public ModelAndView irALoginCliente(ClienteLoginViewModel clienteLoginViewModel, HttpSession session) {
+    public ModelAndView irALoginCliente(HttpSession session) {
         ModelAndView mv;
         if(session.getAttribute("clienteLogueado") != null) {
             mv = new ModelAndView("homeCliente");
         } else {
             mv = new ModelAndView("loginCliente");
-            mv.addObject("cliente", clienteLoginViewModel);
+            mv.addObject("cliente", new ClienteViewModel());
+            mv.addObject("clienteLogin",new ClienteLoginViewModel());
         }
         return mv;
     }
